@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coffee Finder</title>
 
-  <!-- Use a clean web font -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Sticky T‑Bar -->
+  <!-- Sticky T-Bar -->
   <header class="t-bar">
     <nav class="nav-left">
       <a href="#">About</a>
@@ -24,10 +24,10 @@
     </div>
   </header>
 
-  <!-- Dynamic greeting / coffee‑time message -->
+  <!-- Dynamic greeting -->
   <div id="greeting" class="greeting"></div>
 
-  <!-- Hero section: full‑width GIF background -->
+  <!-- Hero section: full viewport -->
   <section class="hero">
     <iframe 
       src="https://giphy.com/embed/l0ExfWRJVNj6CgKAM" 
@@ -42,77 +42,11 @@
     </div>
   </section>
 
-  <!-- Products grid (3x3 max) -->
+  <!-- Products section -->
   <section class="products">
     <h2>Discover Our Products</h2>
     <div class="product-grid">
-      <!-- 9 sample products with placeholder images -->
-      <div class="product">
-        <img src="https://via.placeholder.com/400x400?text=Espresso+Blend" alt="Espresso Blend">
-        <div class="overlay">Espresso Blend</div>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/400x400?text=Light+Roast" alt="Light Roast">
-        <div class="overlay">Light Roast</div>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/400x400?text=Medium+Roast" alt="Medium Roast">
-        <div class="overlay">Medium Roast</div>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/400x400?text=Dark+Roast" alt="Dark Roast">
-        <div class="overlay">Dark Roast</div>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/400x400?text=Colombian+Beans" alt="Colombian Beans">
-        <div class="overlay">Colombian Beans</div>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/400x400?text=Ethiopian+Beans" alt="Ethiopian Beans">
-        <div class="overlay">Ethiopian Beans</div>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/400x400?text=Single+Origin" alt="Single Origin">
-        <div class="overlay">Single Origin</div>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/400x400?text=Decaf" alt="Decaf">
-        <div class="overlay">Decaf</div>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/400x400?text=French+Press" alt="French Press">
-        <div class="overlay">French Press</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Coffee Finder</p>
-  </footer>
-
-  <!-- JS: dynamic coffee‑time greeting-->
-  <script>
-    const greetingEl = document.getElementById('greeting');
-    const now = new Date();
-    const hour = now.getHours();
-    const localTimeString = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-    const messages = [
-      "Early hours? A warm, comforting decaf keeps you cozy.", // 0–4
-      "Rise and grind! A strong espresso will kickstart your day.", // 5–6
-      "Good morning! Perfect time for a smooth medium roast.",   // 7
-      "Coffee o’clock! A light roast keeps you alert.",          // 8–9
-      "Late morning boost? Try a balanced blend.",              // 10–11
-      "Lunch break coffee? A medium roast hits the spot.",      // 12
-      "Afternoon slump? A bold espresso keeps you sharp.",      // 13–14
-      "Coffee pause! Light roast to refresh your afternoon.",   // 15–16
-      "Evening’s here. Treat yourself to a cozy decaf.",        // 17
-      `It's ${localTimeString}. Perfect time for a decaf latte.`,// 18–19
-      "Night owl? Enjoy a gentle decaf before bedtime.",        // 20–21
-      "Late night? Herbal coffee is your friend."               // 22–23
-    ];
-    greetingEl.textContent = messages[hour];
-  </script>
-
-</body>
-</html>
+      <div class="product"><img src="https://via.placeholder.com/400x400?text=Espresso" alt="Espresso"><div class="overlay">Espresso Blend</div></div>
+      <div class="product"><img src="https://via.placeholder.com/400x400?text=Light+Roast" alt="Light Roast"><div class="overlay">Light Roast</div></div>
+      <div class="product"><img src="https://via.placeholder.com/400x400?text=Medium+Roast" alt="Medium Roast"><div class="overlay">Medium Roast</div></div>
+      <div class="product"><img src
