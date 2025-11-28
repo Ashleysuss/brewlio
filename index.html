@@ -11,7 +11,7 @@
 </head>
 <body>
 
-  <!-- T-Bar -->
+  <!-- Sticky T-Bar -->
   <div class="t-bar">
     <nav class="nav-left">
       <a href="#">About</a>
@@ -64,22 +64,44 @@
     <p>&copy; 2025 Coffee Finder</p>
   </footer>
 
+  <!-- JS: Hour-by-Hour Coffee Messages & Recommended Products -->
   <script>
-    // Dynamic coffee greeting by local time
+    // Dynamic coffee message by local time
     const greetingEl = document.getElementById('greeting');
     const now = new Date();
     const hour = now.getHours();
     const localTimeString = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
 
-    let message = "";
-    if(hour >= 5 && hour < 12) message = `Good Morning! Perfect time for a bold espresso.`;
-    else if(hour >= 12 && hour < 17) message = `Good Afternoon! A medium roast will keep you going.`;
-    else if(hour >= 17 && hour <= 23) message = `It's ${localTimeString}. Never too late for a cozy decaf.`;
-    else message = `Early hours? A gentle cup of herbal coffee is perfect.`;
+    const messages = [
+      "Early hours? A warm, comforting decaf keeps you cozy.",     // 0
+      "Early hours? A warm, comforting decaf keeps you cozy.",     // 1
+      "Early hours? A warm, comforting decaf keeps you cozy.",     // 2
+      "Early hours? A warm, comforting decaf keeps you cozy.",     // 3
+      "Early hours? A warm, comforting decaf keeps you cozy.",     // 4
+      "Rise and grind! A strong espresso will kickstart your day.",// 5
+      "Rise and grind! A strong espresso will kickstart your day.",// 6
+      "Good morning! Perfect time for a smooth medium roast.",    // 7
+      "Coffee o’clock! A light roast keeps you alert.",            // 8
+      "Coffee o’clock! A light roast keeps you alert.",            // 9
+      "Late morning boost? Try a balanced blend.",                // 10
+      "Late morning boost? Try a balanced blend.",                // 11
+      "Lunch break coffee? A medium roast hits the spot.",        // 12
+      "Afternoon slump? A bold espresso keeps you sharp.",        // 13
+      "Afternoon slump? A bold espresso keeps you sharp.",        // 14
+      "Coffee pause! Light roast to refresh your afternoon.",     // 15
+      "Coffee pause! Light roast to refresh your afternoon.",     // 16
+      "Evening’s here. Treat yourself to a cozy decaf.",          // 17
+      `It's ${localTimeString}. Perfect time for a decaf latte.`, // 18
+      `It's ${localTimeString}. Perfect time for a decaf latte.`, // 19
+      "Night owl? Enjoy a gentle decaf before bedtime.",          // 20
+      "Night owl? Enjoy a gentle decaf before bedtime.",          // 21
+      "Late night? Herbal coffee is your friend.",                // 22
+      "Late night? Herbal coffee is your friend."                 // 23
+    ];
 
-    greetingEl.textContent = message;
+    greetingEl.textContent = messages[hour];
 
-    // Highlight recommended products
+    // Highlight recommended products if stored in localStorage
     const recommended = JSON.parse(localStorage.getItem('recommendedProducts') || '[]');
     document.querySelectorAll('.product').forEach(el => {
       if(recommended.includes(el.textContent)){
