@@ -20,11 +20,11 @@
       <a href="#">Subscription</a>
     </nav>
     <div class="logo">
-      <h1>☕</h1>
+      <h1>☕</h1> <!-- Replace with your logo if desired -->
     </div>
   </div>
 
-  <!-- Greeting -->
+  <!-- Dynamic Greeting -->
   <div id="greeting" class="greeting"></div>
 
   <!-- Hero Section -->
@@ -64,7 +64,7 @@
     <p>&copy; 2025 Coffee Finder</p>
   </footer>
 
-  <!-- JS for greeting & recommended products -->
+  <!-- JS for greeting and product highlighting -->
   <script>
     const greetingEl = document.getElementById('greeting');
     const hour = new Date().getHours();
@@ -74,7 +74,7 @@
     else greet = "Good Evening";
     greetingEl.textContent = `${greet}, coffee lover!`;
 
-    // Highlight recommended products
+    // Highlight recommended products if stored in localStorage
     const recommended = JSON.parse(localStorage.getItem('recommendedProducts') || '[]');
     document.querySelectorAll('.product').forEach(el => {
       if(recommended.includes(el.textContent)){
