@@ -6,14 +6,12 @@
   <title>Coffee Finder</title>
 
   <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Sticky T‑Bar -->
+  <!-- Sticky T-Bar -->
   <div class="t-bar">
     <nav class="nav-left">
       <a href="#">About</a>
@@ -22,7 +20,7 @@
       <a href="#">Subscription</a>
     </nav>
     <div class="logo">
-      <h1>☕</h1> <!-- Replace with your logo image if available -->
+      <h1>☕</h1>
     </div>
   </div>
 
@@ -31,7 +29,7 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <img src="https://media.tenor.com/v1YZR1zvivQAAAAC/coffee-pour.gif" alt="Coffee being poured">
+    <img src="https://media.giphy.com/media/l0HlQ7LRal4j2iu8w/giphy.gif" alt="Coffee being poured">
     <div class="hero-text">
       <h2>Discover Your Perfect Coffee Bean</h2>
       <a class="button" href="quiz.html">Start Quiz</a>
@@ -52,7 +50,7 @@
       <div class="product">Decaf</div>
       <div class="product">French Press</div>
       <div class="product">Cold Brew</div>
-      <div as="product">Coffee Pods</div>
+      <div class="product">Coffee Pods</div>
       <div class="product">Flavored Coffee</div>
       <div class="product">Organic Beans</div>
       <div class="product">Holiday Blend</div>
@@ -66,23 +64,20 @@
     <p>&copy; 2025 Coffee Finder</p>
   </footer>
 
-  <!-- JS for greeting and optional personalization -->
+  <!-- JS for greeting & recommended products -->
   <script>
-    // Greeting by time of day
     const greetingEl = document.getElementById('greeting');
     const hour = new Date().getHours();
     let greet = "Hello";
-
-    if (hour < 12) greet = "Good Morning";
-    else if (hour < 18) greet = "Good Afternoon";
+    if(hour < 12) greet = "Good Morning";
+    else if(hour < 18) greet = "Good Afternoon";
     else greet = "Good Evening";
-
     greetingEl.textContent = `${greet}, coffee lover!`;
 
-    // Example of highlighting recommended products from localStorage (if you use later)
+    // Highlight recommended products
     const recommended = JSON.parse(localStorage.getItem('recommendedProducts') || '[]');
     document.querySelectorAll('.product').forEach(el => {
-      if (recommended.includes(el.textContent)) {
+      if(recommended.includes(el.textContent)){
         el.style.border = "2px solid #3A2E2B";
         el.style.boxShadow = "0 6px 15px rgba(0,0,0,0.2)";
       }
