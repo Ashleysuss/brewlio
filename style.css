@@ -1,116 +1,43 @@
-/* --- General Reset & Fonts --- */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* --- Reset & Fonts --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; background: #fdfbf7; color: #3a3a3a; }
+a { text-decoration: none; color: inherit; }
 
-body {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  background-color: #fdfbf7;
-  color: #3a3a3a;
-  line-height: 1.6;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
+/* --- Container --- */
+.container { max-width: 900px; margin: 0 auto; padding: 1rem; }
 
 /* --- Header --- */
-header {
-  background-color: #1e1a17;
-  color: #fdfbf7;
-  text-align: center;
-  padding: 3rem 1rem;
-}
-
-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-}
-
-header p {
-  font-size: 1.2rem;
-  font-weight: 300;
-  margin-top: 0.5rem;
-}
-
-/* --- Main Content --- */
-main {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
-
-/* --- Sections --- */
-.about, .subscribe, .buy-now {
-  background-color: #fff8f0;
-  padding: 2rem;
-  margin: 2rem 0;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.about h2, .subscribe h2, .buy-now h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  color: #6b4f4f;
-}
-
-.about p, .subscribe p, .buy-now p {
-  font-size: 1rem;
-  color: #3a3a3a;
-}
+header { background: #1e1a17; color: #fdfbf7; text-align: center; padding: 3rem 1rem; }
+header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+header p { font-size: 1.2rem; font-weight: 300; margin-bottom: 1rem; }
 
 /* --- Buttons --- */
 .button, input[type="submit"] {
-  display: inline-block;
-  padding: 0.75rem 2rem;
-  margin-top: 1rem;
-  background-color: #6b4f4f;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  background: #6b4f4f; color: #fff; padding: 0.75rem 2rem;
+  border: none; border-radius: 5px; font-weight: bold;
+  cursor: pointer; transition: 0.3s;
 }
+.button:hover, input[type="submit"]:hover { background: #563d38; }
 
-.button:hover, input[type="submit"]:hover {
-  background-color: #563d38;
-}
+/* --- Sections --- */
+.about, .subscribe, .buy-now { background: #fff8f0; padding: 2rem; margin: 2rem 0; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.about h2, .subscribe h2, .buy-now h2 { color: #6b4f4f; margin-bottom: 1rem; }
+.about p, .subscribe p, .buy-now p { font-size: 1rem; color: #3a3a3a; }
 
 /* --- Form --- */
-form input[type="email"] {
-  padding: 0.75rem;
-  width: 70%;
-  max-width: 300px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 0.5rem;
-}
-
-form {
-  margin-top: 1rem;
-}
+form { margin-top: 1rem; }
+form input[type="email"] { padding: 0.75rem; width: 70%; max-width: 300px; border: 1px solid #ccc; border-radius: 5px; margin-right: 0.5rem; }
 
 /* --- Quiz Embed --- */
-.typeform-widget {
-  width: 100%;
-  height: 600px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-  margin: 2rem 0;
-}
+.typeform-widget { width: 100%; height: 600px; border-radius: 10px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.08); margin: 2rem 0; }
 
 /* --- Footer --- */
-footer {
-  text-align: center;
-  padding: 2rem 1rem;
-  background-color: #1e1a17;
-  color: #fdfbf7;
-  font-size: 0.9rem;
-  margin-top: 3rem;
+footer { text-align: center; padding: 2rem 1rem; background: #1e1a17; color: #fdfbf7; font-size: 0.9rem; margin-top: 3rem; }
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  header h1 { font-size: 2rem; }
+  header p { font-size: 1rem; }
+  form input[type="email"] { width: 100%; margin-bottom: 0.5rem; }
+  .button { width: 100%; text-align: center; }
 }
