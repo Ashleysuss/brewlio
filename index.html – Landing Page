@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coffee Finder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Coffee Finder</h1>
+    <p>Discover the perfect coffee bean for your taste.</p>
+  </header>
+
+  <main>
+    <a class="button" href="quiz.html">Start the Quiz</a>
+
+    <section class="about">
+      <h2>Our Philosophy</h2>
+      <p>We believe coffee should match your personality and taste preferences. From fruity light roasts to bold dark blends, we'll help you find your ideal cup.</p>
+    </section>
+
+    <section class="subscribe">
+      <h2>Join Our Coffee Community</h2>
+      <p>Get updates on new beans and special offers.</p>
+      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <input type="email" name="email" placeholder="Enter your email" required>
+        <input type="submit" value="Subscribe">
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Coffee Finder
+  </footer>
+</body>
+</html>
