@@ -16,9 +16,12 @@
       <a href="#">Subscription</a>
     </nav>
     <div class="logo">
-      <h1>☕</h1> <!-- Replace with a logo image if available -->
+      <h1>☕</h1>
     </div>
   </div>
+
+  <!-- Dynamic Greeting -->
+  <div id="greeting" class="greeting"></div>
 
   <!-- Hero Section -->
   <section class="hero">
@@ -56,5 +59,28 @@
   <footer>
     <p>&copy; 2025 Coffee Finder</p>
   </footer>
+
+  <!-- Dynamic JS -->
+  <script>
+    // --- Personalized greeting by time of day ---
+    const greetingEl = document.getElementById('greeting');
+    const hour = new Date().getHours();
+    let greeting = "Welcome";
+
+    if(hour < 12) greeting = "Good Morning";
+    else if(hour < 18) greeting = "Good Afternoon";
+    else greeting = "Good Evening";
+
+    greetingEl.textContent = `${greeting}, coffee lover!`;
+
+    // --- Highlight recommended products from localStorage ---
+    const recommended = JSON.parse(localStorage.getItem('recommendedProducts')) || ["Espresso Blend","Dark Roast"];
+    document.querySelectorAll('.product').forEach(el => {
+      if(recommended.includes(el.textContent)){
+        el.style.border = "2px solid #3A2E2B";
+        el.style.boxShadow = "0 6px 15px rgba(0,0,0,0.2)";
+      }
+    });
+  </script>
 </body>
 </html>
