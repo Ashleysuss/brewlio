@@ -40,14 +40,14 @@ a { color: inherit; text-decoration: none; }
   background: #EDE2D5;
   font-size: 1rem;
   position: relative;
-  z-index: 1001; /* above hero */
+  z-index: 1001; /* ensure it's above hero */
 }
 
 /* Hero full viewport */
 .hero {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 2.2rem); /* subtract greeting height */
   overflow: hidden;
   z-index: 1;
 }
