@@ -1,107 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coffee Finder</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Origin Espresso – Coffee Finder</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Sticky T-Bar -->
-  <header class="t-bar">
-    <nav class="nav-left">
-      <a href="#">About</a>
-      <a href="#">Shop</a>
-      <a href="#">Gifting</a>
-      <a href="#">Subscription</a>
-    </nav>
-    <div class="logo">
-      <h1>☕</h1>
-    </div>
-  </header>
+<header class="t-bar">
+  <nav class="nav-left">
+    <a href="#about">About</a>
+    <a href="#shop">Shop</a>
+    <a href="#gifting">Gifting</a>
+    <a href="#subscription">Subscription</a>
+  </nav>
+  <div class="logo"><h1>☕</h1></div>
+</header>
 
-  <!-- Dynamic greeting -->
-  <div id="greeting" class="greeting"></div>
+<div id="greeting" class="greeting"></div>
 
-    <!-- JS: dynamic greeting -->
-  <script>
-  const greetingEl = document.getElementById('greeting');
-  const now = new Date();
-  const hour = now.getHours();
-  const localTimeString = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-
-  const messages = [
-    "Early hours? A warm, comforting decaf keeps you cozy.",
-    "Rise and grind! A strong espresso will kickstart your day.",
-    "Good morning! Perfect time for a smooth medium roast.",
-    "Coffee o'clock! A light roast keeps you alert.",
-    "Late morning boost? Try a balanced blend.",
-    "Lunch break coffee? A medium roast hits the spot.",
-    "Afternoon slump? A bold espresso keeps you sharp.",
-    "Coffee pause! Light roast to refresh your afternoon.",
-    "Evening's here. Treat yourself to a cozy decaf.",
-    `It's ${localTimeString}. Perfect time for a decaf latte.`,
-    "Night owl? Enjoy a gentle decaf before bedtime.",
-    "Late night? Herbal coffee is your friend."
-  ];
-
-  const index = hour % 12;   // Fix: map 24 hours to 12 messages
-  greetingEl.textContent = messages[index];
+<script>
+const greetingEl = document.getElementById('greeting');
+const now = new Date();
+const hour = now.getHours();
+const localTimeString = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+const messages = [
+"Early hours? A warm, comforting decaf keeps you cozy.",
+"Rise and grind! A strong espresso will kickstart your day.",
+"Good morning! Perfect time for a smooth medium roast.",
+"Coffee o'clock! A light roast keeps you alert.",
+"Late morning boost? Try a balanced blend.",
+"Lunch break coffee? A medium roast hits the spot.",
+"Afternoon slump? A bold espresso keeps you sharp.",
+"Coffee pause! Light roast to refresh your afternoon.",
+"Evening's here. Treat yourself to a cozy decaf.",
+`It's ${localTimeString}. Perfect time for a decaf latte.`,
+"Night owl? Enjoy a gentle decaf before bedtime.",
+"Late night? Herbal coffee is your friend."
+];
+greetingEl.textContent = messages[hour % 12];
 </script>
 
-
- <!-- Hero section: full viewport -->
 <section class="hero">
-  <img src="Assets/1_12_25Hero.jpg"
-       alt="Pouring Coffee" 
-       class="hero-gif">
-
+  <img src="Assets/1_12_25Hero.jpg" alt="Pouring Coffee" class="hero-gif">
+  <div class="hero-overlay"></div>
   <div class="hero-text">
-    <h2>Find your personalised beans</h2>
+    <h2>Time for a personalised experience</h2>
+    <p>Curated Melbourne beans, tailored to your taste.</p>
     <a class="button" href="quiz.html">Start Quiz</a>
   </div>
 </section>
 
+<section class="how-it-works" id="about">
+<h2>How It Works</h2>
+<div class="hiw-grid">
+  <div class="hiw-step"><h3>1. Take the Quiz</h3><p>Tell us your flavour, roast, and brewing preferences.</p></div>
+  <div class="hiw-step"><h3>2. We Build Your Profile</h3><p>Our engine analyses your flavour signals + brew routine.</p></div>
+  <div class="hiw-step"><h3>3. Get Tailored Matches</h3><p>See curated beans from Melbourne’s top local roasters.</p></div>
+</div>
+</section>
 
-  <!-- Products section -->
-  <section class="products">
-    <h2>Discover Our Products</h2>
-    <div class="product-grid">
-      <div class="product">
-        <img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Espresso">
-        <div class="overlay">Espresso Blend</div>
-      </div>
-      <div class="product">
-        <img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Light Roast">
-        <div class="overlay">Light Roasts</div>
-      </div>
-      <div class="product">
-        <img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Medium Roast">
-        <div class="overlay">Medium Roast</div>
-      </div>
-      <div class="product">
-        <img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Dark Roast">
-        <div class="overlay">Dark Roast</div>
-      </div>
-      <div class="product">
-        <img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Colombian">
-        <div class="overlay">Colombian Beans</div>
-      </div>
-      <div class="product">
-        <img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Ethiopian">
-        <div class="overlay">Ethiopian Beans</div>  
-    </div>
-  </section>
+<section class="products" id="shop">
+<h2>We think you'll love these</h2>
+<div class="product-carousel">
+  <button class="carousel-btn prev">&#10094;</button>
+  <div class="carousel-track">
+    <div class="product"><img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Espresso"><div class="overlay">Espresso Blend</div></div>
+    <div class="product"><img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Light Roast"><div class="overlay">Light Roasts</div></div>
+    <div class="product"><img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Medium Roast"><div class="overlay">Medium Roast</div></div>
+    <div class="product"><img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Dark Roast"><div class="overlay">Dark Roast</div></div>
+    <div class="product"><img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Colombian"><div class="overlay">Colombian Beans</div></div>
+    <div class="product"><img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Ethiopian"><div class="overlay">Ethiopian Beans</div></div>
+  </div>
+  <button class="carousel-btn next">&#10095;</button>
+</div>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Coffee Finder</p>
-  </footer>
+<script>
+const track = document.querySelector('.carousel-track');
+const prevBtn = document.querySelector('.carousel-btn.prev');
+const nextBtn = document.querySelector('.carousel-btn.next');
+const products = Array.from(track.children);
+let index = 0;
 
+function updateCarousel() {
+  const productWidth = products[0].getBoundingClientRect().width + 18;
+  track.style.transform = `translateX(${-index * productWidth}px)`;
+}
+
+prevBtn.addEventListener('click', () => {
+  index = Math.max(index - 1, 0);
+  updateCarousel();
+});
+
+nextBtn.addEventListener('click', () => {
+  const visibleCount = Math.floor(track.parentElement.offsetWidth / (products[0].offsetWidth + 18));
+  index = Math.min(index + 1, products.length - visibleCount);
+  updateCarousel();
+});
+
+window.addEventListener('resize', updateCarousel);
+</script>
+</section>
+
+<section class="why-local">
+<h2>Why Melbourne-First Matters</h2>
+<p>Freshly roasted beans, shorter supply chains, and direct support for local roasters.</p>
+<p>Your perfect cup starts with the right origin — and the right roaster.</p>
+</section>
+
+<section class="partner">
+<h2>Partner With Us</h2>
+<p>Reach the right customers with personalised coffee matching + automated journeys.</p>
+<a href="#" class="button partner-btn">Learn More</a>
+</section>
+
+<footer>
+<p>&copy; 2025 Origin Espresso</p>
+</footer>
 
 </body>
 </html>
