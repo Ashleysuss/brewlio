@@ -27,16 +27,45 @@
   <!-- Dynamic greeting -->
   <div id="greeting" class="greeting"></div>
 
-  <!-- Hero section: full viewport -->
-  <section class="hero">
-    <img src="https://media.giphy.com/media/l0ExfWRJVNj6CgKAM/giphy.gif" 
-         alt="Pouring Coffee" 
-         class="hero-gif">
-    <div class="hero-text">
-      <h2>Discover Your Perfect Coffee Beans</h2>
-      <a class="button" href="quiz.html">Start Quiz</a>
-    </div>
-  </section>
+    <!-- JS: dynamic greeting -->
+  <script>
+  const greetingEl = document.getElementById('greeting');
+  const now = new Date();
+  const hour = now.getHours();
+  const localTimeString = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+
+  const messages = [
+    "Early hours? A warm, comforting decaf keeps you cozy.",
+    "Rise and grind! A strong espresso will kickstart your day.",
+    "Good morning! Perfect time for a smooth medium roast.",
+    "Coffee o'clock! A light roast keeps you alert.",
+    "Late morning boost? Try a balanced blend.",
+    "Lunch break coffee? A medium roast hits the spot.",
+    "Afternoon slump? A bold espresso keeps you sharp.",
+    "Coffee pause! Light roast to refresh your afternoon.",
+    "Evening's here. Treat yourself to a cozy decaf.",
+    `It's ${localTimeString}. Perfect time for a decaf latte.`,
+    "Night owl? Enjoy a gentle decaf before bedtime.",
+    "Late night? Herbal coffee is your friend."
+  ];
+
+  const index = hour % 12;   // Fix: map 24 hours to 12 messages
+  greetingEl.textContent = messages[index];
+</script>
+
+
+ <!-- Hero section: full viewport -->
+<section class="hero">
+  <img src="Assets/1_12_25Hero.jpg"
+       alt="Pouring Coffee" 
+       class="hero-gif">
+
+  <div class="hero-text">
+    <h2>Find your personalised beans</h2>
+    <a class="button" href="quiz.html">Start Quiz</a>
+  </div>
+</section>
+
 
   <!-- Products section -->
   <section class="products">
@@ -48,7 +77,7 @@
       </div>
       <div class="product">
         <img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Light Roast">
-        <div class="overlay">Light Roast</div>
+        <div class="overlay">Light Roasts</div>
       </div>
       <div class="product">
         <img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Medium Roast">
@@ -64,20 +93,7 @@
       </div>
       <div class="product">
         <img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Ethiopian">
-        <div class="overlay">Ethiopian Beans</div>
-      </div>
-      <div class="product">
-        <img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Single Origin">
-        <div class="overlay">Single Origin</div>
-      </div>
-      <div class="product">
-        <img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="Decaf">
-        <div class="overlay">Decaf</div>
-      </div>
-      <div class="product">
-        <img src="https://media.giphy.com/media/hPFKu8dKRRNgQ/giphy.gif" alt="French Press">
-        <div class="overlay">French Press</div>
-      </div>
+        <div class="overlay">Ethiopian Beans</div>  
     </div>
   </section>
 
@@ -86,28 +102,6 @@
     <p>&copy; 2025 Coffee Finder</p>
   </footer>
 
-  <!-- JS: dynamic greeting -->
-  <script>
-    const greetingEl = document.getElementById('greeting');
-    const now = new Date();
-    const hour = now.getHours();
-    const localTimeString = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-    const messages = [
-      "Early hours? A warm, comforting decaf keeps you cozy.",
-      "Rise and grind! A strong espresso will kickstart your day.",
-      "Good morning! Perfect time for a smooth medium roast.",
-      "Coffee o’clock! A light roast keeps you alert.",
-      "Late morning boost? Try a balanced blend.",
-      "Lunch break coffee? A medium roast hits the spot.",
-      "Afternoon slump? A bold espresso keeps you sharp.",
-      "Coffee pause! Light roast to refresh your afternoon.",
-      "Evening’s here. Treat yourself to a cozy decaf.",
-      `It's ${localTimeString}. Perfect time for a decaf latte.`,
-      "Night owl? Enjoy a gentle decaf before bedtime.",
-      "Late night? Herbal coffee is your friend."
-    ];
-    greetingEl.textContent = messages[hour];
-  </script>
 
 </body>
 </html>
