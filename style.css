@@ -4,8 +4,8 @@
   --muted: #5f3a2a;
   --brand: #c41e00;
   --highlight: #ff3400;
-  --why-bg: #0f0b08;
-  --partner-bg: #0a0603;
+  --why-bg: #0c0805;
+  --partner-bg: #0f0b08;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -35,7 +35,7 @@ body::before {
   z-index: 9999;
 }
 
-/* Top bar – fixed mobile spacing */
+/* Top bar */
 .t-bar {
   display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
   background: var(--brand); color: white; padding: 14px 20px;
@@ -77,14 +77,105 @@ body::before {
   transition: width .4s, height .4s; }
 .btn-primary:active::after { width: 300px; height: 300px; }
 
-/* How it works */
-.how-it-works { padding: 100px 20px; text-align: center; background: #f9f3ed; }
-.how-it-works h2 { font-size: 2.6rem; font-weight: 800; margin-bottom: 3.5rem; }
-.tiles { display: flex; flex-wrap: wrap; gap: 2.5rem; max-width: 1100px; margin: 0 auto; justify-content: center; }
-.tile { background: white; padding: 2.4rem; border-radius: 20px; width: 280px; box-shadow: 0 12px 40px rgba(0,0,0,0.09); transition: .3s; }
+/* How it works — tiles fixed and centered */
+.how-it-works {
+  padding: 100px 20px;
+  text-align: center;
+  background: #f9f3ed;
+}
+.how-it-works h2 {
+  font-size: 2.6rem;
+  font-weight: 800;
+  margin-bottom: 3.5rem;
+}
+.tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  max-width: 1400px;           /* Restored proper max-width */
+  margin: 0 auto;              /* Centered */
+  justify-content: center;     /* Tiles centered */
+}
+.tile {
+  background: white;
+  padding: 2.4rem;
+  border-radius: 20px;
+  width: 280px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.09);
+  transition: .3s;
+}
 .tile:hover { transform: translateY(-10px); }
 .tile:hover .emoji { transform: scale(1.15); }
 .emoji { font-size: 3.4rem; margin-bottom: 1rem; transition: .25s; }
+
+/* The Right Coffee Module — 2-column layout */
+.right-coffee {
+  padding: 140px 40px;
+  background: var(--brand);
+  color: white;
+  position: relative;
+}
+.right-coffee::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 30%, var(--brand) 80%);
+  pointer-events: none;
+}
+.right-coffee-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.right-coffee-text {
+  text-align: left;
+}
+.right-coffee-text h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1.8rem;
+  line-height: 1.1;
+}
+.right-coffee-text p {
+  font-size: 1.35rem;
+  opacity: 0.95;
+  line-height: 1.7;
+}
+.right-coffee-gif {
+  text-align: center;
+}
+.coffee-gif {
+  width: 100%;
+  max-width: 700px;
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+}
+
+/* Mobile stack for right-coffee */
+@media (max-width: 900px) {
+  .right-coffee-grid {
+    grid-template-columns: 1fr;
+    gap: 60px;
+    text-align: center;
+  }
+  .right-coffee-text {
+    text-align: center;
+  }
+  .right-coffee-text h2 {
+    font-size: 2.4rem;
+  }
+  .right-coffee-text p {
+    font-size: 1.2rem;
+  }
+  .right-coffee {
+    padding: 100px 30px;
+  }
+}
 
 /* Carousel */
 .featured { padding: 90px 20px; background: var(--bg); text-align: center; }
@@ -106,17 +197,46 @@ body::before {
 .carousel-btn.prev { left: 16px; }
 .carousel-btn.next { right: 16px; }
 .carousel-btn:hover { background: var(--highlight); transform: translateY(-50%) scale(1.12); }
-@media (max-width: 640px) { .carousel-btn { display: none; } }
+
+/* Arrows always visible on mobile */
+@media (max-width: 480px) {
+  .carousel-btn { width: 50px; height: 50px; font-size: 2.2rem; }
+  .carousel-btn.prev { left: 10px; }
+  .carousel-btn.next { right: 10px; }
+}
 @media (max-width: 380px) { .card { flex: 0 0 calc(100% - 16px); } .carousel-track { gap: 16px; } }
 
-/* Why & Partner */
-.why-melbourne, .partner { padding: 110px 20px; text-align: center; position: relative; }
-.why-melbourne { background: var(--why-bg); color: #f2e6d9; }
-.partner { background: var(--partner-bg); color: #f2e6d9; }
-.why-melbourne::before, .partner::before { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 40%, var(--why-bg) 90%); pointer-events: none; }
-.partner::before { background: linear-gradient(transparent 40%, var(--partner-bg) 90%); }
-.why-melbourne h2, .partner h2 { font-size: 2.6rem; font-weight: 800; margin-bottom: 1.2rem; color: #fff; position: relative; }
-.why-melbourne p, .partner p { max-width: 700px; margin: 0 auto 2.5rem; font-size: 1.25rem; opacity: 0.92; position: relative; }
+/* Why Melbourne-first */
+.why-melbourne {
+  padding: 110px 20px;
+  text-align: center;
+  background: var(--why-bg);
+  color: #f2e6d9;
+  position: relative;
+}
+.why-melbourne::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(transparent 40%, var(--why-bg) 90%);
+  pointer-events: none;
+}
+.why-melbourne h2 { font-size: 2.6rem; font-weight: 800; margin-bottom: 1.2rem; color: #fff; position: relative; }
+.why-melbourne p { max-width: 700px; margin: 0 auto; font-size: 1.25rem; opacity: 0.92; position: relative; }
+
+/* Independent roasters */
+.partner {
+  padding: 110px 20px;
+  text-align: center;
+  background: var(--partner-bg);
+  color: #f2e6d9;
+  position: relative;
+}
+.partner::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(transparent 40%, var(--partner-bg) 90%);
+  pointer-events: none;
+}
+.partner h2 { font-size: 2.6rem; font-weight: 800; margin-bottom: 1.2rem; color: #fff; position: relative; }
+.partner p { max-width: 700px; margin: 0 auto 2.5rem; font-size: 1.25rem; opacity: 0.92; position: relative; }
 .btn-secondary { background: var(--highlight); color: white; padding: 16px 40px; border-radius: 12px; text-decoration: none; font-weight: 800; transition: .25s; }
 .btn-secondary:hover { transform: translateY(-4px); }
 

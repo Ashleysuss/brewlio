@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Origin Espresso – Better Coffee, Matched</title>
+  <title>Origin Espresso - Better Coffee, Matched</title>
   <link href="https://fonts.googleapis.com/css2?family=PP+Mori:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>Coffee</text></svg>">
@@ -31,8 +31,8 @@
   <section class="hero">
     <img src="Assets/1_12_25Hero.jpg" alt="Pouring coffee" class="hero-img" loading="lazy" />
     <div class="hero-content">
-      <h1>Good coffee shouldn’t be guesswork</h1>
-      <p class="lede">60-second quiz. Melbourne’s best independent roasters. Beans that actually suit you.</p>
+      <h1>Good coffee shouldn't be guesswork</h1>
+      <p class="lede">60-second quiz. Melbourne's best independent roasters. Beans that actually suit you.</p>
       <a href="quiz.html" class="btn-primary">Start the Quiz</a>
     </div>
   </section>
@@ -54,14 +54,34 @@
       <div class="tile">
         <div class="emoji">Bean</div>
         <h3>Perfect matches</h3>
-        <p>Fresh beans from Melbourne’s best roasters</p>
+        <p>Fresh beans from Melbourne's best roasters</p>
+      </div>
+      <div class="tile">
+        <div class="emoji">Enjoy</div>
+        <h3>Sip, relax, enjoy</h3>
+        <p>Enjoy the beans curated to your taste</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Right Coffee Module — 2-column (text left, GIF right) -->
+  <section class="right-coffee">
+    <div class="right-coffee-grid">
+      <div class="right-coffee-text">
+        <h2>The right coffee, for the right person, at the right time</h2>
+        <p>Great coffee isn't just about quality beans.<br>
+        It's about matching flavour to your palate, your brew method, and your mood.<br>
+        One perfect bag changes everything.</p>
+      </div>
+      <div class="right-coffee-gif">
+        <img src="Assets/23_12_25beans.jpg" alt="Slow-motion pour-over coffee brewing" class="coffee-gif" loading="lazy" />
       </div>
     </div>
   </section>
 
   <!-- Carousel -->
   <section class="featured" id="shop">
-    <h2>Roasts we think you’ll actually like</h2>
+    <h2>Roasts we think you'll actually like</h2>
     <div class="carousel">
       <button class="carousel-btn prev" aria-label="Previous slide">&larr;</button>
       <button class="carousel-btn next" aria-label="Next slide">&rarr;</button>
@@ -78,15 +98,15 @@
     </div>
   </section>
 
-  <!-- Why Melbourne -->
+  <!-- Why Melbourne-first -->
   <section class="why-melbourne">
     <h2>Why Melbourne-first matters</h2>
     <p>Fresher beans. Shorter supply chains. Real roasters you can walk to. Less corporate noise.</p>
   </section>
 
-  <!-- Partner -->
+  <!-- Independent roasters -->
   <section class="partner">
-    <h2>Independent roasters — let’s talk</h2>
+    <h2>Independent roasters — let's talk</h2>
     <p>Reach customers who already want what you roast. No wasted ads. Just better matches.</p>
     <a href="mailto:hello@originespresso.com" class="btn-secondary">Send a message</a>
   </section>
@@ -98,77 +118,91 @@
   </footer>
 
   <script>
-   // Final greeting — sharp, warm, and genuinely helpful
-(async () => {
-  const el = document.getElementById('greeting');
-  let city = null;
+    // Greeting — fixed syntax errors, funny copy preserved
+    (async () => {
+      const el = document.getElementById('greeting');
+      let city = null;
 
-  try {
-    const r = await fetch('https://ipapi.co/json/');
-    if (r.ok) {
-      const data = await r.json();
-      if (data.city) city = data.city;
-    }
-  } catch {}
+      try {
+        const r = await fetch('https://ipapi.co/json/');
+        if (r.ok) {
+          const data = await r.json();
+          if (data.city) city = data.city;
+        }
+      } catch (error) {
+        // Silently fail
+      }
 
-  const h = new Date().getHours();
-  const time = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      const h = new Date().getHours();
+      const time = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 
-  const messages = {
-    night: [
-      `It’s late${city ? ` in ${city}` : ''}. Decaf is calling.`,
-      `After 6pm${city ? ` in ${city}` : ''}. Even the moon runs on decaf.`,
-      `Evening${city ? ` in ${city}` : ''}. Time to switch to decaf?`
-    ],
-    morning: [
-      `Morning${city ? `, ${city}` : ''}. Milk coffees before noon are perfectly fine.`,
-      `Good morning${city ? `, ${city}` : ''}. Cappuccino weather.`,
-      `${city ? `${city} sunrise` : 'Sun’s up'}. Flat white time.`
-    ],
-    day: [
-      `Hey${city ? `, ${city}` : ''}. Ready for better coffee?`,
-      `It’s ${time}${city ? ` in ${city}` : ''}. Your brew could be even better.`,
-      `Good ${h < 12 ? 'morning' : 'afternoon'}${city ? `, ${city}` : ''}. Let’s find your perfect roast.`
-    ]
-  };
+      const messages = {
+        night: [
+          `It’s late${city ? ` in ${city}` : ''}. Maybe switch to decaf... or embrace the chaos.`,
+          `After 6pm${city ? ` in ${city}` : ''} and still sipping espresso? Bold move. Sleep is a myth anyway.`,
+          `Evening${city ? ` in ${city}` : ''}. Perhaps refrain from your double shot?`
+        ],
+        morning: [
+          `Morning${city ? `, ${city}` : ''}. Milk coffees before noon? Even Italians approve.`,
+          `Good morning${city ? `, ${city}` : ''}. It's Cappuccino weather.`,
+          `${city ? `${city} sunrise` : "Sun's up"}. Flat white time.`
+        ],
+        day: [
+          `Hey${city ? `, ${city}` : ''}. Ready for better coffee?`,
+          `It's ${time}${city ? ` in ${city}` : ''}. Your brew could be even better.`,
+          `Good ${h < 12 ? 'morning' : 'afternoon'}${city ? `, ${city}` : ''}. Let's find your perfect roast.`
+        ]
+      };
 
-  const tips = {
-    night: `Tip: Good decaf + oat milk is surprisingly excellent.`,
-    morning: `Tip: Milk coffees before noon? Completely allowed.`,
-    day: `Tip: Light roast for filter. Darker for espresso. Simple rule.`
-  };
+      const tips = {
+        night: `Tip: Good decaf + oat milk is surprisingly excellent.`,
+        morning: `Tip: Milk coffees before noon? Completely allowed.`,
+        day: `Tip: Light roast for filter. Darker for espresso. Simple rule.`
+      };
 
-  const group = h >= 18 || h < 5 ? 'night' : h < 12 ? 'morning' : 'day';
-  const msg = messages[group][Math.floor(Math.random() * messages[group].length)];
-  const tip = tips[group];
+      const group = h >= 18 || h < 5 ? 'night' : h < 12 ? 'morning' : 'day';
+      const msg = messages[group][Math.floor(Math.random() * messages[group].length)];
+      const tip = tips[group];
 
-  el.innerHTML = `<strong>${msg}</strong><span class="tip">${tip}</span>`;
-})();
+      el.innerHTML = `<strong>${msg}</strong><span class="tip">${tip}</span>`;
+    })();
 
-    // Carousel
+    // Carousel — arrows always visible on mobile
     const track = document.querySelector('.carousel-track');
     const prev = document.querySelector('.carousel-btn.prev');
     const next = document.querySelector('.carousel-btn.next');
     let index = 0;
-    let startX = 0;
 
     function visibleCards() {
       return window.innerWidth < 640 ? 1 : window.innerWidth < 1024 ? 2 : 3;
     }
+
     function slide() {
       const cardW = track.children[0].offsetWidth + 24;
       track.style.transform = `translateX(${-index * cardW}px)`;
     }
+
     prev.onclick = () => { index = Math.max(0, index - 1); slide(); };
     next.onclick = () => { index = Math.min(track.children.length - visibleCards(), index + 1); slide(); };
 
-    track.parentElement.addEventListener('touchstart', e => startX = e.touches[0].clientX, {passive:true});
-    track.parentElement.addEventListener('touchend', e => {
+    // Swipe support
+    let startX = 0;
+    const container = track.parentElement;
+    container.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+    container.addEventListener('touchend', e => {
       const diff = startX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 50) diff > 0 ? next.click() : prev.click();
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) next.click();
+        else prev.click();
+      }
     });
 
-    window.addEventListener('resize', () => { index = Math.min(index, track.children.length - visibleCards()); slide(); });
+    window.addEventListener('resize', () => {
+      index = Math.min(index, track.children.length - visibleCards());
+      slide();
+    });
     window.addEventListener('load', slide);
   </script>
 </body>
