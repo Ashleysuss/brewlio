@@ -77,7 +77,7 @@ body::before {
   transition: width .4s, height .4s; }
 .btn-primary:active::after { width: 300px; height: 300px; }
 
-/* How it works — tiles fixed and centered */
+/* How it works */
 .how-it-works {
   padding: 100px 20px;
   text-align: center;
@@ -92,9 +92,9 @@ body::before {
   display: flex;
   flex-wrap: wrap;
   gap: 2.5rem;
-  max-width: 1400px;           /* Restored proper max-width */
-  margin: 0 auto;              /* Centered */
-  justify-content: center;     /* Tiles centered */
+  max-width: 1400px;
+  margin: 0 auto;
+  justify-content: center;
 }
 .tile {
   background: white;
@@ -108,7 +108,7 @@ body::before {
 .tile:hover .emoji { transform: scale(1.15); }
 .emoji { font-size: 3.4rem; margin-bottom: 1rem; transition: .25s; }
 
-/* The Right Coffee Module — 2-column layout */
+/* The Right Coffee Module */
 .right-coffee {
   padding: 140px 40px;
   background: var(--brand);
@@ -198,7 +198,6 @@ body::before {
 .carousel-btn.next { right: 16px; }
 .carousel-btn:hover { background: var(--highlight); transform: translateY(-50%) scale(1.12); }
 
-/* Arrows always visible on mobile */
 @media (max-width: 480px) {
   .carousel-btn { width: 50px; height: 50px; font-size: 2.2rem; }
   .carousel-btn.prev { left: 10px; }
@@ -247,3 +246,204 @@ footer small { display: block; margin-top: 0.8rem; opacity: 0.7; font-size: 0.9r
 /* Responsive cards */
 @media (min-width: 640px) { .card { flex: 0 0 calc(50% - 24px); } }
 @media (min-width: 1024px) { .card { flex: 0 0 calc(33.333% - 24px); } }
+
+/* Make tiles clickable */
+.tiles a.tile {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.tiles a.tile:hover {
+  transform: translateY(-12px);
+}
+
+/* Logo — clickable but visually not hyperlinked */
+.logo-link {
+  text-decoration: none;
+  color: inherit;
+}
+.logo-link:hover {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+/* Quiz Page Styles — clean and consistent */
+.quiz-section {
+  padding: 80px 20px;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.quiz-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+  padding: 60px 40px;
+}
+
+.quiz-lede {
+  font-size: 1.4rem;
+  margin: 1rem 0 3rem;
+  opacity: 0.9;
+  text-align: center;
+}
+
+.question {
+  display: none;
+}
+
+.question.active {
+  display: block;
+}
+
+.question h3 {
+  font-size: 1.8rem;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+/* Uniform GIF container — perfect consistency with aspect-ratio */
+.question-gif {
+  margin: 0 auto 2.5rem;
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+
+.question-gif picture,
+.question-gif img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.options label {
+  padding: 18px 24px;
+  background: #f9f3ed;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all .3s ease;
+  font-size: 1.15rem;
+  text-align: center;
+}
+
+.options label:hover {
+  background: var(--brand);
+  color: white;
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(196,30,0,0.3);
+}
+
+.options input:checked + label,
+.options label:has(input:checked) {
+  background: var(--brand);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(196,30,0,0.3);
+}
+
+.quiz-controls {
+  text-align: center;
+  margin: 4rem 0 3rem;
+}
+
+.quiz-controls button {
+  padding: 16px 36px;
+  margin: 0 12px;
+  border: none;
+  border-radius: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  background: var(--highlight);
+  color: white;
+  font-size: 1.2rem;
+  transition: all .25s;
+}
+
+.quiz-controls button:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(255,52,0,0.4);
+}
+
+.quiz-controls button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 3rem 0;
+}
+
+.progress {
+  height: 100%;
+  background: var(--brand);
+  width: 0%;
+  transition: width .5s ease;
+}
+
+.results {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.rec-title {
+  font-size: 1.4rem;
+  opacity: 0.8;
+  margin-bottom: 1rem;
+}
+
+.results h3 {
+  font-size: 2.6rem;
+  margin: 1.5rem 0;
+  line-height: 1.2;
+}
+
+.results .small {
+  opacity: 0.7;
+  font-style: italic;
+  margin-top: 2rem;
+  font-size: 1rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .quiz-container {
+    padding: 40px 20px;
+    border-radius: 20px;
+  }
+  .question h3 {
+    font-size: 1.6rem;
+  }
+  .options label {
+    padding: 16px 20px;
+    font-size: 1.05rem;
+  }
+  .question-gif {
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+  .quiz-controls button {
+    padding: 14px 28px;
+    font-size: 1.1rem;
+    margin: 8px;
+  }
+}

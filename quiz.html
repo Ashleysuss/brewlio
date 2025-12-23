@@ -1,36 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coffee Quiz</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Origin Espresso – Find Your Roast</title>
+  <link href="https://fonts.googleapis.com/css2?family=PP+Mori:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>Coffee</text></svg>">
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>Find Your Perfect Coffee</h1>
-      <p>Answer a few questions to discover your ideal coffee bean.</p>
-    </div>
+
+  <!-- Top bar -->
+  <header class="t-bar">
+    <nav class="nav-left">
+      <a href="index.html#about">About</a>
+      <a href="index.html#shop">Shop</a>
+      <a href="#gifting">Gifting</a>
+      <a href="#subscription">Subscription</a>
+    </nav>
+    <div class="logo">Origin Espresso</div>
   </header>
 
-  <main class="container">
-    <!-- Typeform Embed Placeholder -->
-    <div class="typeform-widget" data-url="https://YOURTYPEFORMURL" style="width:100%;height:600px;"></div>
-    <script src="https://embed.typeform.com/embed.js"></script>
+  <!-- Greeting -->
+  <div id="greeting" class="greeting" aria-live="polite">
+    <strong>One moment while we prepare your match…</strong>
+    <span class="tip">Almost ready.</span>
+  </div>
 
-    <section class="buy-now">
-      <h2>Buy Your Coffee</h2>
-      <p>After completing the quiz, get your recommended coffee delivered to your door.</p>
-      <form action="https://www.paypal.com/donate" method="post" target="_top">
-        <input type="hidden" name="business" value="YOUR_PAYPAL_EMAIL">
-        <input type="submit" value="Buy Now">
+  <!-- Quiz Section -->
+  <section class="quiz-section">
+    <div class="quiz-container">
+      <h1>Find Your Roast</h1>
+      <p class="quiz-lede">6 quick questions. No fluff. Just better coffee.</p>
+
+      <form id="coffeeQuiz">
+        <!-- Question 1: Brew Method -->
+        <div class="question active">
+          <div class="question-gif">
+            <picture>
+              <source srcset="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzQxMjJvNXpwb2RkcjRudWt5cmo4eTF0eGt3NGd5ejJ6dDdiZWhteCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hWikkI2YKX3BwYqsYK/giphy.gif" type="image/gif">
+              <img src="Assets/espresso_fallback.jpg" alt="Espresso shot pulling" loading="lazy" />
+            </picture>
+          </div>
+          <h3>How do you usually make coffee?</h3>
+          <div class="options">
+            <label><input type="radio" name="brew" value="espresso" required> Espresso machine</label>
+            <label><input type="radio" name="brew" value="pour-over"> Pour-over / filter</label>
+            <label><input type="radio" name="brew" value="french-press"> French press / plunger</label>
+            <label><input type="radio" name="brew" value="stovetop"> Stovetop (moka pot)</label>
+            <label><input type="radio" name="brew" value="other"> Other / instant (no judgement)</label>
+          </div>
+        </div>
+
+        <!-- Question 2: Milk -->
+        <div class="question">
+          <div class="question-gif">
+            <picture>
+              <source srcset="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExejF3a2ticTA2N2ZvOTBrd2ZqZTNxd2NrbnFheHE0M3NkeTVwbmk0YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/h55EUEsTG9224/giphy.gif" type="image/gif">
+              <img src="Assets/milk_fallback.jpg" alt="Pouring milk into coffee" loading="lazy" />
+            </picture>
+          </div>
+          <h3>Do you drink it with milk?</h3>
+          <div class="options">
+            <label><input type="radio" name="milk" value="black" required> Always black</label>
+            <label><input type="radio" name="milk" value="sometimes"> Sometimes</label>
+            <label><input type="radio" name="milk" value="always"> Always with milk</label>
+          </div>
+        </div>
+
+        <!-- Question 3: Flavour Preference -->
+        <div class="question">
+          <div class="question-gif">
+            <picture>
+              <source srcset="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnVtMm80OXQ4MXh2endvMnp4OHd5ZWZ1YzdjN3MzYWhwaGx1NW8zMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Q6joirtIBHUsw/giphy.gif" type="image/gif">
+              <img src="Assets/fruity_fallback.jpg" alt="Fruity coffee pour" loading="lazy" />
+            </picture>
+          </div>
+          <h3>What flavours do you enjoy?</h3>
+          <div class="options">
+            <label><input type="radio" name="flavour" value="fruity" required> Bright, fruity, juicy</label>
+            <label><input type="radio" name="flavour" value="chocolate"> Chocolate, nutty, caramel</label>
+            <label><input type="radio" name="flavour" value="balanced"> Balanced — a bit of both</label>
+            <label><input type="radio" name="flavour" value="bold"> Bold, dark, intense</label>
+          </div>
+        </div>
+
+        <!-- Question 4: Roast Level -->
+        <div class="question">
+          <div class="question-gif">
+            <picture>
+              <source srcset="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzRyYXk2NHJreHRxdDRraThzeGg3bnY4bmczbXBuNnIxdjdkNjh6dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lg6LhRzBjPO6xIaHen/giphy.gif" type="image/gif">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans roasting" loading="lazy" />
+            </picture>
+          </div>
+          <h3>How dark do you like your roast?</h3>
+          <div class="options">
+            <label><input type="radio" name="roast" value="light" required> Light — I want to taste the origin</label>
+            <label><input type="radio" name="roast" value="medium"> Medium — classic and smooth</label>
+            <label><input type="radio" name="roast" value="dark"> Dark — big and bold</label>
+            <label><input type="radio" name="roast" value="any"> Surprise me</label>
+          </div>
+        </div>
+
+        <!-- Question 5: Acidity -->
+        <div class="question">
+          <div class="question-gif">
+            <picture>
+              <source srcset="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbDg0MWd2bGszcHczaXB5MTVoeW1yMDFoamNsYzdxa2ZpYXBpemt3diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8cN6wDcWdzEGBsIRya/giphy.gif" type="image/gif">
+              <img src="Assets/acidity_fallback.jpg" alt="Bright coffee pour" loading="lazy" />
+            </picture>
+          </div>
+          <h3>How do you feel about acidity?</h3>
+          <div class="options">
+            <label><input type="radio" name="acidity" value="love" required> Love it — bright and lively</label>
+            <label><input type="radio" name="acidity" value="moderate"> A little is fine</label>
+            <label><input type="radio" name="acidity" value="low"> Low acidity please</label>
+          </div>
+        </div>
+
+        <!-- Question 6: Experience Level -->
+        <div class="question">
+          <div class="question-gif">
+            <picture>
+              <source srcset="https://i.pinimg.com/originals/0c/6e/89/0c6e899de70d7f175b8476d1b0ab6443.gif" type="image/gif">
+              <img src="Assets/latteart_fallback.jpg" alt="Pro latte art pour" loading="lazy" />
+            </picture>
+          </div>
+          <h3>How serious are you about coffee?</h3>
+          <div class="options">
+            <label><input type="radio" name="level" value="casual" required> Casual drinker</label>
+            <label><input type="radio" name="level" value="enthusiast"> Enthusiast</label>
+            <label><input type="radio" name="level" value="pro"> I'm basically a barista</label>
+          </div>
+        </div>
+
+        <div class="quiz-controls">
+          <button type="button" id="prevBtn" disabled>Previous</button>
+          <button type="button" id="nextBtn">Next</button>
+          <button type="submit" id="submitBtn" style="display:none;">Show My Roast</button>
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress"></div>
+        </div>
       </form>
-    </section>
-  </main>
 
-  <footer>
-    <p>&copy; 2025 Coffee Finder</p>
-  </footer>
+      <!-- Results -->
+      <div id="results" class="results" style="display:none;">
+        <h2>Your perfect roast</h2>
+        <div id="recommendation"></div>
+        <a href="index.html" class="btn-primary">Back to Home</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Greeting
+    (async () => {
+      const el = document.getElementById('greeting');
+      let city = null;
+      try {
+        const r = await fetch('https://ipapi.co/json/');
+        if (r.ok) {
+          const data = await r.json();
+          if (data.city) city = data.city;
+        }
+      } catch (error) {}
+
+      const h = new Date().getHours();
+      const messages = [
+        `Almost there${city ? `, ${city}` : ''}. Just a few questions.`,
+        `Getting your perfect roast ready${city ? ` in ${city}` : ''}…`,
+        `One minute to better coffee${city ? ` in ${city}` : ''}.`
+      ];
+      const msg = messages[Math.floor(Math.random() * messages.length)];
+      el.innerHTML = `<strong>${msg}</strong>`;
+    })();
+
+    // Quiz logic
+    const form = document.getElementById('coffeeQuiz');
+    const questions = document.querySelectorAll('.question');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const progress = document.querySelector('.progress');
+    const results = document.getElementById('results');
+    const recommendation = document.getElementById('recommendation');
+
+    let currentQuestion = 0;
+
+    function showQuestion(n) {
+      questions.forEach((q, i) => q.classList.toggle('active', i === n));
+      prevBtn.disabled = n === 0;
+      nextBtn.style.display = n === questions.length - 1 ? 'none' : 'inline-block';
+      submitBtn.style.display = n === questions.length - 1 ? 'inline-block' : 'none';
+      progress.style.width = `${((n + 1) / questions.length) * 100}%`;
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (questions[currentQuestion].querySelector('input:checked')) {
+        currentQuestion++;
+        showQuestion(currentQuestion);
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      currentQuestion--;
+      showQuestion(currentQuestion);
+    });
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const answers = Object.fromEntries(data);
+
+      let roast = 'medium';
+      let style = 'balanced';
+
+      if (answers.brew === 'espresso' || answers.brew === 'stovetop') roast = 'medium-dark';
+      if (answers.brew === 'pour-over') roast = 'light';
+      if (answers.roast === 'light') roast = 'light';
+      if (answers.roast === 'dark') roast = 'dark';
+
+      if (answers.flavour === 'fruity' || answers.acidity === 'love') style = 'bright and fruity Ethiopian or Kenyan';
+      if (answers.flavour === 'chocolate') style = 'chocolatey Colombian or Brazilian';
+      if (answers.flavour === 'bold') style = 'bold Indonesian or robust blend';
+
+      if (answers.milk === 'always') roast = 'medium-dark';
+
+      const recs = {
+        light: `Light roast — single origin ${style}. Bright, complex, full of origin character.`,
+        'medium': `Medium roast — balanced ${style}. Smooth, versatile, crowd-pleaser.`,
+        'medium-dark': `Medium-dark roast — richer ${style}. Great with milk, full body.`,
+        dark: `Dark roast — bold and intense. Classic espresso style, low acidity.`
+      };
+
+      recommendation.innerHTML = `
+        <p class="rec-title">We recommend:</p>
+        <h3>${recs[roast] || recs.medium}</h3>
+        <p>Perfect for your ${answers.brew.replace('-', ' ')} and ${answers.milk === 'black' ? 'black' : 'with milk'} drinking style.</p>
+        <p class="small">Coming soon: direct links to Melbourne roasters with this exact profile.</p>
+      `;
+
+      results.style.display = 'block';
+      form.style.display = 'none';
+    });
+
+    showQuestion(0);
+  </script>
 </body>
-</html>
+</html><!DOCTYPE html>
