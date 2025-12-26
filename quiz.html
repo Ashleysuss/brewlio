@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +22,7 @@
     <nav class="nav-left" aria-label="Primary">
       <a href="index.html#about">How it works</a>
       <a href="index.html#shop">Roasts</a>
-      <a href="index.html#why">Why local</a>
+      <a href="index.html#why">Why Australia-first</a>
       <a href="index.html#partner">Roasters</a>
     </nav>
     <a href="index.html" class="logo logo-link" aria-label="Brewlio home">
@@ -33,7 +34,7 @@
   <!-- Greeting -->
   <div id="greeting" class="greeting" aria-live="polite">
     <strong>One minute to better coffee.</strong>
-    <span class="tip">Pick what sounds like you. No jargon.</span>
+    <span class="tip">Pick what sounds like you. No jargon. No judgment.</span>
   </div>
 
   <!-- Quiz Section -->
@@ -43,7 +44,7 @@
       <div class="quiz-header">
         <h1>Coffee Taste Quiz</h1>
         <p class="quiz-lede">
-          We'll match you with beans based on your taste + how you drink coffee.
+          We’ll match you with beans based on your taste + your setup (because it matters).
           <span class="quiz-lede-sub">Free. No account. Retake anytime.</span>
         </p>
 
@@ -56,73 +57,83 @@
       <form id="coffeeQuiz" novalidate>
         <!-- Q1: Brew method -->
         <fieldset class="question active" data-q="brew">
-          <legend>How do you usually make coffee?</legend>
+          <legend>How do you usually brew coffee?</legend>
           <div class="question-gif">
             <picture>
               <source srcset="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWp4cXN4MHcyNXFobXJycW14dmhsYWJmaHp1NHN1c2N0NTdkcHp5OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mQCc4gIeZf746w1hSZ/giphy.gif" type="image/gif">
               <img src="Assets/espresso_fallback.jpg" alt="Espresso shot pulling" loading="lazy" />
             </picture>
           </div>
+
           <div class="options" role="radiogroup" aria-label="Brew method">
             <div class="option">
               <input type="radio" id="brew-espresso" name="brew" value="espresso" required>
-              <label for="brew-espresso">Espresso machine</label>
+              <label for="brew-espresso">Espresso machine <span class="muted">(Breville, Gaggia, etc.)</span></label>
             </div>
+
             <div class="option">
-              <input type="radio" id="brew-pourover" name="brew" value="pour-over">
-              <label for="brew-pourover">Pour-over / filter</label>
+              <input type="radio" id="brew-manual" name="brew" value="manual">
+              <label for="brew-manual">Manual filter <span class="muted">(V60 / AeroPress / Delter)</span></label>
             </div>
+
             <div class="option">
-              <input type="radio" id="brew-plunger" name="brew" value="french-press">
-              <label for="brew-plunger">French press / plunger</label>
+              <input type="radio" id="brew-batch" name="brew" value="batch">
+              <label for="brew-batch">Batch filter <span class="muted">(Moccamaster, Precision Brewer)</span></label>
             </div>
+
             <div class="option">
-              <input type="radio" id="brew-moka" name="brew" value="stovetop">
-              <label for="brew-moka">Stovetop (moka pot)</label>
+              <input type="radio" id="brew-body" name="brew" value="body">
+              <label for="brew-body">Immersion / stovetop <span class="muted">(French press, moka, Clever)</span></label>
             </div>
+
             <div class="option">
               <input type="radio" id="brew-other" name="brew" value="other">
-              <label for="brew-other">Other / instant (no judgement)</label>
+              <label for="brew-other">Other / instant <span class="muted">(no judgement)</span></label>
             </div>
           </div>
         </fieldset>
 
         <!-- Q2: Grinder -->
         <fieldset class="question" data-q="grinder">
-          <legend>What grinder situation are you working with?</legend>
+          <legend>What are you grinding with?</legend>
           <div class="question-gif">
             <picture>
               <source srcset="https://media.giphy.com/media/3o7TKsQ8l5dQ0JdEw8/giphy.gif" type="image/gif">
               <img src="Assets/roast_fallback.jpg" alt="Grinding coffee" loading="lazy" />
             </picture>
           </div>
+
           <div class="options" role="radiogroup" aria-label="Grinder tier">
             <div class="option">
               <input type="radio" id="gr-pre" name="grinder" value="pre-ground" required>
               <label for="gr-pre">Pre-ground (or I don’t grind at home)</label>
             </div>
+
             <div class="option">
               <input type="radio" id="gr-blade" name="grinder" value="blade">
-              <label for="gr-blade">Blade grinder (the chaos option)</label>
+              <label for="gr-blade">Blade grinder <span class="muted">(the chaos option)</span></label>
             </div>
+
             <div class="option">
-              <input type="radio" id="gr-burr-basic" name="grinder" value="burr-basic">
-              <label for="gr-burr-basic">Entry burr (Smart Grinder Pro, Encore ESP, etc.)</label>
+              <input type="radio" id="gr-entry" name="grinder" value="burr-entry">
+              <label for="gr-entry">Entry burr <span class="muted">(Smart Grinder Pro, Encore, Opus)</span></label>
             </div>
+
             <div class="option">
-              <input type="radio" id="gr-burr-good" name="grinder" value="burr-good">
-              <label for="gr-burr-good">Good burr (Niche / DF64 / Eureka, etc.)</label>
+              <input type="radio" id="gr-good" name="grinder" value="burr-good">
+              <label for="gr-good">Good burr <span class="muted">(Encore ESP, DF64, Eureka Mignon, Niche)</span></label>
             </div>
+
             <div class="option">
-              <input type="radio" id="gr-cafe" name="grinder" value="cafe">
-              <label for="gr-cafe">Café-tier / “I have opinions” (Mazzer / EK-style)</label>
+              <input type="radio" id="gr-pro" name="grinder" value="pro">
+              <label for="gr-pro">High-end / commercial <span class="muted">(Timemore 078/s, Lagom, EK43, Mazzer Major)</span></label>
             </div>
           </div>
         </fieldset>
 
         <!-- Q3: Espresso machine (conditional) -->
         <fieldset class="question" data-q="machine" data-conditional="espresso">
-          <legend>If you make espresso, what machine is closest to yours?</legend>
+          <legend>If you make espresso, what machine tier is closest to yours?</legend>
           <div class="question-gif">
             <picture>
               <source srcset="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" type="image/gif">
@@ -140,11 +151,11 @@
             </div>
             <div class="option">
               <input type="radio" id="mach-advanced" name="machine" value="advanced">
-              <label for="mach-advanced">Advanced / prosumer (Dual boiler or HX, incl. Breville Dual Boiler)</label>
+              <label for="mach-advanced">Advanced (Dual boiler or HX, incl. Breville Dual Boiler)</label>
             </div>
             <div class="option">
               <input type="radio" id="mach-elite" name="machine" value="elite">
-              <label for="mach-elite">Elite / café-tier (La Marzocco Linea, E61 w/ flow control, etc.)</label>
+              <label for="mach-elite">Elite / café-style (Linea Mini, E61 w/ flow control, etc.)</label>
             </div>
             <div class="option">
               <input type="radio" id="mach-notsure" name="machine" value="not-sure">
@@ -155,7 +166,7 @@
 
         <!-- Q4: Milk -->
         <fieldset class="question" data-q="milk">
-          <legend>Do you drink it with milk?</legend>
+          <legend>What’s your deal with milk?</legend>
           <div class="question-gif">
             <picture>
               <source srcset="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExejF3a2ticTA2N2ZvOTBrd2ZqZTNxd2NrbnFheHE0M3NkeTVwbmk0YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/h55EUEsTG9224/giphy.gif" type="image/gif">
@@ -202,7 +213,7 @@
             </div>
             <div class="option">
               <input type="radio" id="flavour-bold" name="flavour" value="bold">
-              <label for="flavour-bold">Bold, dark, intense</label>
+              <label for="flavour-bold">Rich & heavy (more comfort than fruit)</label>
             </div>
           </div>
         </fieldset>
@@ -219,15 +230,15 @@
           <div class="options" role="radiogroup" aria-label="Roast preference">
             <div class="option">
               <input type="radio" id="roast-light" name="roast" value="light" required>
-              <label for="roast-light">Light — I want origin character</label>
+              <label for="roast-light">Light — more origin flavour (fruit/floral), less roastiness</label>
             </div>
             <div class="option">
               <input type="radio" id="roast-medium" name="roast" value="medium">
-              <label for="roast-medium">Medium — classic & smooth</label>
+              <label for="roast-medium">Medium — balanced, sweet, and easy</label>
             </div>
             <div class="option">
               <input type="radio" id="roast-dark" name="roast" value="dark">
-              <label for="roast-dark">Dark — big & bold</label>
+              <label for="roast-dark">Dark — more roast notes (chocolate/roasty), lower acidity</label>
             </div>
             <div class="option">
               <input type="radio" id="roast-any" name="roast" value="any">
@@ -238,7 +249,7 @@
 
         <!-- Q7: Workflow -->
         <fieldset class="question" data-q="workflow">
-          <legend>How hands-on are you when it comes to dialing in?</legend>
+          <legend>How much tweaking do you actually want to do?</legend>
           <div class="question-gif">
             <picture>
               <source srcset="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" type="image/gif">
@@ -248,15 +259,15 @@
           <div class="options" role="radiogroup" aria-label="Workflow confidence">
             <div class="option">
               <input type="radio" id="wf-set" name="workflow" value="set-and-forget" required>
-              <label for="wf-set">Set-and-forget. I want it easy.</label>
+              <label for="wf-set">Minimal effort. Maximum reward.</label>
             </div>
             <div class="option">
               <input type="radio" id="wf-some" name="workflow" value="some">
-              <label for="wf-some">I’ll tweak a little if it’s off.</label>
+              <label for="wf-some">I'll tweak if I must (begrudgingly).</label>
             </div>
             <div class="option">
               <input type="radio" id="wf-regular" name="workflow" value="regular">
-              <label for="wf-regular">I dial in properly. I like repeatable results.</label>
+              <label for="wf-regular">Dial it in properly. I like repeatable results.</label>
             </div>
             <div class="option">
               <input type="radio" id="wf-nerd" name="workflow" value="nerd">
@@ -298,7 +309,7 @@
     // Greeting (privacy-friendly)
     (() => {
       const el = document.getElementById('greeting');
-      el.innerHTML = `<strong>Almost there. Pick what sounds like you.</strong><span class="tip">No jargon. No account. Just taste.</span>`;
+      el.innerHTML = `<strong>Alright — quick one.</strong><span class="tip">Pick what sounds like you. No jargon. No account.</span>`;
     })();
 
     // Supabase setup
@@ -479,24 +490,29 @@
         if (a.flavour === 'balanced') style = 'balanced & sweet — classic crowd-pleaser';
         if (a.flavour === 'bold') style = 'bold & intense — think robust blend / Indonesian';
 
+        // Roast preference: treat "any" as no constraint (let other answers decide)
         if (a.roast === 'light') roast = 'light';
+        if (a.roast === 'medium') roast = 'medium';
         if (a.roast === 'dark') roast = 'dark';
-        if (a.roast === 'any') roast = 'medium';
+        const roastPrefAny = (a.roast === 'any');
 
-        const weakGrinder = ['pre-ground', 'blade'].includes(grinder);
-        if (weakGrinder && roast === 'light') {
+        const weakGrinder = ['pre-ground', 'blade', 'burr-entry'].includes(grinder);
+
+        // Guardrails (only override if they explicitly asked for a light roast)
+        if (!roastPrefAny && weakGrinder && roast === 'light') {
           roast = 'medium-dark';
-          notes.push("Light roasts need consistent grind — with pre-ground or blade, they often taste sour. Going medium-dark for reliability.");
+          notes.push("Light roasts need a consistent grind. With pre-ground or a blade grinder they can taste sharp/sour — so we’re going medium-dark for reliability.");
         }
 
-        if (a.milk === 'always' && roast === 'light') {
+        if (!roastPrefAny && a.milk === 'always' && roast === 'light') {
           roast = 'medium-dark';
-          notes.push("Milk tends to overwhelm the delicate notes in light roasts. Medium-dark gives body that plays better with milk.");
+          notes.push("Milk tends to steamroll delicate light roast flavours. Medium-dark gives more body and still tastes sweet.");
         }
 
-        if (brew === 'pour-over' && roast === 'dark') {
+        // Filter/batch: dark often tastes harsh → nudge to medium
+        if ((brew === 'manual' || brew === 'batch') && roast === 'dark') {
           roast = 'medium';
-          notes.push("Dark roasts can over-extract in filter and taste bitter. Medium keeps sweetness without harshness.");
+          notes.push("Dark roasts can taste harsh in filter/batch brewers. Medium keeps sweetness without the bite.");
         }
 
         if (brew === 'espresso') {
@@ -512,8 +528,31 @@
           notes.push("Light roasts usually need more dialing in. Medium gives great results with less tweaking.");
         }
 
-        if (a.milk === 'always') roast = roast === 'light' ? 'medium' : 'medium-dark';
-        if (brew === 'espresso' || brew === 'stovetop') roast = roast === 'medium' ? 'medium-dark' : roast;
+        // Milk nudges (don’t bulldoze dark if they explicitly chose it)
+        if (a.milk === 'always') {
+          if (roast === 'light') roast = 'medium';
+        }
+
+        // Espresso & immersion/stovetop: nudge only when it makes sense (milk always or bold preference)
+        if ((brew === 'espresso' || brew === 'body') && (a.milk === 'always' || a.flavour === 'bold')) {
+          if (roast === 'medium') roast = 'medium-dark';
+        }
+
+        // ---- High-end setup sanity check for dark roasts ----
+        const highEndGrinder = ['burr-good', 'pro'].includes(grinder);
+        const highEndMachine = ['advanced', 'elite'].includes(machine);
+
+        if (
+          roast === 'dark' &&
+          brew === 'espresso' &&
+          a.milk === 'always' &&
+          a.flavour !== 'bold' &&
+          highEndGrinder &&
+          highEndMachine
+        ) {
+          roast = 'medium-dark';
+          notes.push("You picked dark — fair call. With a higher-end espresso setup (especially with milk), medium-dark usually tastes sweeter and cleaner than very dark roasts.");
+        }
 
         const recs = {
           light: {
@@ -540,7 +579,15 @@
 
         const pick = recs[roast] || recs.medium;
 
-        const brewText = brew.replace('-', ' ');
+        const brewLabels = {
+          espresso: 'espresso',
+          manual: 'manual filter',
+          batch: 'batch filter',
+          body: 'immersion / stovetop',
+          other: 'other'
+        };
+        const brewText = brewLabels[brew] || brew;
+
         const milkText = a.milk === 'black' ? 'black' : (a.milk === 'always' ? 'with milk' : 'either');
 
         let html = `
@@ -571,7 +618,7 @@
         }
 
         html += `
-            <p class="small">Coming soon: direct links to Melbourne roasters that match this profile.</p>
+            <p class="small">Coming soon: direct links to Australian roasters that match this profile.</p>
           </div>
         `;
 
@@ -585,27 +632,26 @@
         // ✅ Supabase insert (includes submission_id)
         if (sb) {
           const payload = {
-          submission_id: submissionId,
-          session_id: sessionId,
-          page: location.pathname,
-          quiz_version: "v1",
+            submission_id: submissionId,
+            session_id: sessionId,
+            page: location.pathname,
+            quiz_version: "v1",
 
-          // flattened answer fields (for easy filtering in Supabase)
-          brew: brew || null,
-          grinder: grinder || null,
-          milk: a.milk || null,
-          flavour: a.flavour || null,
-          roast_pref: a.roast || null,
-          workflow: workflow || null,
+            // flattened answer fields (for easy filtering in Supabase)
+            brew: brew || null,
+            grinder: grinder || null,
+            milk: a.milk || null,
+            flavour: a.flavour || null,
+            roast_pref: a.roast || null,
+            workflow: workflow || null,
 
-          // derived / recommendation (also easy to filter)
-          match_roast: roast || null,
+            // derived / recommendation (also easy to filter)
+            match_roast: roast || null,
 
-          // keep raw JSON too (future-proof)
-          answers: a,
-          derived: { roast, style, brew, grinder, machine }
-        };
-
+            // keep raw JSON too (future-proof)
+            answers: a,
+            derived: { roast, style, brew, grinder, machine }
+          };
 
           const { data, error } = await sb.from("quiz_events").insert(payload);
           console.log("Supabase insert:", { data, error });
