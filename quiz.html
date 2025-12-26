@@ -585,12 +585,27 @@
         // ✅ Supabase insert (includes submission_id)
         if (sb) {
           const payload = {
-            submission_id: submissionId,
-            session_id: sessionId,
-            page: location.pathname,
-            answers: a,
-            derived: { roast, style, brew, grinder, machine }
-          };
+          submission_id: submissionId,
+          session_id: sessionId,
+          page: location.pathname,
+          quiz_version: "v1",
+
+          // flattened answer fields (for easy filtering in Supabase)
+          brew: brew || null,
+          grinder: grinder || null,
+          milk: a.milk || null,
+          flavour: a.flavour || null,
+          roast_pref: a.roast || null,
+          workflow: workflow || null,
+
+          // derived / recommendation (also easy to filter)
+          match_roast: roast || null,
+
+          // keep raw JSON too (future-proof)
+          answers: a,
+          derived: { roast, style, brew, grinder, machine }
+        };
+
 
           const { data, error } = await sb.from("quiz_events").insert(payload);
           console.log("Supabase insert:", { data, error });
