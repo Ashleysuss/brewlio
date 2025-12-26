@@ -22,7 +22,6 @@
 
 /* ✅ Support both class-based hiding and native HTML hidden attribute */
 .hidden { display: none !important; }
-[hidden] { display: none !important; }
 
 body {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
