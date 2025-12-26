@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,10 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Brewlio – Coffee Taste Quiz</title>
 
+  <meta name="description" content="Brewlio matches you to beans based on your grinder, machine, and taste. No jargon. No signup. About a minute." />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
 
-  <!-- Supabase client -->
+  <!-- Supabase client (v2) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -45,13 +47,13 @@
         </p>
 
         <div class="quiz-meta" aria-label="Progress">
-          <span id="stepText" class="step-text">Question 1 of 6</span>
+          <span id="stepText" class="step-text">Question 1 of 7</span>
           <span id="stepHint" class="step-hint">Pick one to continue</span>
         </div>
       </div>
 
       <form id="coffeeQuiz" novalidate>
-        <!-- Q1 -->
+        <!-- Q1: Brew method -->
         <fieldset class="question active" data-q="brew">
           <legend>How do you usually make coffee?</legend>
           <div class="question-gif">
@@ -84,7 +86,73 @@
           </div>
         </fieldset>
 
-        <!-- Q2 -->
+        <!-- Q2: Grinder -->
+        <fieldset class="question" data-q="grinder">
+          <legend>What grinder situation are you working with?</legend>
+          <div class="question-gif">
+            <picture>
+              <source srcset="https://media.giphy.com/media/3o7TKsQ8l5dQ0JdEw8/giphy.gif" type="image/gif">
+              <img src="Assets/roast_fallback.jpg" alt="Grinding coffee" loading="lazy" />
+            </picture>
+          </div>
+          <div class="options" role="radiogroup" aria-label="Grinder tier">
+            <div class="option">
+              <input type="radio" id="gr-pre" name="grinder" value="pre-ground" required>
+              <label for="gr-pre">Pre-ground (or I don’t grind at home)</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="gr-blade" name="grinder" value="blade">
+              <label for="gr-blade">Blade grinder (the chaos option)</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="gr-burr-basic" name="grinder" value="burr-basic">
+              <label for="gr-burr-basic">Entry burr (Smart Grinder Pro, Encore ESP, etc.)</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="gr-burr-good" name="grinder" value="burr-good">
+              <label for="gr-burr-good">Good burr (Niche / DF64 / Eureka, etc.)</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="gr-cafe" name="grinder" value="cafe">
+              <label for="gr-cafe">Café-tier / “I have opinions” (Mazzer / EK-style)</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q3: Espresso machine (conditional) -->
+        <fieldset class="question" data-q="machine" data-conditional="espresso">
+          <legend>If you make espresso, what machine is closest to yours?</legend>
+          <div class="question-gif">
+            <picture>
+              <source srcset="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" type="image/gif">
+              <img src="Assets/espresso_fallback.jpg" alt="Espresso machine" loading="lazy" />
+            </picture>
+          </div>
+          <div class="options" role="radiogroup" aria-label="Espresso machine tier">
+            <div class="option">
+              <input type="radio" id="mach-entry" name="machine" value="entry">
+              <label for="mach-entry">Beginner / entry (Bambino, Dedica, basic single boiler)</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="mach-capable" name="machine" value="capable">
+              <label for="mach-capable">Capable home (Gaggia Classic, Silvia, Barista Express/Pro)</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="mach-advanced" name="machine" value="advanced">
+              <label for="mach-advanced">Advanced / prosumer (Dual boiler or HX, incl. Breville Dual Boiler)</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="mach-elite" name="machine" value="elite">
+              <label for="mach-elite">Elite / café-tier (La Marzocco Linea, E61 w/ flow control, etc.)</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="mach-notsure" name="machine" value="not-sure">
+              <label for="mach-notsure">Not sure (fair)</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q4: Milk -->
         <fieldset class="question" data-q="milk">
           <legend>Do you drink it with milk?</legend>
           <div class="question-gif">
@@ -109,7 +177,7 @@
           </div>
         </fieldset>
 
-        <!-- Q3 -->
+        <!-- Q5: Flavour -->
         <fieldset class="question" data-q="flavour">
           <legend>What flavours do you enjoy?</legend>
           <div class="question-gif">
@@ -138,7 +206,7 @@
           </div>
         </fieldset>
 
-        <!-- Q4 -->
+        <!-- Q6: Roast -->
         <fieldset class="question" data-q="roast">
           <legend>How dark do you like your roast?</legend>
           <div class="question-gif">
@@ -167,52 +235,31 @@
           </div>
         </fieldset>
 
-        <!-- Q5 -->
-        <fieldset class="question" data-q="acidity">
-          <legend>How do you feel about acidity?</legend>
+        <!-- Q7: Workflow -->
+        <fieldset class="question" data-q="workflow">
+          <legend>How hands-on are you when it comes to dialing in?</legend>
           <div class="question-gif">
             <picture>
-              <source srcset="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbDg0MWd2bGszcHczaXB5MTVoeW1yMDFoamNsYzdxa2ZpYXBpemt3diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8cN6wDcWdzEGBsIRya/giphy.gif" type="image/gif">
-              <img src="Assets/acidity_fallback.jpg" alt="Coffee pour" loading="lazy" />
+              <source srcset="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" type="image/gif">
+              <img src="Assets/latteart_fallback.jpg" alt="Coffee workflow" loading="lazy" />
             </picture>
           </div>
-          <div class="options" role="radiogroup" aria-label="Acidity preference">
+          <div class="options" role="radiogroup" aria-label="Workflow confidence">
             <div class="option">
-              <input type="radio" id="acid-love" name="acidity" value="love" required>
-              <label for="acid-love">Love it — bright & lively</label>
+              <input type="radio" id="wf-set" name="workflow" value="set-and-forget" required>
+              <label for="wf-set">Set-and-forget. I want it easy.</label>
             </div>
             <div class="option">
-              <input type="radio" id="acid-moderate" name="acidity" value="moderate">
-              <label for="acid-moderate">A little is fine</label>
+              <input type="radio" id="wf-some" name="workflow" value="some">
+              <label for="wf-some">I’ll tweak a little if it’s off.</label>
             </div>
             <div class="option">
-              <input type="radio" id="acid-low" name="acidity" value="low">
-              <label for="acid-low">Low acidity please</label>
-            </div>
-          </div>
-        </fieldset>
-
-        <!-- Q6 -->
-        <fieldset class="question" data-q="level">
-          <legend>How serious are you about coffee?</legend>
-          <div class="question-gif">
-            <picture>
-              <source srcset="https://i.pinimg.com/originals/0c/6e/89/0c6e899de70d7f175b8476d1b0ab6443.gif" type="image/gif">
-              <img src="Assets/latteart_fallback.jpg" alt="Latte art" loading="lazy" />
-            </picture>
-          </div>
-          <div class="options" role="radiogroup" aria-label="Experience level">
-            <div class="option">
-              <input type="radio" id="lvl-casual" name="level" value="casual" required>
-              <label for="lvl-casual">Casual drinker</label>
+              <input type="radio" id="wf-regular" name="workflow" value="regular">
+              <label for="wf-regular">I dial in properly. I like repeatable results.</label>
             </div>
             <div class="option">
-              <input type="radio" id="lvl-enth" name="level" value="enthusiast">
-              <label for="lvl-enth">Enthusiast</label>
-            </div>
-            <div class="option">
-              <input type="radio" id="lvl-pro" name="level" value="pro">
-              <label for="lvl-pro">I’m basically a barista</label>
+              <input type="radio" id="wf-nerd" name="workflow" value="nerd">
+              <label for="wf-nerd">Nerd mode. I own scales… and opinions.</label>
             </div>
           </div>
         </fieldset>
@@ -220,7 +267,7 @@
         <!-- Controls -->
         <div class="quiz-controls">
           <button type="button" id="prevBtn" class="quiz-btn secondary" disabled>Previous</button>
-          <button type="button" id="nextBtn" class="quiz-btn primary" disabled>Next</button>
+          <button type="button" id="nextBtn" class="quiz-btn primary">Next</button>
           <button type="submit" id="submitBtn" class="quiz-btn primary hidden" disabled>Show my match →</button>
         </div>
 
@@ -247,7 +294,7 @@
   </section>
 
   <script>
-    // Greeting
+    // Greeting (NOTE: this calls a 3rd-party IP geolocation service)
     (async () => {
       const el = document.getElementById('greeting');
       let city = null;
@@ -268,9 +315,11 @@
       el.innerHTML = `<strong>${msg}</strong><span class="tip">No jargon. No account. Just taste.</span>`;
     })();
 
-    // -------------------- Supabase setup (safe) --------------------
-    const SUPABASE_URL = "YOUR_PROJECT_URL";
-    const SUPABASE_ANON_KEY = "YOUR_ANON_KEY";
+    // Supabase setup
+    // - SUPABASE_URL: Project Settings → API → Data API → Project URL
+    // - SUPABASE_ANON_KEY: Project Settings → API → API Keys → Publishable key
+    const SUPABASE_URL = "https://opledkjivawysybvbqxe.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_FxH-YkKnC8mZD8R0hSgXEg_mgrR20K_";
 
     let sb = null;
     try {
@@ -286,25 +335,21 @@
       }
     } catch (err) {
       console.warn("Supabase init failed (quiz still works):", err);
-      sb = null;
     }
 
-    const safeId = () => {
-      try {
-        if (window.crypto && typeof window.crypto.randomUUID === "function") return window.crypto.randomUUID();
-      } catch (_) {}
-      return "sid_" + Date.now() + "_" + Math.random().toString(16).slice(2);
-    };
-
-    const sessionId = localStorage.getItem("brewlio_sid") || (() => {
-      const id = safeId();
-      localStorage.setItem("brewlio_sid", id);
+    const sessionId = (() => {
+      const key = "brewlio_sid";
+      let id = localStorage.getItem(key);
+      if (!id) {
+        id = crypto.randomUUID?.() || Date.now().toString(36) + Math.random().toString(36).slice(2);
+        localStorage.setItem(key, id);
+      }
       return id;
     })();
 
-    // -------------------- Quiz logic --------------------
+    // Quiz logic with conditional questions
     const form = document.getElementById('coffeeQuiz');
-    const questions = Array.from(document.querySelectorAll('.question'));
+    const allQuestions = Array.from(document.querySelectorAll('.question'));
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const submitBtn = document.getElementById('submitBtn');
@@ -316,19 +361,45 @@
     const errorText = document.getElementById('errorText');
     const retakeBtn = document.getElementById('retakeBtn');
 
-    let currentQuestion = 0;
+    let currentIndex = 0;
+    let activeQuestions = [];
 
-    function total() { return questions.length; }
+    function getAnswer(name) {
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    }
 
-    function isAnswered(n) {
-      return !!questions[n].querySelector('input[type="radio"]:checked');
+    function rebuildActiveQuestions() {
+      const brew = getAnswer('brew');
+      activeQuestions = allQuestions.filter(q => {
+        const cond = q.getAttribute('data-conditional');
+        if (!cond) return true;
+        return cond === brew;
+      });
+
+      const machineFieldset = allQuestions.find(q => q.getAttribute('data-q') === 'machine');
+      if (machineFieldset) {
+        const inputs = machineFieldset.querySelectorAll('input[type="radio"]');
+        const isActive = activeQuestions.includes(machineFieldset);
+        inputs.forEach(i => i.required = isActive);
+        if (!isActive) inputs.forEach(i => i.checked = false);
+      }
+
+      currentIndex = Math.min(currentIndex, activeQuestions.length - 1);
+    }
+
+    function total() { return activeQuestions.length; }
+
+    function isAnswered(idx) {
+      const q = activeQuestions[idx];
+      return !!q.querySelector('input[type="radio"]:checked');
     }
 
     function setButtons() {
-      prevBtn.disabled = currentQuestion === 0;
+      prevBtn.disabled = currentIndex === 0;
 
-      const last = currentQuestion === total() - 1;
-      const answered = isAnswered(currentQuestion);
+      const last = currentIndex === total() - 1;
+      const answered = isAnswered(currentIndex);
 
       nextBtn.classList.toggle('hidden', last);
       submitBtn.classList.toggle('hidden', !last);
@@ -336,95 +407,135 @@
       nextBtn.disabled = !answered;
       submitBtn.disabled = !answered;
 
-      stepText.textContent = `Question ${currentQuestion + 1} of ${total()}`;
+      stepText.textContent = `Question ${currentIndex + 1} of ${total()}`;
       stepHint.textContent = answered ? 'Nice — continue' : 'Pick one to continue';
     }
 
-    function showQuestion(n) {
-      questions.forEach((q, i) => q.classList.toggle('active', i === n));
+    function showQuestion(idx) {
+      allQuestions.forEach(q => q.classList.remove('active'));
+      activeQuestions[idx].classList.add('active');
+
       errorText.textContent = '';
-      progress.style.width = `${((n + 1) / total()) * 100}%`;
+      progress.style.width = `${((idx + 1) / total()) * 100}%`;
       setButtons();
-      questions[n].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      activeQuestions[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // Enable buttons when user selects an option
     form.addEventListener('change', (e) => {
-      if (e.target && e.target.matches('input[type="radio"]')) setButtons();
+      if (!e.target.matches('input[type="radio"]')) return;
+
+      if (e.target.name === 'brew') {
+        rebuildActiveQuestions();
+        showQuestion(currentIndex);
+        return;
+      }
+
+      setButtons();
     });
 
     nextBtn.addEventListener('click', () => {
-      if (!isAnswered(currentQuestion)) {
+      if (!isAnswered(currentIndex)) {
         errorText.textContent = 'Pick an option to continue.';
         return;
       }
-      currentQuestion = Math.min(total() - 1, currentQuestion + 1);
-      showQuestion(currentQuestion);
+      currentIndex++;
+      showQuestion(currentIndex);
     });
 
     prevBtn.addEventListener('click', () => {
-      currentQuestion = Math.max(0, currentQuestion - 1);
-      showQuestion(currentQuestion);
+      currentIndex--;
+      showQuestion(currentIndex);
     });
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      if (!isAnswered(currentQuestion)) {
+      if (!isAnswered(currentIndex)) {
         errorText.textContent = 'Pick an option to see your match.';
         return;
       }
 
       const data = new FormData(form);
-      const answers = Object.fromEntries(data);
+      const a = Object.fromEntries(data);
+
+      const brew = a.brew || 'other';
+      const grinder = a.grinder || 'pre-ground';
+      const machine = a.machine || 'not-sure';
+      const workflow = a.workflow || 'some';
 
       let roast = 'medium';
-      let style = 'balanced & smooth';
+      let style = 'balanced & sweet';
+      let notes = [];
 
-      if (answers.brew === 'espresso' || answers.brew === 'stovetop') roast = 'medium-dark';
-      if (answers.brew === 'pour-over') roast = 'light';
-      if (answers.roast === 'light') roast = 'light';
-      if (answers.roast === 'dark') roast = 'dark';
+      if (a.flavour === 'fruity') style = 'bright & fruity — think Ethiopian / Kenyan';
+      if (a.flavour === 'chocolate') style = 'chocolatey & nutty — think Colombian / Brazilian';
+      if (a.flavour === 'balanced') style = 'balanced & sweet — classic crowd-pleaser';
+      if (a.flavour === 'bold') style = 'bold & intense — think robust blend / Indonesian';
 
-      if (answers.flavour === 'fruity' || answers.acidity === 'love') style = 'bright & fruity (think Ethiopian / Kenyan)';
-      if (answers.flavour === 'chocolate') style = 'chocolatey & nutty (think Colombian / Brazilian)';
-      if (answers.flavour === 'balanced') style = 'balanced & sweet (classic crowd-pleaser)';
-      if (answers.flavour === 'bold') style = 'bold & intense (robust blend / Indonesian)';
+      if (a.roast === 'light') roast = 'light';
+      if (a.roast === 'dark') roast = 'dark';
+      if (a.roast === 'any') roast = 'medium';
 
-      if (answers.milk === 'always' && roast === 'light') roast = 'medium';
-      if (answers.milk === 'always') roast = 'medium-dark';
+      const weakGrinder = ['pre-ground', 'blade'].includes(grinder);
+      if (weakGrinder && roast === 'light') {
+        roast = 'medium-dark';
+        notes.push("Light roasts need consistent grind — with pre-ground or blade, they often taste sour. Going medium-dark for reliability.");
+      }
+
+      if (a.milk === 'always' && roast === 'light') {
+        roast = 'medium-dark';
+        notes.push("Milk tends to overwhelm the delicate notes in light roasts. Medium-dark gives body that plays better with milk.");
+      }
+
+      if (brew === 'pour-over' && roast === 'dark') {
+        roast = 'medium';
+        notes.push("Dark roasts can over-extract in filter and taste bitter. Medium keeps sweetness without harshness.");
+      }
+
+      if (brew === 'espresso') {
+        const entryMachine = ['entry', 'not-sure'].includes(machine);
+        if (entryMachine && roast === 'light') {
+          roast = 'medium';
+          notes.push("Light roasts are tricky on entry-level espresso machines — uneven extraction is common. Medium is more forgiving.");
+        }
+      }
+
+      if (workflow === 'set-and-forget' && roast === 'light') {
+        roast = 'medium';
+        notes.push("Light roasts usually need more dialing in. Medium gives great results with less tweaking.");
+      }
+
+      if (a.milk === 'always') roast = roast === 'light' ? 'medium' : 'medium-dark';
+      if (brew === 'espresso' || brew === 'stovetop') roast = roast === 'medium' ? 'medium-dark' : roast;
 
       const recs = {
         light: {
           title: 'Light Roast',
-          line: `You’ll likely enjoy ${style}.`,
-          why: 'Light roasts lean into brightness and origin flavours — ideal for filter / pour-over.'
+          line: `You’ll probably love ${style}.`,
+          why: 'Light roasts highlight origin character and brightness — magic when your setup can extract them cleanly.'
         },
         medium: {
           title: 'Medium Roast',
-          line: `You’ll likely enjoy ${style}.`,
-          why: 'Medium roasts balance sweetness and body — versatile for most brew methods.'
+          line: `You’ll probably like ${style}.`,
+          why: 'The sweet spot: interesting, forgiving, works across most setups and with/without milk.'
         },
         'medium-dark': {
           title: 'Medium-Dark Roast',
-          line: `You’ll likely enjoy richer, fuller-bodied coffee (${style}).`,
-          why: 'Great with milk. More body and chocolate notes, less sharpness.'
+          line: `You’ll probably enjoy richer, fuller-bodied coffee — ${style}.`,
+          why: 'Great body and chocolate notes — reliable even with simpler grinders or milk drinks.'
         },
         dark: {
           title: 'Dark Roast',
-          line: 'You’ll likely enjoy bold, intense, lower-acidity coffee.',
-          why: 'Classic espresso style — heavy body, roast-forward flavour, forgiving with milk.'
+          line: 'You’ll probably enjoy bold, classic coffee.',
+          why: 'Heavy body, low acidity — very forgiving, especially for espresso + milk.'
         }
       };
 
       const pick = recs[roast] || recs.medium;
 
-      const brewText = (answers.brew || 'brew method').replace('-', ' ');
-      const milkText =
-        answers.milk === 'black'
-          ? 'black'
-          : (answers.milk === 'always' ? 'with milk' : 'either black or with milk');
+      const brewText = brew.replace('-', ' ');
+      const milkText = a.milk === 'black' ? 'black' : (a.milk === 'always' ? 'with milk' : 'either');
 
-      recommendation.innerHTML = `
+      let html = `
         <div class="result-card">
           <p class="rec-title">Your match:</p>
           <h3>${pick.title}</h3>
@@ -433,36 +544,47 @@
           <div class="why-box">
             <p class="why-title">Why this fits you</p>
             <p>${pick.why}</p>
-            <p class="why-meta">Optimised for <strong>${brewText}</strong> and drinking it <strong>${milkText}</strong>.</p>
+            <p class="why-meta">
+              Built for <strong>${brewText}</strong>, drinking it <strong>${milkText}</strong>,
+              with a <strong>${grinder.replace('-', ' ')}</strong> grinder.
+            </p>
           </div>
+      `;
 
-          <p class="small">Coming soon: direct links to Melbourne roasters that match this exact profile.</p>
+      if (notes.length > 0) {
+        html += `
+          <div class="why-box" style="background:rgba(255,52,0,0.08); border:1px solid rgba(255,52,0,0.2);">
+            <p class="why-title" style="color:var(--brand);">A note from experience</p>
+            <ul style="text-align:left; margin:10px 0; padding-left:20px;">
+              ${notes.map(n => `<li>${n}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+      }
+
+      html += `
+          <p class="small">Coming soon: direct links to Melbourne roasters that match this profile.</p>
         </div>
       `;
 
-      // Supabase insert (non-blocking)
-      try {
-        if (sb) {
-          sb.from("quiz_events").insert({
-            created_at: new Date().toISOString(),
-            session_id: sessionId,
-            page: "quiz",
-            answers: answers,
-            result: {
-              roast: roast,
-              style: style,
-              pick_title: pick?.title || null,
-              brew_text: brewText,
-              milk_text: milkText
-            },
-            user_agent: navigator.userAgent,
-            referrer: document.referrer || null
-          }).then(({ error }) => {
-            if (error) console.warn("Supabase insert error:", error);
-          }).catch((err) => console.warn("Supabase insert failed:", err));
-        }
-      } catch (err) {
-        console.warn("Supabase insert crashed (quiz still ok):", err);
+      recommendation.innerHTML = html;
+
+      // Supabase insert (INSERT-only; RLS must allow anon inserts)
+      // NOTE: we store page as location.pathname to work on GitHub Pages subpaths
+      if (sb) {
+        const payload = {
+          session_id: sessionId,
+          page: location.pathname,
+          answers: a,
+          derived: { roast, style, brew, grinder, machine }
+        };
+
+        sb.from("quiz_events").insert(payload)
+          .then(({ data, error }) => {
+            console.log("Supabase insert:", { data, error });
+            if (error) console.warn("Supabase error:", error);
+          })
+          .catch(err => console.warn("Supabase failed:", err));
       }
 
       results.classList.remove('hidden');
@@ -474,11 +596,15 @@
       form.reset();
       results.classList.add('hidden');
       form.classList.remove('hidden');
-      currentQuestion = 0;
-      showQuestion(0);
+      currentIndex = 0;
+      rebuildActiveQuestions();
+      showQuestion(currentIndex);
     });
 
+    // Init
+    rebuildActiveQuestions();
     showQuestion(0);
   </script>
 </body>
 </html>
+```
