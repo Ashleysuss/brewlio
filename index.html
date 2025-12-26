@@ -1,13 +1,11 @@
-<!-- =========================
-     index.html (FULL FILE)
-     ========================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Brewlio — Coffee, matched to your taste</title>
+  <title>Brewlio - Coffee that just makes sense</title>
 
+  <meta name="description" content="Brewlio matches you to coffee beans that fit your grinder, machine, and taste. No jargon. No signup. 60 seconds." />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
 </head>
@@ -22,32 +20,35 @@
       <a href="#partner">Roasters</a>
     </nav>
 
-    <!-- Text logo (wordmark) -->
+    <!-- Wordmark -->
     <a href="index.html" class="logo logo-link" aria-label="Brewlio home">
-      <span class="logo-main">BREWLIO</span>
-      <span class="logo-sub">coffee, matched to your taste</span>
+      <span class="logo-row">
+        <span class="logo-mark" aria-hidden="true">☕</span>
+        <span class="logo-main">BREWLIO</span>
+      </span>
+      <span class="logo-sub">coffee that just makes sense</span>
     </a>
   </header>
 
   <!-- Greeting -->
   <div id="greeting" class="greeting" aria-live="polite">
-    <strong>Let’s fix your next coffee bag.</strong>
-    <span class="tip">60 seconds. No jargon. No signup.</span>
+    <strong>Finding your coffee match…</strong>
+    <span class="tip">No jargon. No account. 60 seconds.</span>
   </div>
 
   <!-- Hero -->
   <section class="hero" aria-label="Hero">
     <img src="Assets/23_12_25coffee machine.gif" alt="Pouring coffee" class="hero-img" loading="lazy" />
     <div class="hero-content">
-      <h1>Find a coffee you’ll actually finish.</h1>
+      <h1>Stop guessing. Start enjoying your coffee.</h1>
 
       <p class="lede">
-        Tell us how you brew and what you like. We’ll match you to beans that fit.
-        <br><span class="lede-sub">Free. No signup. Retake anytime.</span>
+        Bean picks based on your <em>setup</em> + your taste — not weird roast poetry.
+        <br><span class="lede-sub">Free. No account. Retake anytime.</span>
       </p>
 
       <div class="hero-cta">
-        <a href="quiz.html" class="btn-primary">Get my match →</a>
+        <a href="quiz.html" class="btn-primary">Get my recommendations →</a>
       </div>
 
       <p class="micro-proof">
@@ -61,34 +62,33 @@
     <h2>How it works</h2>
 
     <p class="section-lede">
-      Buying coffee shouldn’t feel like a gamble.
-      <br>Answer a few quick questions. We’ll do the matching.
+      Coffee shouldn’t feel like a gamble.
+      <br>We cut the jargon and match you to beans that actually fit <i>you</i>.
     </p>
 
     <div class="tiles">
       <a href="quiz.html" class="tile">
         <div class="emoji" aria-hidden="true">⏱️</div>
         <h3>60 seconds</h3>
-        <p>Quick questions. Zero coffee-snob energy.</p>
+        <p>Quick questions. Nothing pretentious.</p>
       </a>
 
       <a href="quiz.html" class="tile">
-        <div class="emoji" aria-hidden="true">😋</div>
-        <h3>Your taste</h3>
-        <p>Tell us what you like (and what you don’t). “Not sure” counts.</p>
+        <div class="emoji" aria-hidden="true">⚙️</div>
+        <h3>Your setup</h3>
+        <p>Grinder + machine matter. We account for it.</p>
       </a>
 
       <a href="quiz.html" class="tile">
         <div class="emoji" aria-hidden="true">🎯</div>
         <h3>Matched beans</h3>
-        <p>We match you to a roast style that fits your taste and your brew.</p>
+        <p>Clear picks based on brew style + flavour prefs.</p>
       </a>
     </div>
 
-    <!-- CTA is OUTSIDE tiles -->
     <div class="center-cta">
       <a href="quiz.html" class="btn-primary">Take the quiz →</a>
-      <p class="micro-note">There’s no “best” coffee. Just what you’ll actually like.</p>
+      <p class="micro-note">There’s no “best” coffee — only the one you’ll actually finish.</p>
     </div>
   </section>
 
@@ -96,13 +96,14 @@
   <section class="right-coffee" aria-label="Why it matters">
     <div class="right-coffee-grid">
       <div class="right-coffee-text">
-        <h2>One good bag changes everything</h2>
+        <h2>The right coffee changes everything</h2>
         <p>
-          One good bag feels effortless.<br>
-          No half-finished bags. No “I’ll learn to like it.” Just coffee that fits.
+          One great bag feels effortless.<br>
+          No half-finished bags. No “maybe I’ll learn to like it.”
+          Just coffee that fits.
         </p>
         <br>
-        <a href="quiz.html" class="btn-primary">Find my match →</a>
+        <a href="quiz.html" class="btn-primary">Find my coffee match →</a>
       </div>
 
       <div class="right-coffee-gif">
@@ -113,9 +114,9 @@
 
   <!-- Carousel -->
   <section class="featured" id="shop" aria-label="Featured roasts">
-    <h2>Roasts you’ll probably like</h2>
+    <h2>Roasts we think you’ll like</h2>
     <p class="section-lede">
-      A preview of what you’ll get after the quiz: simple matches, based on your taste.
+      A preview of the kinds of picks you’ll get after the quiz: clear matches, tailored to taste.
     </p>
 
     <div class="carousel" role="region" aria-label="Roast carousel">
@@ -135,79 +136,71 @@
     </div>
 
     <div class="center-cta">
-      <a href="quiz.html" class="btn-primary">Get my match →</a>
+      <a href="quiz.html" class="btn-primary">Get my recommendations →</a>
     </div>
   </section>
 
   <!-- Why local -->
   <section class="why-melbourne" id="why" aria-label="Why local matters">
     <h2>Why local matters</h2>
-    <p>Fresher beans. Less waiting. More consistency. Less hype.</p>
-    <p class="micro-note">We start Melbourne-first because it’s the easiest way to stay fresh.</p>
+    <p>Fresher beans. Shorter time from roast to cup. More consistency. Less hype.</p>
+    <p class="micro-note">Melbourne-first because freshness and quality are easier to control.</p>
   </section>
 
   <!-- Roasters -->
   <section class="partner" id="partner" aria-label="Roasters">
-    <h2>Roaster?</h2>
-    <p>Roast in Melbourne and want in? Send a note. We keep it quality-first.</p>
+    <h2>Are you a roaster?</h2>
+    <p>If you roast in Melbourne and want to be included in matches, send a note — we’re keeping this quality-first.</p>
     <a href="mailto:hello@brewlio.com" class="btn-secondary">Email us</a>
   </section>
 
   <!-- Footer -->
   <footer>
-    <p>Brewlio — coffee, matched to your taste.<br>
-    <small>Built with caffeine and a strong dislike for guesswork.</small></p>
+    <p>Brewlio — coffee that just makes sense.<br>
+    <small>Built with too much caffeine and not enough sleep.</small></p>
   </footer>
 
   <script>
-    // Greeting
-    (async () => {
+    // Greeting (FIXED: no third-party IP lookup; removes CORS + 429 errors)
+    (() => {
       const el = document.getElementById('greeting');
-      let city = null;
-
-      try {
-        const r = await fetch('https://ipapi.co/json/');
-        if (r.ok) {
-          const data = await r.json();
-          if (data && data.city) city = data.city;
-        }
-      } catch (_) {}
 
       const h = new Date().getHours();
-      const time = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      const time = new Date().toLocaleTimeString([], { hour: 'numeric' });
+
+      const group = (h >= 18 || h < 5) ? 'night' : (h < 12 ? 'morning' : 'day');
 
       const messages = {
         night: [
-          `It’s late${city ? ` in ${city}` : ''}. Maybe switch to decaf… or embrace the chaos.`,
-          `After 6pm${city ? ` in ${city}` : ''} and still sipping espresso? Bold move.`,
-          `Evening${city ? ` in ${city}` : ''}. One more shot won’t hurt… right?`
+          `After ${time} and still sipping espresso? Bold move.`,
+          `Evening coffee? Respect. Let’s make it a good one.`,
+          `Late coffee energy. Let’s find a bag you’ll actually finish.`
         ],
         morning: [
-          `Morning${city ? `, ${city}` : ''}. Milk coffees before noon? Completely allowed.`,
-          `Good morning${city ? `, ${city}` : ''}. It’s cappuccino weather.`,
-          `${city ? `${city} sunrise` : "Sun's up"}. Flat white time.`
+          `Morning. Let’s make your first cup count.`,
+          `Good morning. Flat white o’clock.`,
+          `Sun’s up. Time to upgrade your beans.`
         ],
         day: [
-          `Hey${city ? `, ${city}` : ''}. Ready for better coffee?`,
-          `It’s ${time}${city ? ` in ${city}` : ''}. Your next bag can be way better.`,
-          `Good ${h < 12 ? 'morning' : 'afternoon'}${city ? `, ${city}` : ''}. Let’s find your match.`
+          `Ready for better coffee?`,
+          `Your next bag can be way better.`,
+          `Quick quiz → better coffee. No jargon.`
         ]
       };
 
       const tips = {
         night: `Tip: Good decaf + oat milk is surprisingly excellent.`,
         morning: `Tip: If you’re unsure, start medium roast and adjust from there.`,
-        day: `Tip: Light roast for filter. Darker for espresso. Simple rule.`
+        day: `Tip: Grinder upgrade beats “fancier beans” 9 times out of 10.`
       };
 
-      const group = (h >= 18 || h < 5) ? 'night' : (h < 12 ? 'morning' : 'day');
       const msg = messages[group][Math.floor(Math.random() * messages[group].length)];
       const tip = tips[group];
 
       el.innerHTML = `<strong>${msg}</strong><span class="tip">${tip}</span>`;
     })();
 
-    // Carousel (improved bounds + aria)
+    // Carousel (bounds + aria)
     const track = document.querySelector('.carousel-track');
     const prev = document.querySelector('.carousel-btn.prev');
     const next = document.querySelector('.carousel-btn.next');
@@ -243,10 +236,7 @@
     container.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
     container.addEventListener('touchend', e => {
       const diff = startX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 50) {
-        if (diff > 0) next.click();
-        else prev.click();
-      }
+      if (Math.abs(diff) > 50) (diff > 0 ? next : prev).click();
     });
 
     window.addEventListener('resize', slide);

@@ -279,8 +279,8 @@
         <p id="errorText" class="quiz-error" role="status" aria-live="polite"></p>
       </form>
 
-      <!-- Results -->
-      <div id="results" class="results hidden">
+      <!-- Results (hidden by default; only shown after completion) -->
+      <div id="results" class="results" hidden>
         <h2>Your coffee match</h2>
         <p class="results-lede">Here's what fits your taste — and why.</p>
         <div id="recommendation"></div>
@@ -295,15 +295,13 @@
   </section>
 
   <script>
-    // Greeting (updated: no third-party IP lookup; avoids CORS/429 + privacy concerns)
+    // Greeting (privacy-friendly)
     (() => {
       const el = document.getElementById('greeting');
       el.innerHTML = `<strong>Almost there. Pick what sounds like you.</strong><span class="tip">No jargon. No account. Just taste.</span>`;
     })();
 
     // Supabase setup
-    // - SUPABASE_URL: Project Settings → API → Data API → Project URL
-    // - SUPABASE_ANON_KEY: Project Settings → API → API Keys → Publishable key
     const SUPABASE_URL = "https://opledkjivawysybvbqxe.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_FxH-YkKnC8mZD8R0hSgXEg_mgrR20K_";
 
@@ -314,7 +312,7 @@
         SUPABASE_URL.startsWith("http") &&
         SUPABASE_URL.includes("supabase.co") &&
         typeof SUPABASE_ANON_KEY === "string" &&
-        SUPABASE_ANON_KEY.length > 10; // relaxed: publishable keys can be short
+        SUPABASE_ANON_KEY.length > 10;
 
       if (looksValid && window.supabase?.createClient) {
         sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -350,8 +348,15 @@
     const errorText = document.getElementById('errorText');
     const retakeBtn = document.getElementById('retakeBtn');
 
+    // Ensure initial state
+    results.hidden = true;
+    form.hidden = false;
+
     let currentIndex = 0;
     let activeQuestions = [];
+
+    // ✅ submit lock to prevent duplicates
+    let isSubmitting = false;
 
     function getAnswer(name) {
       const el = form.querySelector(`input[name="${name}"]:checked`);
@@ -436,156 +441,180 @@
       showQuestion(currentIndex);
     });
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // ✅ block double submit
+      if (isSubmitting) return;
+
       if (!isAnswered(currentIndex)) {
         errorText.textContent = 'Pick an option to see your match.';
         return;
       }
 
-      const data = new FormData(form);
-      const a = Object.fromEntries(data);
+      isSubmitting = true;
+      submitBtn.disabled = true;
+      const originalSubmitText = submitBtn.textContent;
+      submitBtn.textContent = "Saving…";
 
-      const brew = a.brew || 'other';
-      const grinder = a.grinder || 'pre-ground';
-      const machine = a.machine || 'not-sure';
-      const workflow = a.workflow || 'some';
+      // ✅ unique per submission (so DB can dedupe)
+      const submissionId = crypto.randomUUID?.()
+        || (Date.now().toString(36) + Math.random().toString(36).slice(2));
 
-      let roast = 'medium';
-      let style = 'balanced & sweet';
-      let notes = [];
+      try {
+        const data = new FormData(form);
+        const a = Object.fromEntries(data);
 
-      if (a.flavour === 'fruity') style = 'bright & fruity — think Ethiopian / Kenyan';
-      if (a.flavour === 'chocolate') style = 'chocolatey & nutty — think Colombian / Brazilian';
-      if (a.flavour === 'balanced') style = 'balanced & sweet — classic crowd-pleaser';
-      if (a.flavour === 'bold') style = 'bold & intense — think robust blend / Indonesian';
+        const brew = a.brew || 'other';
+        const grinder = a.grinder || 'pre-ground';
+        const machine = a.machine || 'not-sure';
+        const workflow = a.workflow || 'some';
 
-      if (a.roast === 'light') roast = 'light';
-      if (a.roast === 'dark') roast = 'dark';
-      if (a.roast === 'any') roast = 'medium';
+        let roast = 'medium';
+        let style = 'balanced & sweet';
+        let notes = [];
 
-      const weakGrinder = ['pre-ground', 'blade'].includes(grinder);
-      if (weakGrinder && roast === 'light') {
-        roast = 'medium-dark';
-        notes.push("Light roasts need consistent grind — with pre-ground or blade, they often taste sour. Going medium-dark for reliability.");
-      }
+        if (a.flavour === 'fruity') style = 'bright & fruity — think Ethiopian / Kenyan';
+        if (a.flavour === 'chocolate') style = 'chocolatey & nutty — think Colombian / Brazilian';
+        if (a.flavour === 'balanced') style = 'balanced & sweet — classic crowd-pleaser';
+        if (a.flavour === 'bold') style = 'bold & intense — think robust blend / Indonesian';
 
-      if (a.milk === 'always' && roast === 'light') {
-        roast = 'medium-dark';
-        notes.push("Milk tends to overwhelm the delicate notes in light roasts. Medium-dark gives body that plays better with milk.");
-      }
+        if (a.roast === 'light') roast = 'light';
+        if (a.roast === 'dark') roast = 'dark';
+        if (a.roast === 'any') roast = 'medium';
 
-      if (brew === 'pour-over' && roast === 'dark') {
-        roast = 'medium';
-        notes.push("Dark roasts can over-extract in filter and taste bitter. Medium keeps sweetness without harshness.");
-      }
+        const weakGrinder = ['pre-ground', 'blade'].includes(grinder);
+        if (weakGrinder && roast === 'light') {
+          roast = 'medium-dark';
+          notes.push("Light roasts need consistent grind — with pre-ground or blade, they often taste sour. Going medium-dark for reliability.");
+        }
 
-      if (brew === 'espresso') {
-        const entryMachine = ['entry', 'not-sure'].includes(machine);
-        if (entryMachine && roast === 'light') {
+        if (a.milk === 'always' && roast === 'light') {
+          roast = 'medium-dark';
+          notes.push("Milk tends to overwhelm the delicate notes in light roasts. Medium-dark gives body that plays better with milk.");
+        }
+
+        if (brew === 'pour-over' && roast === 'dark') {
           roast = 'medium';
-          notes.push("Light roasts are tricky on entry-level espresso machines — uneven extraction is common. Medium is more forgiving.");
+          notes.push("Dark roasts can over-extract in filter and taste bitter. Medium keeps sweetness without harshness.");
         }
-      }
 
-      if (workflow === 'set-and-forget' && roast === 'light') {
-        roast = 'medium';
-        notes.push("Light roasts usually need more dialing in. Medium gives great results with less tweaking.");
-      }
-
-      if (a.milk === 'always') roast = roast === 'light' ? 'medium' : 'medium-dark';
-      if (brew === 'espresso' || brew === 'stovetop') roast = roast === 'medium' ? 'medium-dark' : roast;
-
-      const recs = {
-        light: {
-          title: 'Light Roast',
-          line: `You’ll probably love ${style}.`,
-          why: 'Light roasts highlight origin character and brightness — magic when your setup can extract them cleanly.'
-        },
-        medium: {
-          title: 'Medium Roast',
-          line: `You’ll probably like ${style}.`,
-          why: 'The sweet spot: interesting, forgiving, works across most setups and with/without milk.'
-        },
-        'medium-dark': {
-          title: 'Medium-Dark Roast',
-          line: `You’ll probably enjoy richer, fuller-bodied coffee — ${style}.`,
-          why: 'Great body and chocolate notes — reliable even with simpler grinders or milk drinks.'
-        },
-        dark: {
-          title: 'Dark Roast',
-          line: 'You’ll probably enjoy bold, classic coffee.',
-          why: 'Heavy body, low acidity — very forgiving, especially for espresso + milk.'
+        if (brew === 'espresso') {
+          const entryMachine = ['entry', 'not-sure'].includes(machine);
+          if (entryMachine && roast === 'light') {
+            roast = 'medium';
+            notes.push("Light roasts are tricky on entry-level espresso machines — uneven extraction is common. Medium is more forgiving.");
+          }
         }
-      };
 
-      const pick = recs[roast] || recs.medium;
+        if (workflow === 'set-and-forget' && roast === 'light') {
+          roast = 'medium';
+          notes.push("Light roasts usually need more dialing in. Medium gives great results with less tweaking.");
+        }
 
-      const brewText = brew.replace('-', ' ');
-      const milkText = a.milk === 'black' ? 'black' : (a.milk === 'always' ? 'with milk' : 'either');
+        if (a.milk === 'always') roast = roast === 'light' ? 'medium' : 'medium-dark';
+        if (brew === 'espresso' || brew === 'stovetop') roast = roast === 'medium' ? 'medium-dark' : roast;
 
-      let html = `
-        <div class="result-card">
-          <p class="rec-title">Your match:</p>
-          <h3>${pick.title}</h3>
-          <p class="result-line">${pick.line}</p>
-
-          <div class="why-box">
-            <p class="why-title">Why this fits you</p>
-            <p>${pick.why}</p>
-            <p class="why-meta">
-              Built for <strong>${brewText}</strong>, drinking it <strong>${milkText}</strong>,
-              with a <strong>${grinder.replace('-', ' ')}</strong> grinder.
-            </p>
-          </div>
-      `;
-
-      if (notes.length > 0) {
-        html += `
-          <div class="why-box" style="background:rgba(255,52,0,0.08); border:1px solid rgba(255,52,0,0.2);">
-            <p class="why-title" style="color:var(--brand);">A note from experience</p>
-            <ul style="text-align:left; margin:10px 0; padding-left:20px;">
-              ${notes.map(n => `<li>${n}</li>`).join('')}
-            </ul>
-          </div>
-        `;
-      }
-
-      html += `
-          <p class="small">Coming soon: direct links to Melbourne roasters that match this profile.</p>
-        </div>
-      `;
-
-      recommendation.innerHTML = html;
-
-      // Supabase insert (now should run + log)
-      if (sb) {
-        const payload = {
-          session_id: sessionId,
-          page: location.pathname,
-          answers: a,
-          derived: { roast, style, brew, grinder, machine }
+        const recs = {
+          light: {
+            title: 'Light Roast',
+            line: `You’ll probably love ${style}.`,
+            why: 'Light roasts highlight origin character and brightness — magic when your setup can extract them cleanly.'
+          },
+          medium: {
+            title: 'Medium Roast',
+            line: `You’ll probably like ${style}.`,
+            why: 'The sweet spot: interesting, forgiving, works across most setups and with/without milk.'
+          },
+          'medium-dark': {
+            title: 'Medium-Dark Roast',
+            line: `You’ll probably enjoy richer, fuller-bodied coffee — ${style}.`,
+            why: 'Great body and chocolate notes — reliable even with simpler grinders or milk drinks.'
+          },
+          dark: {
+            title: 'Dark Roast',
+            line: 'You’ll probably enjoy bold, classic coffee.',
+            why: 'Heavy body, low acidity — very forgiving, especially for espresso + milk.'
+          }
         };
 
-        sb.from("quiz_events").insert(payload)
-          .then(({ data, error }) => {
-            console.log("Supabase insert:", { data, error });
-            if (error) console.warn("Supabase error:", error);
-          })
-          .catch(err => console.warn("Supabase failed:", err));
-      } else {
-        console.warn("Supabase client is null; skipping insert.");
-      }
+        const pick = recs[roast] || recs.medium;
 
-      results.classList.remove('hidden');
-      form.classList.add('hidden');
-      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const brewText = brew.replace('-', ' ');
+        const milkText = a.milk === 'black' ? 'black' : (a.milk === 'always' ? 'with milk' : 'either');
+
+        let html = `
+          <div class="result-card">
+            <p class="rec-title">Your match:</p>
+            <h3>${pick.title}</h3>
+            <p class="result-line">${pick.line}</p>
+
+            <div class="why-box">
+              <p class="why-title">Why this fits you</p>
+              <p>${pick.why}</p>
+              <p class="why-meta">
+                Built for <strong>${brewText}</strong>, drinking it <strong>${milkText}</strong>,
+                with a <strong>${grinder.replace('-', ' ')}</strong> grinder.
+              </p>
+            </div>
+        `;
+
+        if (notes.length > 0) {
+          html += `
+            <div class="why-box" style="background:rgba(255,52,0,0.08); border:1px solid rgba(255,52,0,0.2);">
+              <p class="why-title" style="color:var(--brand);">A note from experience</p>
+              <ul style="text-align:left; margin:10px 0; padding-left:20px;">
+                ${notes.map(n => `<li>${n}</li>`).join('')}
+              </ul>
+            </div>
+          `;
+        }
+
+        html += `
+            <p class="small">Coming soon: direct links to Melbourne roasters that match this profile.</p>
+          </div>
+        `;
+
+        recommendation.innerHTML = html;
+
+        // ✅ Show results / hide form
+        results.hidden = false;
+        form.hidden = true;
+        results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // ✅ Supabase insert (includes submission_id)
+        if (sb) {
+          const payload = {
+            submission_id: submissionId,
+            session_id: sessionId,
+            page: location.pathname,
+            answers: a,
+            derived: { roast, style, brew, grinder, machine }
+          };
+
+          const { data, error } = await sb.from("quiz_events").insert(payload);
+          console.log("Supabase insert:", { data, error });
+          if (error) console.warn("Supabase error:", error);
+        } else {
+          console.warn("Supabase client is null; skipping insert.");
+        }
+
+      } catch (err) {
+        console.warn("Submit failed:", err);
+      } finally {
+        // keep locked until retake; restore button text
+        submitBtn.textContent = originalSubmitText;
+      }
     });
 
     retakeBtn.addEventListener('click', () => {
+      // ✅ reset state so user can submit again
+      isSubmitting = false;
+
       form.reset();
-      results.classList.add('hidden');
-      form.classList.remove('hidden');
+      results.hidden = true;
+      form.hidden = false;
+
       currentIndex = 0;
       rebuildActiveQuestions();
       showQuestion(currentIndex);

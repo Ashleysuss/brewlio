@@ -20,6 +20,10 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ✅ Support both class-based hiding and native HTML hidden attribute */
+.hidden { display: none !important; }
+[hidden] { display: none !important; }
+
 body {
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   background: var(--bg);
@@ -69,6 +73,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
   justify-content: center;
   margin-top: 8px;
 }
+
 .nav-left a {
   color: #fff;
   text-decoration: none;
@@ -77,36 +82,57 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
   letter-spacing: 0.5px;
 }
 
-/* Logo — clickable but visually not hyperlinked */
+/* Logo link */
 .logo-link { text-decoration: none; color: inherit; }
-.logo-link:hover { color: inherit; text-decoration: none; opacity: 0.85; transition: opacity 0.2s; }
+.logo-link:hover { opacity: 0.88; transition: opacity 0.2s; }
 
-/* Logo (wordmark) */
+/* Wordmark */
 .logo {
   order: 1;
   display: flex;
   flex-direction: column;
   line-height: 1;
-  gap: 4px;
+  gap: 6px;
 }
+
+.logo-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-mark {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.22);
+  font-size: 16px;
+}
+
 .logo-main {
   font-weight: 950;
   font-size: 1.05rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+
 .logo-main::after {
   content: "•";
   color: var(--highlight);
   margin-left: 4px;
 }
+
 .logo-sub {
   font-size: 0.68rem;
   letter-spacing: 0.16em;
   opacity: 0.9;
   text-transform: lowercase;
 }
-/* Keep logo readable on the red bar */
+
 .t-bar .logo-main,
 .t-bar .logo-sub { color: #fff; }
 
@@ -278,14 +304,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 .tile:hover .emoji { transform: scale(1.15); }
 .emoji { font-size: 3.4rem; margin-bottom: 1rem; transition: .25s; }
 
-/* Make tiles clickable */
 .tiles a.tile {
   text-decoration: none;
   color: inherit;
   display: block;
 }
 
-/* The Right Coffee Module */
+/* Right Coffee */
 .right-coffee {
   padding: 140px 40px;
   background: var(--brand);
@@ -325,7 +350,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
   box-shadow: 0 30px 80px rgba(0,0,0,0.4);
 }
 
-/* Mobile stack for right-coffee */
 @media (max-width: 900px) {
   .right-coffee-grid { grid-template-columns: 1fr; gap: 60px; text-align: center; }
   .right-coffee-text { text-align: center; }
@@ -337,6 +361,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 /* Carousel */
 .featured { padding: 90px 20px; background: var(--bg); text-align: center; }
 .featured h2 { margin-bottom: 1rem; font-size: 2.4rem; font-weight: 900; }
+
 .carousel { position: relative; max-width: 1200px; margin: 0 auto; }
 .carousel-track-container { overflow: hidden; border-radius: 16px; }
 .carousel-track { display: flex; gap: 24px; transition: transform .45s ease; padding: 12px 0; }
@@ -386,12 +411,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
   .card { flex: 0 0 calc(100% - 16px); }
   .carousel-track { gap: 16px; }
 }
-
-/* Responsive cards */
 @media (min-width: 640px) { .card { flex: 0 0 calc(50% - 24px); } }
 @media (min-width: 1024px) { .card { flex: 0 0 calc(33.333% - 24px); } }
 
-/* Why Melbourne-first */
+/* Why local */
 .why-melbourne {
   padding: 110px 20px;
   text-align: center;
@@ -421,7 +444,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
   position: relative;
 }
 
-/* Independent roasters */
+/* Partner */
 .partner {
   padding: 110px 20px;
   text-align: center;
@@ -482,6 +505,7 @@ footer small {
 }
 
 .quiz-header h1 { text-align: center; font-size: 2.6rem; font-weight: 900; }
+
 .quiz-lede {
   font-size: 1.25rem;
   margin: 1rem 0 1.4rem;
@@ -536,7 +560,7 @@ footer small {
 
 /* Options */
 .options { display: flex; flex-direction: column; gap: 1rem; }
-.option { display: block; }
+.option { display: block; position: relative; }
 .option input {
   position: absolute;
   opacity: 0;
@@ -568,6 +592,7 @@ footer small {
   transform: translateY(-2px);
 }
 
+/* Controls */
 .quiz-controls {
   display: flex;
   justify-content: center;
@@ -589,10 +614,20 @@ footer small {
   justify-content: center;
   min-width: 170px;
 }
+
 .quiz-btn.primary { background: var(--highlight); color: white; }
 .quiz-btn.secondary { background: #eee; color: #111; }
-.quiz-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255,52,0,0.18); }
-.quiz-btn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; transform: none; }
+
+.quiz-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(255,52,0,0.18);
+}
+.quiz-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
 
 .progress-bar {
   height: 8px;
@@ -617,7 +652,14 @@ footer small {
 }
 
 /* Results */
-.results { text-align: center; margin-top: 1.2rem; }
+.results {
+  text-align: center;
+  margin-top: 1.2rem;
+}
+
+/* If you keep results in the DOM with hidden attribute, don't let it create layout gaps */
+.results[hidden] { display: none !important; }
+
 .results-lede { opacity: 0.85; margin: 10px 0 18px; }
 
 .rec-title { font-size: 1.2rem; opacity: 0.8; margin-bottom: 0.6rem; }
@@ -656,7 +698,6 @@ footer small {
   font-size: 0.98rem;
 }
 
-/* Center CTA on final screen */
 .results-actions {
   margin-top: 22px;
   display: flex;
@@ -665,40 +706,11 @@ footer small {
   align-items: center;
   flex-wrap: wrap;
 }
-.results-actions a,
-.results-actions button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-.results-actions .btn-primary,
+
+/* Make the retake button look “buttony” beside the primary */
 .results-actions .btn-secondary {
-  min-width: 210px;
+  cursor: pointer;
 }
-
-/* -------------------------------------------------------
-   ✅ QUIZ CTA RULE: Hide "Show my match" until LAST question
-   (CSS-only using :has())
--------------------------------------------------------- */
-
-/* Default: never show submit during quiz */
-#submitBtn { display: none !important; }
-
-/* Also default: Next is allowed */
-#nextBtn { display: inline-flex; }
-
-/* Only show submit when LAST question fieldset is active */
-#coffeeQuiz:has(.question:last-of-type.active) #submitBtn {
-  display: inline-flex !important;
-}
-
-/* On last question, hide Next so you don't get both */
-#coffeeQuiz:has(.question:last-of-type.active) #nextBtn {
-  display: none !important;
-}
-
-/* ------------------------------------------------------- */
 
 /* Mobile adjustments */
 @media (max-width: 640px) {
@@ -708,10 +720,6 @@ footer small {
   .quiz-meta { flex-direction: column; align-items: flex-start; }
   .quiz-btn { width: 100%; min-width: 0; }
   .option label:hover { transform: none; }
-
-  .results-actions .btn-primary,
-  .results-actions .btn-secondary {
-    width: 100%;
-    min-width: 0;
-  }
+  .results-actions { width: 100%; }
+  .results-actions a, .results-actions button { width: 100%; }
 }
