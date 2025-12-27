@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +8,7 @@
   <meta name="description" content="Brewlio matches you to beans based on your grinder, machine, and taste. No jargon. No signup. About a minute." />
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Inline SVG favicon (fine; browser may still try /favicon.ico which can 404 harmlessly) -->
+  <!-- Inline SVG favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
 
   <!-- Supabase client (v2) -->
@@ -22,7 +21,7 @@
     <nav class="nav-left" aria-label="Primary">
       <a href="index.html#about">How it works</a>
       <a href="index.html#shop">Roasts</a>
-      <a href="index.html#why">Why Australia-first</a>
+      <a href="index.html#why">Why Local</a>
       <a href="index.html#partner">Roasters</a>
     </nav>
     <a href="index.html" class="logo logo-link" aria-label="Brewlio home">
@@ -44,12 +43,12 @@
       <div class="quiz-header">
         <h1>Coffee Taste Quiz</h1>
         <p class="quiz-lede">
-          We’ll match you with beans based on your taste + your setup (because it matters).
+          We'll match you to beans based on taste + setup (because it matters).
           <span class="quiz-lede-sub">Free. No account. Retake anytime.</span>
         </p>
 
         <div class="quiz-meta" aria-label="Progress">
-          <span id="stepText" class="step-text">Question 1 of 7</span>
+          <span id="stepText" class="step-text">Question 1 of 8</span>
           <span id="stepHint" class="step-hint">Pick one to continue</span>
         </div>
       </div>
@@ -68,22 +67,22 @@
           <div class="options" role="radiogroup" aria-label="Brew method">
             <div class="option">
               <input type="radio" id="brew-espresso" name="brew" value="espresso" required>
-              <label for="brew-espresso">Espresso machine <span class="muted">(Breville, Gaggia, etc.)</span></label>
+              <label for="brew-espresso">Espresso machine <span class="muted">(Breville, Gaggia)</span></label>
             </div>
 
             <div class="option">
               <input type="radio" id="brew-manual" name="brew" value="manual">
-              <label for="brew-manual">Manual filter <span class="muted">(V60 / AeroPress / Delter)</span></label>
+              <label for="brew-manual">Manual filter <span class="muted">(V60, AeroPress)</span></label>
             </div>
 
             <div class="option">
               <input type="radio" id="brew-batch" name="brew" value="batch">
-              <label for="brew-batch">Batch filter <span class="muted">(Moccamaster, Precision Brewer)</span></label>
+              <label for="brew-batch">Batch filter <span class="muted">(Moccamaster)</span></label>
             </div>
 
             <div class="option">
               <input type="radio" id="brew-body" name="brew" value="body">
-              <label for="brew-body">Immersion / stovetop <span class="muted">(French press, moka, Clever)</span></label>
+              <label for="brew-body">Immersion / stovetop <span class="muted">(Press, moka)</span></label>
             </div>
 
             <div class="option">
@@ -106,34 +105,38 @@
           <div class="options" role="radiogroup" aria-label="Grinder tier">
             <div class="option">
               <input type="radio" id="gr-pre" name="grinder" value="pre-ground" required>
-              <label for="gr-pre">Pre-ground (or I don’t grind at home)</label>
+              <label for="gr-pre">Pre-ground (or I don’t grind)</label>
             </div>
 
             <div class="option">
               <input type="radio" id="gr-blade" name="grinder" value="blade">
-              <label for="gr-blade">Blade grinder <span class="muted">(the chaos option)</span></label>
+              <label for="gr-blade">Blade grinder <span class="muted">(chaos)</span></label>
             </div>
 
             <div class="option">
               <input type="radio" id="gr-entry" name="grinder" value="burr-entry">
-              <label for="gr-entry">Entry burr <span class="muted">(Smart Grinder Pro, Encore, Opus)</span></label>
+              <label for="gr-entry">Entry burr <span class="muted">(SGP, Encore)</span></label>
             </div>
 
             <div class="option">
               <input type="radio" id="gr-good" name="grinder" value="burr-good">
-              <label for="gr-good">Good burr <span class="muted">(Encore ESP, DF64, Eureka Mignon, Niche)</span></label>
+              <label for="gr-good">Good burr <span class="muted">(DF64, Niche)</span></label>
             </div>
 
             <div class="option">
               <input type="radio" id="gr-pro" name="grinder" value="pro">
-              <label for="gr-pro">High-end / commercial <span class="muted">(Timemore 078/s, Lagom, EK43, Mazzer Major)</span></label>
+              <label for="gr-pro">High-end / commercial <span class="muted">(078/s, EK43)</span></label>
             </div>
           </div>
+
+          <p class="micro-note" id="grinderHint" style="margin-top:10px;">
+            Hand grinders count — placement depends on brew style.
+          </p>
         </fieldset>
 
         <!-- Q3: Espresso machine (conditional) -->
         <fieldset class="question" data-q="machine" data-conditional="espresso">
-          <legend>If you make espresso, what machine tier is closest to yours?</legend>
+          <legend>If you make espresso, what machine tier is closest?</legend>
           <div class="question-gif">
             <picture>
               <source srcset="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" type="image/gif">
@@ -143,19 +146,19 @@
           <div class="options" role="radiogroup" aria-label="Espresso machine tier">
             <div class="option">
               <input type="radio" id="mach-entry" name="machine" value="entry">
-              <label for="mach-entry">Beginner / entry (Bambino, Dedica, basic single boiler)</label>
+              <label for="mach-entry">Entry (Bambino, basic SB)</label>
             </div>
             <div class="option">
               <input type="radio" id="mach-capable" name="machine" value="capable">
-              <label for="mach-capable">Capable home (Gaggia Classic, Silvia, Barista Express/Pro)</label>
+              <label for="mach-capable">Capable (Gaggia, Silvia)</label>
             </div>
             <div class="option">
               <input type="radio" id="mach-advanced" name="machine" value="advanced">
-              <label for="mach-advanced">Advanced (Dual boiler or HX, incl. Breville Dual Boiler)</label>
+              <label for="mach-advanced">Advanced (Dual boiler / HX)</label>
             </div>
             <div class="option">
               <input type="radio" id="mach-elite" name="machine" value="elite">
-              <label for="mach-elite">Elite / café-style (Linea Mini, E61 w/ flow control, etc.)</label>
+              <label for="mach-elite">Elite (Linea Mini, E61)</label>
             </div>
             <div class="option">
               <input type="radio" id="mach-notsure" name="machine" value="not-sure">
@@ -166,7 +169,7 @@
 
         <!-- Q4: Milk -->
         <fieldset class="question" data-q="milk">
-          <legend>What’s your deal with milk?</legend>
+          <legend>What's your deal with milk?</legend>
           <div class="question-gif">
             <picture>
               <source srcset="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExejF3a2ticTA2N2ZvOTBrd2ZqZTNxd2NrbnFheHE0M3NkeTVwbmk0YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/h55EUEsTG9224/giphy.gif" type="image/gif">
@@ -201,7 +204,11 @@
           <div class="options" role="radiogroup" aria-label="Flavour preference">
             <div class="option">
               <input type="radio" id="flavour-fruity" name="flavour" value="fruity" required>
-              <label for="flavour-fruity">Bright, fruity, juicy</label>
+              <label for="flavour-fruity">Juicy fruit</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="flavour-clean" name="flavour" value="clean">
+              <label for="flavour-clean">Clean & tea-like</label>
             </div>
             <div class="option">
               <input type="radio" id="flavour-choc" name="flavour" value="chocolate">
@@ -209,11 +216,11 @@
             </div>
             <div class="option">
               <input type="radio" id="flavour-balanced" name="flavour" value="balanced">
-              <label for="flavour-balanced">Balanced — a bit of both</label>
+              <label for="flavour-balanced">Balanced</label>
             </div>
             <div class="option">
               <input type="radio" id="flavour-bold" name="flavour" value="bold">
-              <label for="flavour-bold">Rich & heavy (more comfort than fruit)</label>
+              <label for="flavour-bold">Rich & heavy</label>
             </div>
           </div>
         </fieldset>
@@ -230,15 +237,19 @@
           <div class="options" role="radiogroup" aria-label="Roast preference">
             <div class="option">
               <input type="radio" id="roast-light" name="roast" value="light" required>
-              <label for="roast-light">Light — more origin flavour (fruit/floral), less roastiness</label>
+              <label for="roast-light">Light (less roast taste)</label>
             </div>
             <div class="option">
               <input type="radio" id="roast-medium" name="roast" value="medium">
-              <label for="roast-medium">Medium — balanced, sweet, and easy</label>
+              <label for="roast-medium">Medium (sweet spot)</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="roast-mediumdark" name="roast" value="medium-dark">
+              <label for="roast-mediumdark">Medium-dark (syrupy)</label>
             </div>
             <div class="option">
               <input type="radio" id="roast-dark" name="roast" value="dark">
-              <label for="roast-dark">Dark — more roast notes (chocolate/roasty), lower acidity</label>
+              <label for="roast-dark">Dark (more roast taste)</label>
             </div>
             <div class="option">
               <input type="radio" id="roast-any" name="roast" value="any">
@@ -247,31 +258,68 @@
           </div>
         </fieldset>
 
-        <!-- Q7: Workflow -->
-        <fieldset class="question" data-q="workflow">
-          <legend>How much tweaking do you actually want to do?</legend>
+        <!-- Q7: Skill -->
+        <fieldset class="question" data-q="skill">
+          <legend>How deep are you in the rabbit hole?</legend>
           <div class="question-gif">
             <picture>
               <source srcset="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" type="image/gif">
               <img src="Assets/latteart_fallback.jpg" alt="Coffee workflow" loading="lazy" />
             </picture>
           </div>
-          <div class="options" role="radiogroup" aria-label="Workflow confidence">
+          <div class="options" role="radiogroup" aria-label="Skill level">
             <div class="option">
-              <input type="radio" id="wf-set" name="workflow" value="set-and-forget" required>
-              <label for="wf-set">Minimal effort. Maximum reward.</label>
+              <input type="radio" id="sk-beginner" name="skill" value="beginner" required>
+              <label for="sk-beginner">Beginner (just tastes good)</label>
             </div>
             <div class="option">
-              <input type="radio" id="wf-some" name="workflow" value="some">
-              <label for="wf-some">I'll tweak if I must (begrudgingly).</label>
+              <input type="radio" id="sk-basic" name="skill" value="basic">
+              <label for="sk-basic">Basic (I follow recipes)</label>
             </div>
             <div class="option">
-              <input type="radio" id="wf-regular" name="workflow" value="regular">
-              <label for="wf-regular">Dial it in properly. I like repeatable results.</label>
+              <input type="radio" id="sk-inter" name="skill" value="intermediate">
+              <label for="sk-inter">Intermediate (I adjust)</label>
             </div>
             <div class="option">
-              <input type="radio" id="wf-nerd" name="workflow" value="nerd">
-              <label for="wf-nerd">Nerd mode. I own scales… and opinions.</label>
+              <input type="radio" id="sk-advanced" name="skill" value="advanced">
+              <label for="sk-advanced">Advanced (ratios are normal)</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="sk-nerd" name="skill" value="nerd">
+              <label for="sk-nerd">Unwell (I see channels)</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q8: Pain -->
+        <fieldset class="question" data-q="pain">
+          <legend>What ruins a coffee for you?</legend>
+          <div class="question-gif">
+            <picture>
+              <source srcset="https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif" type="image/gif">
+              <img src="Assets/latteart_fallback.jpg" alt="Coffee frustration" loading="lazy" />
+            </picture>
+          </div>
+          <div class="options" role="radiogroup" aria-label="Biggest coffee frustration">
+            <div class="option">
+              <input type="radio" id="pn-sour" name="pain" value="sour" required>
+              <label for="pn-sour">Sour / sharp</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="pn-bitter" name="pain" value="bitter">
+              <label for="pn-bitter">Bitter / harsh</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="pn-weak" name="pain" value="weak">
+              <label for="pn-weak">Weak / watery</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="pn-muddy" name="pain" value="muddy">
+              <label for="pn-muddy">Muddy / gritty</label>
+            </div>
+            <div class="option">
+              <input type="radio" id="pn-inconsistent" name="pain" value="inconsistent">
+              <label for="pn-inconsistent">Inconsistent</label>
             </div>
           </div>
         </fieldset>
@@ -279,7 +327,7 @@
         <!-- Controls -->
         <div class="quiz-controls">
           <button type="button" id="prevBtn" class="quiz-btn secondary" disabled>Previous</button>
-          <button type="button" id="nextBtn" class="quiz-btn primary">Next</button>
+          <button type="button" id="nextBtn" class="quiz-btn primary" disabled>Next</button>
           <button type="submit" id="submitBtn" class="quiz-btn primary hidden" disabled>Show my match →</button>
         </div>
 
@@ -290,7 +338,7 @@
         <p id="errorText" class="quiz-error" role="status" aria-live="polite"></p>
       </form>
 
-      <!-- Results (hidden by default; only shown after completion) -->
+      <!-- Results -->
       <div id="results" class="results" hidden>
         <h2>Your coffee match</h2>
         <p class="results-lede">Here's what fits your taste — and why.</p>
@@ -306,46 +354,41 @@
   </section>
 
   <script>
-    // Greeting (privacy-friendly)
+    // Greeting
     (() => {
       const el = document.getElementById('greeting');
       el.innerHTML = `<strong>Alright — quick one.</strong><span class="tip">Pick what sounds like you. No jargon. No account.</span>`;
     })();
 
-    // Supabase setup
+    // Supabase
     const SUPABASE_URL = "https://opledkjivawysybvbqxe.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_FxH-YkKnC8mZD8R0hSgXEg_mgrR20K_";
 
     let sb = null;
     try {
-      const looksValid =
-        typeof SUPABASE_URL === "string" &&
-        SUPABASE_URL.startsWith("http") &&
-        SUPABASE_URL.includes("supabase.co") &&
-        typeof SUPABASE_ANON_KEY === "string" &&
-        SUPABASE_ANON_KEY.length > 10;
-
-      if (looksValid && window.supabase?.createClient) {
-        sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log("Supabase client ready:", !!sb);
-      } else {
-        console.warn("Supabase not initialized: invalid/missing URL or key");
-      }
+      const ok =
+        typeof SUPABASE_URL === "string" && SUPABASE_URL.startsWith("http") && SUPABASE_URL.includes("supabase.co") &&
+        typeof SUPABASE_ANON_KEY === "string" && SUPABASE_ANON_KEY.length > 10;
+      if (ok && window.supabase?.createClient) sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     } catch (err) {
-      console.warn("Supabase init failed (quiz still works):", err);
+      console.warn("Supabase init failed:", err);
     }
 
     const sessionId = (() => {
       const key = "brewlio_sid";
       let id = localStorage.getItem(key);
       if (!id) {
-        id = crypto.randomUUID?.() || Date.now().toString(36) + Math.random().toString(36).slice(2);
+        id = crypto.randomUUID?.() || (Date.now().toString(36) + Math.random().toString(36).slice(2));
         localStorage.setItem(key, id);
       }
       return id;
     })();
 
-    // Quiz logic with conditional questions
+    // duration tracking
+    let quizStartMs = Date.now();
+    const nowMs = () => Date.now();
+
+    // Quiz
     const form = document.getElementById('coffeeQuiz');
     const allQuestions = Array.from(document.querySelectorAll('.question'));
     const prevBtn = document.getElementById('prevBtn');
@@ -358,59 +401,58 @@
     const stepHint = document.getElementById('stepHint');
     const errorText = document.getElementById('errorText');
     const retakeBtn = document.getElementById('retakeBtn');
+    const grinderHint = document.getElementById('grinderHint');
 
-    // Ensure initial state
-    results.hidden = true;
-    form.hidden = false;
+    function setGrinderHint(brew) {
+      if (!grinderHint) return;
+      grinderHint.textContent = (brew === 'espresso')
+        ? "Hand grinders count — great for filter; espresso is a workout."
+        : "Hand grinders count — coarser brews are their happy place.";
+    }
 
     let currentIndex = 0;
     let activeQuestions = [];
-
-    // ✅ submit lock to prevent duplicates
     let isSubmitting = false;
 
+    results.hidden = true;
+    form.hidden = false;
+
     function getAnswer(name) {
-      const el = form.querySelector(`input[name="${name}"]:checked`);
-      return el ? el.value : null;
+      return form.querySelector(`input[name="${name}"]:checked`)?.value || null;
     }
 
     function rebuildActiveQuestions() {
       const brew = getAnswer('brew');
       activeQuestions = allQuestions.filter(q => {
         const cond = q.getAttribute('data-conditional');
-        if (!cond) return true;
-        return cond === brew;
+        return !cond || cond === brew;
       });
 
-      const machineFieldset = allQuestions.find(q => q.getAttribute('data-q') === 'machine');
-      if (machineFieldset) {
-        const inputs = machineFieldset.querySelectorAll('input[type="radio"]');
-        const isActive = activeQuestions.includes(machineFieldset);
-        inputs.forEach(i => i.required = isActive);
-        if (!isActive) inputs.forEach(i => i.checked = false);
+      const machine = allQuestions.find(q => q.getAttribute('data-q') === 'machine');
+      if (machine) {
+        const isActive = activeQuestions.includes(machine);
+        machine.querySelectorAll('input[type="radio"]').forEach(i => i.required = isActive);
+        if (!isActive) machine.querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
       }
 
       currentIndex = Math.min(currentIndex, activeQuestions.length - 1);
     }
 
     function total() { return activeQuestions.length; }
-
-    function isAnswered(idx) {
-      const q = activeQuestions[idx];
-      return !!q.querySelector('input[type="radio"]:checked');
-    }
+    function isAnswered(idx) { return !!activeQuestions[idx]?.querySelector('input[type="radio"]:checked'); }
 
     function setButtons() {
-      prevBtn.disabled = currentIndex === 0;
-
       const last = currentIndex === total() - 1;
       const answered = isAnswered(currentIndex);
+
+      prevBtn.disabled = currentIndex === 0;
 
       nextBtn.classList.toggle('hidden', last);
       submitBtn.classList.toggle('hidden', !last);
 
-      nextBtn.disabled = !answered;
-      submitBtn.disabled = !answered;
+      // Only enable the visible action
+      nextBtn.disabled = !answered || last;
+      submitBtn.disabled = !answered || !last;
 
       stepText.textContent = `Question ${currentIndex + 1} of ${total()}`;
       stepHint.textContent = answered ? 'Nice — continue' : 'Pick one to continue';
@@ -422,27 +464,30 @@
 
       errorText.textContent = '';
       progress.style.width = `${((idx + 1) / total()) * 100}%`;
-      setButtons();
+
+      // Let the checked radio settle before reading it
+      setTimeout(setButtons, 0);
       activeQuestions[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    form.addEventListener('change', (e) => {
+    function onQuizInput(e) {
       if (!e.target.matches('input[type="radio"]')) return;
 
       if (e.target.name === 'brew') {
+        const brew = getAnswer('brew') || 'other';
+        setGrinderHint(brew);
         rebuildActiveQuestions();
         showQuestion(currentIndex);
         return;
       }
+      setTimeout(setButtons, 0);
+    }
 
-      setButtons();
-    });
+    form.addEventListener('change', onQuizInput);
+    form.addEventListener('input', onQuizInput);
 
     nextBtn.addEventListener('click', () => {
-      if (!isAnswered(currentIndex)) {
-        errorText.textContent = 'Pick an option to continue.';
-        return;
-      }
+      if (!isAnswered(currentIndex)) { errorText.textContent = 'Pick an option to continue.'; return; }
       currentIndex++;
       showQuestion(currentIndex);
     });
@@ -452,149 +497,205 @@
       showQuestion(currentIndex);
     });
 
+    // --- Recommendation helpers ---
+    function pickOrigins({ roast, flavour, brew, milk }) {
+      const lightPool = ["Ethiopia", "Kenya", "Rwanda", "Tanzania"];
+      const medSweetPool = ["Brazil", "Colombia", "Guatemala", "El Salvador"];
+      const medCleanPool = ["Colombia", "Rwanda", "Guatemala", "Kenya"];
+      const medDarkPool = ["Brazil", "Guatemala", "Colombia", "Honduras"];
+      const darkPool = ["Brazil", "Indonesia (Sumatra)", "India", "Vietnam"];
+
+      let pool = medSweetPool;
+
+      if (roast === 'light') pool = lightPool;
+
+      if (roast === 'medium') {
+        pool = (flavour === 'clean') ? medCleanPool : medSweetPool;
+      }
+
+      if (roast === 'medium-dark') pool = medDarkPool;
+      if (roast === 'dark') pool = darkPool;
+
+      // Espresso + milk tends to shine with sweet/nutty origins even if they picked “clean”
+      if (brew === 'espresso' && milk === 'always' && roast !== 'dark') {
+        pool = ["Brazil", "Colombia", "Guatemala", "El Salvador"];
+      }
+
+      return `${pool[0]} or ${pool[1]}`;
+    }
+
+    function pushUnique(arr, msg) { if (!arr.includes(msg)) arr.push(msg); }
+
+    function resultStyleLine(roast, flavour, brew, milk) {
+      const isMilk = (milk === 'always');
+      const isFilter = (brew === 'manual' || brew === 'batch');
+
+      if (roast === 'light') {
+        if (flavour === 'chocolate' || flavour === 'bold') return "a lighter cup that’s still sweet (not sour-for-fun)";
+        if (isMilk) return "something light-leaning, but with enough sweetness to survive milk";
+        return "a bright, clean cup with high clarity";
+      }
+
+      if (roast === 'medium') {
+        if (flavour === 'fruity') return "sweet cups with a little sparkle (no sharp edges)";
+        if (flavour === 'clean') return "clean sweetness and clarity (without going full lemon-water)";
+        if (flavour === 'bold') return "comfort flavours with some weight — sweet, not ashy";
+        if (isMilk) return "sweet, milk-friendly comfort flavours";
+        return "sweet, balanced, easy-to-love cups";
+      }
+
+      if (roast === 'medium-dark') {
+        if (isFilter) return "syrupy sweetness without the harsh roast bite";
+        if (isMilk) return "thicker, milk-friendly sweetness (choc/caramel energy)";
+        return "richer body with a sweet finish";
+      }
+
+      // dark
+      if (flavour === 'fruity' || flavour === 'clean') return "roasty comfort (not a fruit salad)";
+      return "big, roasty comfort flavours with low acidity";
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      // ✅ block double submit
       if (isSubmitting) return;
-
-      if (!isAnswered(currentIndex)) {
-        errorText.textContent = 'Pick an option to see your match.';
-        return;
-      }
+      if (!isAnswered(currentIndex)) { errorText.textContent = 'Pick an option to see your match.'; return; }
 
       isSubmitting = true;
       submitBtn.disabled = true;
       const originalSubmitText = submitBtn.textContent;
       submitBtn.textContent = "Saving…";
 
-      // ✅ unique per submission (so DB can dedupe)
-      const submissionId = crypto.randomUUID?.()
-        || (Date.now().toString(36) + Math.random().toString(36).slice(2));
+      const submissionId = crypto.randomUUID?.() || (Date.now().toString(36) + Math.random().toString(36).slice(2));
 
       try {
-        const data = new FormData(form);
-        const a = Object.fromEntries(data);
+        const a = Object.fromEntries(new FormData(form));
 
         const brew = a.brew || 'other';
         const grinder = a.grinder || 'pre-ground';
         const machine = a.machine || 'not-sure';
-        const workflow = a.workflow || 'some';
-
-        let roast = 'medium';
-        let style = 'balanced & sweet';
-        let notes = [];
-
-        if (a.flavour === 'fruity') style = 'bright & fruity — think Ethiopian / Kenyan';
-        if (a.flavour === 'chocolate') style = 'chocolatey & nutty — think Colombian / Brazilian';
-        if (a.flavour === 'balanced') style = 'balanced & sweet — classic crowd-pleaser';
-        if (a.flavour === 'bold') style = 'bold & intense — think robust blend / Indonesian';
-
-        // Roast preference: treat "any" as no constraint (let other answers decide)
-        if (a.roast === 'light') roast = 'light';
-        if (a.roast === 'medium') roast = 'medium';
-        if (a.roast === 'dark') roast = 'dark';
+        const skill = a.skill || 'basic';
+        const pain = a.pain || 'inconsistent';
         const roastPrefAny = (a.roast === 'any');
 
+        const requestedRoast = (!roastPrefAny && a.roast) ? a.roast : null;
+        let roast = requestedRoast || 'medium';
+
+        const strongNotes = [];
+        const softNotes = [];
+
+        let styleLabel = 'balanced & sweet';
+        if (a.flavour === 'fruity') styleLabel = 'juicy fruit';
+        if (a.flavour === 'clean') styleLabel = 'clean, tea-like';
+        if (a.flavour === 'chocolate') styleLabel = 'choc / nut / caramel';
+        if (a.flavour === 'balanced') styleLabel = 'balanced & sweet';
+        if (a.flavour === 'bold') styleLabel = 'rich & heavy';
+
         const weakGrinder = ['pre-ground', 'blade', 'burr-entry'].includes(grinder);
+        const advancedSkill = (skill === 'advanced' || skill === 'nerd');
+        const highEndGrinder = (grinder === 'burr-good' || grinder === 'pro');
+        const highEndMachine = (machine === 'advanced' || machine === 'elite');
 
-        // Guardrails (only override if they explicitly asked for a light roast)
-        if (!roastPrefAny && weakGrinder && roast === 'light') {
-          roast = 'medium-dark';
-          notes.push("Light roasts need a consistent grind. With pre-ground or a blade grinder they can taste sharp/sour — so we’re going medium-dark for reliability.");
-        }
-
-        if (!roastPrefAny && a.milk === 'always' && roast === 'light') {
-          roast = 'medium-dark';
-          notes.push("Milk tends to steamroll delicate light roast flavours. Medium-dark gives more body and still tastes sweet.");
-        }
-
-        // Filter/batch: dark often tastes harsh → nudge to medium
-        if ((brew === 'manual' || brew === 'batch') && roast === 'dark') {
-          roast = 'medium';
-          notes.push("Dark roasts can taste harsh in filter/batch brewers. Medium keeps sweetness without the bite.");
-        }
-
-        if (brew === 'espresso') {
-          const entryMachine = ['entry', 'not-sure'].includes(machine);
-          if (entryMachine && roast === 'light') {
-            roast = 'medium';
-            notes.push("Light roasts are tricky on entry-level espresso machines — uneven extraction is common. Medium is more forgiving.");
+        function overrideRoast(newRoast, note) {
+          if (roast !== newRoast) {
+            roast = newRoast;
+            pushUnique(strongNotes, note);
           }
         }
 
-        if (workflow === 'set-and-forget' && roast === 'light') {
-          roast = 'medium';
-          notes.push("Light roasts usually need more dialing in. Medium gives great results with less tweaking.");
+        // Obvious mismatches (only show when truly useful)
+        if (!roastPrefAny && weakGrinder && roast === 'light') {
+          overrideRoast('medium-dark', "Light + inconsistent grind often tastes sharp/sour. Medium-dark is the safer bet.");
         }
 
-        // Milk nudges (don’t bulldoze dark if they explicitly chose it)
-        if (a.milk === 'always') {
-          if (roast === 'light') roast = 'medium';
+        if (!roastPrefAny && a.milk === 'always' && roast === 'light') {
+          overrideRoast('medium-dark', "Milk tends to flatten delicate light roasts. Medium-dark keeps sweetness and body.");
         }
 
-        // Espresso & immersion/stovetop: nudge only when it makes sense (milk always or bold preference)
+        if ((brew === 'manual' || brew === 'batch') && roast === 'dark') {
+          overrideRoast('medium', "Dark + filter often reads harsh/ashy. Medium keeps sweetness without the bite.");
+        }
+
+        if (brew === 'espresso' && !advancedSkill) {
+          const entryMachine = (machine === 'entry' || machine === 'not-sure');
+          if (entryMachine && roast === 'light') {
+            overrideRoast('medium', "Light espresso on entry machines is hard mode. Medium is much easier to extract evenly.");
+          }
+        }
+
+        // Pain-driven nudges (only when it’s a likely pattern)
+        if (pain === 'sour' && roast === 'light' && !advancedSkill) {
+          overrideRoast('medium', "If sour is the enemy, light roasts can be a trap. Medium is easier to extract sweet.");
+        }
+
+        if (pain === 'bitter' && roast === 'dark') {
+          overrideRoast('medium-dark', "If bitter is the enemy, very dark roasts can be… unhelpful. Medium-dark is usually cleaner.");
+        }
+
+        // Espresso/immersion + milk/bold → medium-dark often lands best
         if ((brew === 'espresso' || brew === 'body') && (a.milk === 'always' || a.flavour === 'bold')) {
-          if (roast === 'medium') roast = 'medium-dark';
+          if (roast === 'medium') {
+            overrideRoast('medium-dark', "Milk + espresso/immersion usually tastes better with a bit more body (medium-dark).");
+          }
         }
 
-        // ---- High-end setup sanity check for dark roasts ----
-        const highEndGrinder = ['burr-good', 'pro'].includes(grinder);
-        const highEndMachine = ['advanced', 'elite'].includes(machine);
+        // High-end espresso gear: very dark is often flatter than medium-dark (unless they want bold)
+        if (roast === 'dark' && brew === 'espresso' && a.milk === 'always' && a.flavour !== 'bold' && highEndGrinder && highEndMachine) {
+          overrideRoast('medium-dark', "With strong espresso gear + milk, medium-dark is often sweeter and cleaner than very dark.");
+        }
 
-        if (
-          roast === 'dark' &&
-          brew === 'espresso' &&
-          a.milk === 'always' &&
-          a.flavour !== 'bold' &&
-          highEndGrinder &&
-          highEndMachine
-        ) {
-          roast = 'medium-dark';
-          notes.push("You picked dark — fair call. With a higher-end espresso setup (especially with milk), medium-dark usually tastes sweeter and cleaner than very dark roasts.");
+        // Soft notes (stored only; not always shown)
+        if (pain === 'weak') pushUnique(softNotes, "If it’s weak, check ratio/dose first — roast helps, but maths helps more.");
+        if (pain === 'muddy') pushUnique(softNotes, "Muddy usually means too many fines or too fine a grind.");
+        if (pain === 'inconsistent' && weakGrinder) pushUnique(softNotes, "Inconsistency often starts at the grinder. Medium roasts reduce the chaos.");
+
+        // Any-roast: let setup guide (gentle defaults)
+        if (roastPrefAny) {
+          roast = 'medium';
+          if ((brew === 'espresso' || brew === 'body') && a.milk === 'always') roast = 'medium-dark';
+          if ((brew === 'manual' || brew === 'batch') && roast === 'dark') roast = 'medium';
         }
 
         const recs = {
           light: {
             title: 'Light Roast',
-            line: `You’ll probably love ${style}.`,
-            why: 'Light roasts highlight origin character and brightness — magic when your setup can extract them cleanly.'
+            why: 'More origin character, less roast taste. Bright when extracted well.'
           },
           medium: {
             title: 'Medium Roast',
-            line: `You’ll probably like ${style}.`,
-            why: 'The sweet spot: interesting, forgiving, works across most setups and with/without milk.'
+            why: 'Sweet, forgiving, and works on most setups without drama.'
           },
           'medium-dark': {
             title: 'Medium-Dark Roast',
-            line: `You’ll probably enjoy richer, fuller-bodied coffee — ${style}.`,
-            why: 'Great body and chocolate notes — reliable even with simpler grinders or milk drinks.'
+            why: 'Syrupy body, great with milk, and generally hard to mess up.'
           },
           dark: {
             title: 'Dark Roast',
-            line: 'You’ll probably enjoy bold, classic coffee.',
-            why: 'Heavy body, low acidity — very forgiving, especially for espresso + milk.'
+            why: 'Big roast taste, low acidity, very forgiving (if that’s your vibe).'
           }
         };
 
         const pick = recs[roast] || recs.medium;
 
-        const brewLabels = {
+        const origins = pickOrigins({ roast, flavour: a.flavour, brew, milk: a.milk });
+        const displayStyle = resultStyleLine(roast, a.flavour, brew, a.milk);
+
+        const brewText = ({
           espresso: 'espresso',
           manual: 'manual filter',
           batch: 'batch filter',
           body: 'immersion / stovetop',
           other: 'other'
-        };
-        const brewText = brewLabels[brew] || brew;
+        }[brew] || brew);
 
-        const milkText = a.milk === 'black' ? 'black' : (a.milk === 'always' ? 'with milk' : 'either');
+        const milkText = (a.milk === 'black') ? 'black' : (a.milk === 'always' ? 'with milk' : 'either');
+
+        const durationMs = Math.max(0, nowMs() - quizStartMs);
 
         let html = `
           <div class="result-card">
             <p class="rec-title">Your match:</p>
             <h3>${pick.title}</h3>
-            <p class="result-line">${pick.line}</p>
+            <p class="result-line">You’ll probably vibe with <strong>${displayStyle}</strong> — think <strong>${origins}</strong>.</p>
 
             <div class="why-box">
               <p class="why-title">Why this fits you</p>
@@ -606,71 +707,77 @@
             </div>
         `;
 
-        if (notes.length > 0) {
+        if (strongNotes.length > 0) {
           html += `
             <div class="why-box" style="background:rgba(255,52,0,0.08); border:1px solid rgba(255,52,0,0.2);">
               <p class="why-title" style="color:var(--brand);">A note from experience</p>
               <ul style="text-align:left; margin:10px 0; padding-left:20px;">
-                ${notes.map(n => `<li>${n}</li>`).join('')}
+                ${strongNotes.map(n => `<li>${n}</li>`).join('')}
               </ul>
             </div>
           `;
         }
 
-        html += `
-            <p class="small">Coming soon: direct links to Australian roasters that match this profile.</p>
-          </div>
-        `;
+        html += `<p class="small">Coming soon: direct links to Aussie roasters that match this profile.</p></div>`;
 
         recommendation.innerHTML = html;
 
-        // ✅ Show results / hide form
         results.hidden = false;
         form.hidden = true;
         results.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-        // ✅ Supabase insert (includes submission_id)
         if (sb) {
           const payload = {
             submission_id: submissionId,
             session_id: sessionId,
             page: location.pathname,
-            quiz_version: "v1",
+            quiz_version: "v2.2",
+            duration_ms: durationMs,
 
-            // flattened answer fields (for easy filtering in Supabase)
             brew: brew || null,
             grinder: grinder || null,
+            machine: brew === 'espresso' ? (machine || null) : null,
             milk: a.milk || null,
             flavour: a.flavour || null,
             roast_pref: a.roast || null,
-            workflow: workflow || null,
+            skill: skill || null,
+            pain: pain || null,
 
-            // derived / recommendation (also easy to filter)
             match_roast: roast || null,
+            match_style: styleLabel || null,
+            match_origins: origins || null,
 
-            // keep raw JSON too (future-proof)
             answers: a,
-            derived: { roast, style, brew, grinder, machine }
+            derived: {
+              roast,
+              requestedRoast,
+              roastOverrode: !!requestedRoast && requestedRoast !== roast,
+              styleLabel,
+              displayStyle,
+              origins,
+              brew,
+              grinder,
+              machine,
+              skill,
+              pain,
+              notes: { strong: strongNotes, soft: softNotes }
+            }
           };
 
-          const { data, error } = await sb.from("quiz_events").insert(payload);
-          console.log("Supabase insert:", { data, error });
+          const { error } = await sb.from("quiz_events").insert(payload);
           if (error) console.warn("Supabase error:", error);
-        } else {
-          console.warn("Supabase client is null; skipping insert.");
         }
 
       } catch (err) {
         console.warn("Submit failed:", err);
       } finally {
-        // keep locked until retake; restore button text
         submitBtn.textContent = originalSubmitText;
       }
     });
 
     retakeBtn.addEventListener('click', () => {
-      // ✅ reset state so user can submit again
       isSubmitting = false;
+      quizStartMs = nowMs();
 
       form.reset();
       results.hidden = true;
@@ -678,11 +785,13 @@
 
       currentIndex = 0;
       rebuildActiveQuestions();
-      showQuestion(currentIndex);
+      setGrinderHint(getAnswer('brew') || 'other');
+      showQuestion(0);
     });
 
     // Init
     rebuildActiveQuestions();
+    setGrinderHint(getAnswer('brew') || 'other');
     showQuestion(0);
   </script>
 </body>
