@@ -146,6 +146,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
   letter-spacing: 0.5px;
 }
 
+/* Quiz "Back home" link */
+.nav-back{
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.22);
+  line-height: 1;
+}
+.nav-back:hover{
+  background: rgba(255,255,255,0.22);
+}
+
 /* Logo link */
 .logo-link { text-decoration: none; color: inherit; }
 .logo-link:hover { opacity: 0.88; transition: opacity 0.2s; }
@@ -336,6 +348,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
   justify-items: center;
 }
 .micro-note { font-size: 0.95rem; opacity: 0.8; }
+.micro-note--spaced { margin-top: 10px; }
 
 .tiles {
   display: flex;
@@ -810,6 +823,75 @@ footer small {
 .why-title { font-weight: 900; margin-bottom: 6px; }
 .why-meta { margin-top: 10px; opacity: 0.9; }
 
+/* Results helpers (no inline styles) */
+.why-box--note{
+  background: color-mix(in srgb, var(--highlight) 10%, transparent);
+  border-color: color-mix(in srgb, var(--highlight) 25%, var(--border));
+}
+.why-box--note .why-title{ color: var(--brand); }
+
+.note-list{
+  text-align: left;
+  margin: 10px 0 0;
+  padding-left: 20px;
+}
+
+.cta-panel--results{
+  margin-top: 2rem;
+  padding: 28px 22px;
+}
+
+.cta-title{
+  color: var(--brand);
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+}
+
+.cta-copy{
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+}
+
+.email-form{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.email-input{
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  min-width: 260px;
+  font-size: 1rem;
+  flex: 1;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+.input-error{
+  border-color: var(--brand) !important;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 18%, transparent);
+}
+
+.email-submit{ min-width: 160px; }
+
+.email-footnote{
+  margin-top: 12px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.email-success{
+  font-weight: 900;
+  color: var(--brand);
+  margin: 0;
+}
+
+.results-next{ margin-top: 24px; }
+
+
 .results .small {
   opacity: 0.75;
   font-style: italic;
@@ -904,131 +986,6 @@ input::placeholder {
   }
   .tile p { opacity: 0.9; }
 }
-/* ======================================================
-   FIX: why-box with inline LIGHT background in dark mode
-   (your email CTA uses inline background:#f9f3ed)
-   ====================================================== */
-
-@media (prefers-color-scheme: dark) {
-
-  /* Target only the "light" why-boxes (inline background) */
-  .why-box[style*="background:#f9f3ed"],
-  .why-box[style*="background: #f9f3ed"],
-  .why-box[style*="background:#fff"],
-  .why-box[style*="background: #fff"],
-  .why-box[style*="background:#ffffff"],
-  .why-box[style*="background: #ffffff"] {
-    color: #1c110a !important;              /* dark text on light bg */
-  }
-
-  /* And force all text inside to follow */
-  .why-box[style*="background:#f9f3ed"] *,
-  .why-box[style*="background: #f9f3ed"] *,
-  .why-box[style*="background:#fff"] *,
-  .why-box[style*="background: #fff"] *,
-  .why-box[style*="background:#ffffff"] *,
-  .why-box[style*="background: #ffffff"] * {
-    color: #1c110a !important;
-  }
-
-  /* Inputs inside that CTA should stay readable too */
-  .why-box[style*="background:#f9f3ed"] input,
-  .why-box[style*="background: #f9f3ed"] input,
-  .why-box[style*="background:#fff"] input,
-  .why-box[style*="background: #fff"] input,
-  .why-box[style*="background:#ffffff"] input,
-  .why-box[style*="background: #ffffff"] input {
-    background: #ffffff !important;
-    color: #1c110a !important;
-    border-color: rgba(28,17,10,0.18) !important;
-  }
-
-  .why-box[style*="background:#f9f3ed"] input::placeholder,
-  .why-box[style*="background: #f9f3ed"] input::placeholder {
-    color: rgba(28,17,10,0.55) !important;
-  }
-}
-/* ======================================================
-   PANEL SPACING & CONSISTENCY SYSTEM
-   Drop-in, non-destructive overrides
-   ====================================================== */
-
-/* ---- Spacing tokens ---- */
-:root {
-  --panel-pad-lg: 32px;
-  --panel-pad-md: 24px;
-
-  --panel-radius-lg: 24px;
-  --panel-radius-md: 20px;
-
-  --panel-gap-lg: 32px;
-  --panel-gap-md: 24px;
-}
-
-/* ======================================================
-   PRIMARY PANELS (main containers)
-   ====================================================== */
-
-/* Quiz container */
-.quiz-container {
-  padding: var(--panel-pad-lg);
-  border-radius: var(--panel-radius-lg);
-}
-
-/* Results cards */
-.result-card,
-.results-actions {
-  margin-top: var(--panel-gap-lg);
-}
-
-/* ======================================================
-   SECONDARY PANELS (cards, tiles, boxes)
-   ====================================================== */
-
-/* Home tiles */
-.tile {
-  padding: var(--panel-pad-md);
-  border-radius: var(--panel-radius-md);
-}
-
-/* Result explanation boxes */
-.why-box {
-  padding: var(--panel-pad-md);
-  border-radius: var(--panel-radius-md);
-  margin-bottom: var(--panel-gap-md);
-}
-
-/* CTA panel inside results */
-.cta-panel {
-  padding: var(--panel-pad-md);
-  border-radius: var(--panel-radius-md);
-  margin-top: var(--panel-gap-lg);
-}
-
-/* ======================================================
-   MEDIA PANELS (GIF / image containers)
-   ====================================================== */
-
-.question-gif {
-  border-radius: var(--panel-radius-lg);
-  margin-bottom: var(--panel-gap-md);
-}
-
-/* ======================================================
-   OPTION GROUPS & STACKING
-   ====================================================== */
-
-.options {
-  gap: var(--panel-gap-md);
-}
-
-.quiz-controls {
-  margin-top: var(--panel-gap-lg);
-}
-
-/* ======================================================
-   MOBILE NORMALISATION
-   ====================================================== */
 
 @media (max-width: 640px) {
   .quiz-container {
@@ -1045,3 +1002,8 @@ input::placeholder {
     margin-bottom: 20px;
   }
 }
+
+
+/* Muted inline helper text (quiz option examples) */
+.muted{ opacity:0.8; font-weight:700; color: var(--muted); }
+@media (prefers-color-scheme: dark){ .muted{ color: var(--muted); opacity:0.85; } }

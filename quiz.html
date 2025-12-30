@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Brewlio – Coffee Taste Quiz</title>
+  <title>Brewlio – 60-Second Coffee Match Quiz</title>
 
   <meta name="description" content="Brewlio matches you to beans based on your grinder, machine, and taste. No jargon. No signup. About a minute." />
   <link rel="stylesheet" href="style.css" />
@@ -15,11 +16,8 @@
 <body>
 
   <header class="t-bar">
-    <nav class="nav-left" aria-label="Primary">
-      <a href="index.html#about">How it works</a>
-      <a href="index.html#shop">Roasts</a>
-      <a href="index.html#why">Why Local</a>
-      <a href="index.html#partner">Roasters</a>
+    <nav class="nav-left" aria-label="Quiz navigation">
+      <a class="nav-back" href="index.html">← Back home</a>
     </nav>
     <a href="index.html" class="logo logo-link" aria-label="Brewlio home">
       <span class="logo-main">BREWLIO</span>
@@ -28,8 +26,8 @@
   </header>
 
   <div id="greeting" class="greeting" aria-live="polite">
-    <strong>Alright — quick one.</strong>
-    <span class="tip">Pick what sounds like you. No jargon. No account.</span>
+    <strong>Alright. Let’s get you matched.</strong>
+    <span class="tip">60 seconds. Pick what sounds like you. No jargon. No account.</span>
   </div>
 
   <section class="quiz-section">
@@ -38,7 +36,7 @@
       <div class="quiz-header">
         <h1>Coffee Taste Quiz</h1>
         <p class="quiz-lede">
-          We'll match you to beans based on taste + setup (because it matters).
+          We’ll match you to beans based on taste + your setup (grinder + machine matter).
           <span class="quiz-lede-sub">Free. No account. Retake anytime.</span>
         </p>
 
@@ -113,7 +111,7 @@
               <label for="gr-pro">High-end / commercial <span class="muted">(078/s, EK43)</span></label>
             </div>
           </div>
-          <p class="micro-note" id="grinderHint" style="margin-top:10px;">
+          <p class="micro-note" id="grinderHint" class="micro-note micro-note--spaced">
             Hand grinders count — placement depends on brew style.
           </p>
         </fieldset>
@@ -339,7 +337,7 @@
     // Greeting
     (() => {
       const el = document.getElementById('greeting');
-      el.innerHTML = `<strong>Alright — quick one.</strong><span class="tip">Pick what sounds like you. No jargon. No account.</span>`;
+      el.innerHTML = `<strong>Alright. Let’s get you matched.</strong><span class="tip">60 seconds. Pick what sounds like you. No jargon. No account.</span>`;
     })();
 
     // Supabase
@@ -368,6 +366,53 @@
 
     let quizStartMs = Date.now();
     const nowMs = () => Date.now();
+
+    // Unique run id for this quiz attempt (used across funnel + completion)
+    let runId = crypto.randomUUID?.() || (Date.now().toString(36) + Math.random().toString(36).slice(2));
+
+    // Lightweight funnel logging into quiz_events (stored in derived.event_type)
+    async function logFunnelEvent(eventType, data = {}) {
+      if (!sb) return;
+      try {
+        const brew = getAnswer('brew') || null;
+        const grinder = getAnswer('grinder') || null;
+        const machine = brew === 'espresso' ? (getAnswer('machine') || null) : null;
+
+        const payload = {
+          submission_id: runId,
+          session_id: sessionId,
+          page: location.pathname,
+          quiz_version: "v2.4",
+          duration_ms: Math.max(0, nowMs() - quizStartMs),
+
+          brew,
+          grinder,
+          machine,
+
+          milk: getAnswer('milk') || null,
+          flavour: getAnswer('flavour') || null,
+          roast_pref: getAnswer('roast') || null,
+          skill: getAnswer('skill') || null,
+          pain: getAnswer('pain') || null,
+
+          match_roast: null,
+          match_style: null,
+          match_origins: null,
+
+          answers: eventType === 'answer'
+            ? { [data.question || 'unknown']: data.value ?? null }
+            : null,
+
+          derived: { event_type: eventType, ...data }
+        };
+
+        const { error } = await sb.from("quiz_events").insert(payload);
+        if (error) console.warn("Supabase funnel error:", error);
+      } catch (err) {
+        console.warn("Funnel log failed:", err);
+      }
+    }
+
 
     const form = document.getElementById('coffeeQuiz');
     const allQuestions = Array.from(document.querySelectorAll('.question'));
@@ -445,6 +490,7 @@
       errorText.textContent = '';
       progress.style.width = `${((idx + 1) / total()) * 100}%`;
       setButtons();
+      logFunnelEvent('answer', { question: e.target.name, value: e.target.value, question_index: currentIndex, total_questions: activeQuestions.length });
       activeQuestions[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
@@ -456,20 +502,24 @@
         setGrinderHint(brew);
         rebuildActiveQuestions();
         showQuestion(currentIndex);
+        logFunnelEvent('answer', { question: e.target.name, value: e.target.value, question_index: currentIndex, total_questions: activeQuestions.length });
         return;
       }
       setButtons();
+      logFunnelEvent('answer', { question: e.target.name, value: e.target.value, question_index: currentIndex, total_questions: activeQuestions.length });
     });
 
     nextBtn.addEventListener('click', () => {
       if (!isAnswered(currentIndex)) { errorText.textContent = 'Pick an option to continue.'; return; }
       currentIndex++;
       showQuestion(currentIndex);
+      logFunnelEvent('start', { question_index: 0, total_questions: activeQuestions.length, retake: true });
     });
 
     prevBtn.addEventListener('click', () => {
       currentIndex--;
       showQuestion(currentIndex);
+      logFunnelEvent('start', { question_index: 0, total_questions: activeQuestions.length, retake: true });
     });
 
     // Recommendation helpers
@@ -543,9 +593,8 @@
       const originalSubmitText = submitBtn.textContent;
       submitBtn.textContent = "Saving…";
 
-      const submissionId = crypto.randomUUID?.() || (Date.now().toString(36) + Math.random().toString(36).slice(2));
-
-      try {
+      const submissionId = runId;
+try {
         const a = Object.fromEntries(new FormData(form));
 
         const brew = a.brew || 'other';
@@ -599,6 +648,9 @@
 
           // Espresso + light on entry machine → only if not skilled
           if (brew === 'espresso' && roast === 'light') {
+            if (!hasGoodGrinder) {
+              overrideRoast('medium', "Light roast espresso needs a capable burr grinder to avoid sour, uneven shots. Medium is more forgiving.");
+            }
             const entryMachine = (machine === 'entry' || machine === 'not-sure');
             if (entryMachine && !hasAdvancedSkill) {
               overrideRoast('medium', "Light roasts on entry machines can be uneven. Medium extracts more consistently.");
@@ -674,16 +726,16 @@
               <p>${pick.why}</p>
               <p class="why-meta">
                 Built for <strong>${brewText}</strong>, drinking it <strong>${milkText}</strong>,
-                with a <strong>${grinder.replace('-', ' ')}</strong> grinder.
+                with a <strong>${grinder.replace(/-/g, ' ')}</strong> grinder.
               </p>
             </div>
         `;
 
         if (strongNotes.length > 0) {
           html += `
-            <div class="why-box" style="background:rgba(255,52,0,0.08); border:1px solid rgba(255,52,0,0.2);">
-              <p class="why-title" style="color:var(--brand);">A note from experience</p>
-              <ul style="text-align:left; margin:10px 0; padding-left:20px;">
+            <div class="why-box why-box--note">
+              <p class="why-title">A note from experience</p>
+              <ul class="note-list">
                 ${strongNotes.map(n => `<li>${n}</li>`).join('')}
               </ul>
             </div>
@@ -692,36 +744,35 @@
 
         // Email capture CTA - added class="cta-panel"
         html += `
-          <div class="why-box cta-panel" style="margin-top:32px; padding:24px;">
-            <p class="why-title" style="color:var(--brand); margin-bottom:8px; font-size:1.2rem;">Want fresh bags that actually match this?</p>
-            <p style="margin-bottom:20px; font-size:1.05rem;">
+          <div class="why-box cta-panel cta-panel--results">
+            <p class="why-title cta-title">Want fresh bags that actually match this?</p>
+            <p class="cta-copy">
               We’re launching a small weekly drop of beans that fit your exact profile.<br>
               No spam. One email only when something perfect lands.
             </p>
-            <form id="emailForm" style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+            <form id="emailForm" class="email-form">
               <input 
                 type="email" 
                 id="userEmail" 
                 placeholder="your@email.com" 
                 required 
                 aria-label="Your email address"
-                style="padding:14px 18px; border-radius:16px; border:1px solid #ccc; min-width:260px; font-size:1rem; flex:1;"
+                class="email-input"
               />
               <button 
                 type="submit" 
-                class="quiz-btn primary" 
-                style="min-width:160px;"
+                class="quiz-btn primary email-submit"
               >
                 Send me matches
               </button>
             </form>
-            <p style="margin-top:12px; font-size:0.9rem; opacity:0.8;">
+            <p class="email-footnote">
               No junk. Unsubscribe anytime. We hate spam too.
             </p>
           </div>
         `;
 
-        html += `<p class="small" style="margin-top:24px;">Coming soon: direct links to Aussie roasters that match this profile.</p></div>`;
+        html += `<p class="results-next small">Coming soon: direct links to Aussie roasters that match this profile.</p></div>`;
 
         recommendation.innerHTML = html;
 
@@ -763,9 +814,10 @@
             ev.preventDefault();
             const emailInput = document.getElementById('userEmail');
             const email = emailInput?.value.trim();
+            emailInput?.classList.remove('input-error');
 
             if (!email || !email.includes('@')) {
-              emailInput.style.borderColor = 'var(--brand)';
+              emailInput.classList.add('input-error');
               return;
             }
 
@@ -783,11 +835,13 @@
                 created_at: new Date().toISOString()
               });
 
-              emailForm.innerHTML = `<p style="font-weight:900; color:var(--brand); text-align:center;">Got it — we'll be in touch when something perfect lands.</p>`;
+              emailForm.innerHTML = `<p class="email-success">Got it — we'll be in touch when something perfect lands.</p>`;
+              return;
             } catch (err) {
               console.warn('Email signup failed:', err);
               btn.textContent = 'Try again';
             } finally {
+              if (!btn || !btn.isConnected) return;
               btn.disabled = false;
               if (origText) btn.textContent = origText;
             }
@@ -804,6 +858,7 @@
     retakeBtn.addEventListener('click', () => {
       isSubmitting = false;
       quizStartMs = nowMs();
+      runId = crypto.randomUUID?.() || (Date.now().toString(36) + Math.random().toString(36).slice(2));
 
       form.reset();
       results.hidden = true;
@@ -813,11 +868,13 @@
       rebuildActiveQuestions();
       setGrinderHint(getAnswer('brew') || 'other');
       showQuestion(currentIndex);
+      logFunnelEvent('start', { question_index: 0, total_questions: activeQuestions.length, retake: true });
     });
 
     rebuildActiveQuestions();
     setGrinderHint(getAnswer('brew') || 'other');
     showQuestion(0);
+    logFunnelEvent('start', { question_index: 0, total_questions: activeQuestions.length });
   </script>
 </body>
 </html>
