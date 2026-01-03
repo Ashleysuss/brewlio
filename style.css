@@ -1,15 +1,9 @@
 /* =========================
-   Brewlio – Full CSS (Updated)
-   Dark mode improvements:
-   - Clear surface layers (bg / card / inset / tile)
-   - Consistent borders + shadows
-   - Better option hover/checked contrast
-   - CTA “blended” panel utility (.cta-panel)
-
-   Revisions (this version):
-   - FIX: --card-bg double-hash typo
-   - NEW: --tile-bg for the 3x tiles (forced #241c15)
-   - NEW: --quiz-card-bg so quiz container != options background
+   Brewlio – Full CSS (REPLACE ALL)
+   Fixes included:
+   - Home page videos: carousel + right-coffee support <video> like <img>
+   - Removes duplicate/conflicting split-media blocks (keeps one clean set)
+   - Keeps quiz media “hard lock” so quiz GIF/video sizing never breaks
    ========================= */
 
 /* ---------- Theme tokens ---------- */
@@ -26,11 +20,11 @@
   --partner-bg: #0f0b08;
 
   --card-bg: #ffffff;          /* general cards */
-  --quiz-card-bg: #ffffff;     /* quiz container bg (kept same in light) */
-  --tile-bg: #ffffff; /* LIGHT MODE tiles */
+  --quiz-card-bg: #ffffff;     /* quiz container bg */
+  --tile-bg: #ffffff;          /* LIGHT MODE tiles */
 
   --surface-2: #f9f3ed;        /* inset panels */
-  --surface-3: #ffffff;        /* tiles/inputs in light (kept simple) */
+  --surface-3: #ffffff;        /* tiles/inputs in light */
 
   --option-bg: #f9f3ed;
   --quiz-meta-bg: #f9f3ed;
@@ -44,7 +38,7 @@
   --shadow-strong: 0 16px 45px rgba(0,0,0,0.14);
 }
 
-/* Dark mode tokens (the big fix) */
+/* Dark mode tokens */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #0a0603;
@@ -56,12 +50,11 @@
 
     --why-bg: #0f0b08;
     --partner-bg: #120d09;
-    --tile-bg: #241c15; /* DARK MODE tiles */
 
     /* Surfaces */
-    --card-bg: #241c15;         /* FIXED (was ##241c15) */
-    --quiz-card-bg: #1b1510;    /* NEW: quiz panel bg distinct from options */
-    --tile-bg: #241c15;         /* tiles forced to your requested hex */
+    --card-bg: #241c15;
+    --quiz-card-bg: #1b1510;
+    --tile-bg: #241c15;
     --surface-2: #1b1510;
     --surface-3: #241c15;
 
@@ -359,23 +352,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
   justify-content: center;
 }
 .tile {
-  background: var(--tile-bg); /* ✅ changed from --card-bg */
+  background: var(--tile-bg);
   padding: 2.4rem;
   border-radius: 20px;
   width: 280px;
   box-shadow: var(--shadow-soft);
   transition: .3s;
-  border: 1px solid rgba(255,255,255,0.10);
-  color: rgba(255,255,255,0.90);
+  border: 1px solid var(--border);
 }
-.tile h3 { color: rgba(255,255,255,0.95); }
-.tile p { color: rgba(255,255,255,0.74); }
+.tile h3 { font-weight: 900; margin-bottom: 8px; }
+.tile p { opacity: 0.9; }
 
-@media (prefers-color-scheme: dark) {
-  .tile { box-shadow: var(--shadow-soft); }
-}
-
-/* refined warm glow */
 .tile:hover {
   transform: translateY(-10px);
   box-shadow:
@@ -389,6 +376,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
   text-decoration: none;
   color: inherit;
   display: block;
+}
+
+/* Tile contrast (explicit) */
+@media (prefers-color-scheme: light) {
+  .tile, .tile h3, .tile p { color: #1c110a; }
+}
+@media (prefers-color-scheme: dark) {
+  .tile, .tile h3, .tile p { color: #f2e6d9; }
 }
 
 /* ---------- Right Coffee ---------- */
@@ -424,11 +419,20 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 }
 .right-coffee-text p { font-size: 1.35rem; opacity: 0.95; line-height: 1.7; }
 .right-coffee-gif { text-align: center; }
+
+/* ✅ Works for <img> OR <video> */
 .coffee-gif {
   width: 100%;
   max-width: 700px;
   border-radius: 24px;
   box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+  display: block;
+  object-fit: cover;
+}
+.right-coffee-gif video.coffee-gif,
+.right-coffee-gif img.coffee-gif {
+  width: 100%;
+  height: auto;
 }
 
 @media (max-width: 900px) {
@@ -446,6 +450,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
 .carousel { position: relative; max-width: 1200px; margin: 0 auto; }
 .carousel-track-container { overflow: hidden; border-radius: 16px; }
 .carousel-track { display: flex; gap: 24px; transition: transform .45s ease; padding: 12px 0; }
+
 .card {
   flex: 0 0 calc(100% - 24px);
   border-radius: 16px;
@@ -454,7 +459,20 @@ a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible 
   position: relative;
   border: 1px solid var(--border);
 }
-.card img { width: 100%; height: 300px; object-fit: cover; display: block; }
+
+/* ✅ IMPORTANT: image OR video fill the card */
+.card img,
+.card video,
+.card .card-media {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Optional: avoid iOS showing play overlay when controls accidentally appear */
+.card video { background: #000; }
+
 .label {
   position: absolute;
   bottom: 0;
@@ -588,14 +606,13 @@ footer small {
 .quiz-container {
   max-width: 860px;
   margin: 0 auto;
-  background: var(--quiz-card-bg); /* ✅ changed from --card-bg */
+  background: var(--quiz-card-bg);
   border-radius: 24px;
   box-shadow: var(--shadow);
   padding: 60px 40px;
   border: 1px solid var(--border);
 }
 
-/* subtle separation in dark mode */
 @media (prefers-color-scheme: dark) {
   .quiz-container {
     box-shadow:
@@ -640,7 +657,7 @@ footer small {
   padding: 0 10px;
 }
 
-/* Uniform GIF container */
+/* Quiz media container (base) */
 .question-gif {
   margin: 0 auto 2.1rem;
   width: 100%;
@@ -650,9 +667,11 @@ footer small {
   border-radius: 24px;
   box-shadow: 0 20px 50px rgba(0,0,0,0.25);
   border: 1px solid var(--border);
+  background: #000;
 }
 .question-gif picture,
-.question-gif img {
+.question-gif img,
+.question-gif video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -823,7 +842,7 @@ footer small {
 .why-title { font-weight: 900; margin-bottom: 6px; }
 .why-meta { margin-top: 10px; opacity: 0.9; }
 
-/* Results helpers (no inline styles) */
+/* Results helpers */
 .why-box--note{
   background: color-mix(in srgb, var(--highlight) 10%, transparent);
   border-color: color-mix(in srgb, var(--highlight) 25%, var(--border));
@@ -891,7 +910,6 @@ footer small {
 
 .results-next{ margin-top: 24px; }
 
-
 .results .small {
   opacity: 0.75;
   font-style: italic;
@@ -908,7 +926,7 @@ footer small {
   flex-wrap: wrap;
 }
 
-/* ---------- Inputs (email/text) ---------- */
+/* ---------- Inputs ---------- */
 input[type="email"], input[type="text"] {
   width: 100%;
   max-width: 420px;
@@ -925,10 +943,7 @@ input::placeholder {
   opacity: 0.75;
 }
 
-/* ---------- CTA blended panel utility ----------
-   Apply class="cta-panel" to the results email signup container.
-   If you already have a class, swap .cta-panel for that selector.
-*/
+/* ---------- CTA blended panel utility ---------- */
 .cta-panel {
   background: color-mix(in oklab, var(--highlight) 10%, var(--quiz-meta-bg));
   border: 1px solid color-mix(in oklab, var(--highlight) 22%, var(--border));
@@ -960,50 +975,265 @@ input::placeholder {
   .results-actions { width: 100%; }
   .results-actions a, .results-actions button { width: 100%; }
 }
-/* ===== Tile contrast fix (place at END of style.css) ===== */
 
-/* Make tiles use the tile background token */
-.tile {
-  background: var(--tile-bg) !important;
-}
-
-/* LIGHT MODE: dark text on light tiles */
-@media (prefers-color-scheme: light) {
-  .tile,
-  .tile h3,
-  .tile p {
-    color: #1c110a !important;
-  }
-  .tile p { opacity: 0.9; }
-}
-
-/* DARK MODE: light text on dark tiles */
-@media (prefers-color-scheme: dark) {
-  .tile,
-  .tile h3,
-  .tile p {
-    color: #f2e6d9 !important;
-  }
-  .tile p { opacity: 0.9; }
-}
-
+/* Consistent panel spacing on small screens */
 @media (max-width: 640px) {
-  .quiz-container {
-    padding: 24px;
-  }
-
-  .tile,
-  .why-box,
-  .cta-panel {
-    padding: 20px;
-  }
-
-  .question-gif {
-    margin-bottom: 20px;
-  }
+  .quiz-container { padding: 24px; }
+  .tile, .why-box, .cta-panel { padding: 20px; }
+  .question-gif { margin-bottom: 20px; }
 }
-
 
 /* Muted inline helper text (quiz option examples) */
 .muted{ opacity:0.8; font-weight:700; color: var(--muted); }
 @media (prefers-color-scheme: dark){ .muted{ color: var(--muted); opacity:0.85; } }
+
+/* =========================
+   Split module (image/video left, text right)
+   ========================= */
+.split-module{
+  padding: 110px 20px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(0,0,0,0.015), transparent 40%),
+    radial-gradient(circle at 80% 60%, rgba(0,0,0,0.02), transparent 45%),
+    #fff8f2;
+}
+@media (prefers-color-scheme: dark){
+  .split-module{
+    background:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03), transparent 40%),
+      radial-gradient(circle at 80% 60%, rgba(255,255,255,0.02), transparent 45%),
+      #0e0a07;
+  }
+}
+
+.split-inner{
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 46px;
+  align-items: stretch;
+}
+
+.split-reverse{
+  grid-template-columns: 0.95fr 1.05fr;
+}
+
+.split-media{
+  position: relative;
+  width: 100%;
+  min-height: 420px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card-bg) 92%, transparent);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* Fill media (img OR video) */
+.split-media img,
+.split-media video{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #000;
+}
+
+.split-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom right,
+    rgba(196,30,0,0.08),
+    rgba(0,0,0,0)
+  );
+  pointer-events: none;
+}
+
+.split-copy .section-lede{ margin-top: 10px; }
+
+/* Split points – clean editorial rows (no bracket) */
+.split-point{
+  position: relative;
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 14px;
+  padding: 14px 18px 14px 22px; /* extra left padding for accent */
+  border-radius: 12px;
+  background: transparent;
+  border: none;
+}
+
+.split-point::before{
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  bottom: 12px;            /* gives “breathing room” top/bottom */
+  width: 3px;
+  border-radius: 999px;    /* pill ends, but still straight */
+  background: rgba(196,30,0,0.25);
+}
+
+.split-point strong{
+  font-weight: 900;
+  color: var(--text);
+}
+
+.split-point span{
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+
+.split-point strong{ font-weight: 950; }
+.split-point span{ color: var(--muted); }
+
+@media (max-width: 920px){
+  .split-inner, .split-reverse{
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .split-media{ min-height: 260px; }
+  .split-point{ grid-template-columns: 1fr; }
+}
+@media (prefers-color-scheme: dark){
+  .split-media{
+    background: color-mix(in oklab, var(--surface-2) 70%, black);
+    box-shadow: 0 22px 60px rgba(0,0,0,0.55);
+  }
+  .split-point{
+    background: color-mix(in oklab, var(--surface-2) 55%, black);
+  }
+}
+
+/* =========================
+   QUIZ GIF/VIDEO — HARD LOCK (wins cascade)
+   Keeps quiz GIFs/videos consistent no matter what other modules do
+   ========================= */
+.quiz-section .question-gif{
+  margin: 0 auto 2.1rem;
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  border: 1px solid var(--border);
+  background: #000;
+}
+
+/* Cover-fill for ANY media type used inside the quiz gif container */
+.quiz-section .question-gif > img,
+.quiz-section .question-gif > picture,
+.quiz-section .question-gif picture > img,
+.quiz-section .question-gif > video{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+/* Radius belongs to the container, not the media */
+.quiz-section .question-gif > video,
+.quiz-section .question-gif > img,
+.quiz-section .question-gif picture > img{
+  border-radius: 0 !important;
+}
+/* =========================
+   HOME CAROUSEL — NUCLEAR FIX
+   Forces horizontal sliding layout regardless of exact HTML structure.
+   Replace your existing carousel fix block with this.
+   ========================= */
+
+/* The viewport */
+.carousel-track-container{
+  overflow: hidden !important;
+}
+
+/* The track might be .carousel-track OR a UL/OL directly inside the container */
+.carousel-track-container > .carousel-track,
+.carousel-track-container > ul,
+.carousel-track-container > ol{
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
+  gap: 24px !important;
+  padding: 12px 0 !important;
+  transition: transform .45s ease !important;
+  list-style: none !important;
+  margin: 0 !important;
+}
+
+/* Slides might be li/div/a inside the track */
+.carousel-track > li,
+.carousel-track > div,
+.carousel-track > a,
+.carousel-track-container > ul > li,
+.carousel-track-container > ol > li{
+  flex: 0 0 calc(100% - 24px) !important;
+  max-width: calc(100% - 24px) !important;
+  height: 300px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  border-radius: 16px !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-strong) !important;
+  background: #000 !important;
+}
+
+/* Responsive slide widths */
+@media (min-width: 640px){
+  .carousel-track > li,
+  .carousel-track > div,
+  .carousel-track > a,
+  .carousel-track-container > ul > li,
+  .carousel-track-container > ol > li{
+    flex-basis: calc(50% - 24px) !important;
+    max-width: calc(50% - 24px) !important;
+  }
+}
+@media (min-width: 1024px){
+  .carousel-track > li,
+  .carousel-track > div,
+  .carousel-track > a,
+  .carousel-track-container > ul > li,
+  .carousel-track-container > ol > li{
+    flex-basis: calc(33.333% - 24px) !important;
+    max-width: calc(33.333% - 24px) !important;
+  }
+}
+
+/* Media fill: works even if img/video are wrapped */
+.carousel-track-container img,
+.carousel-track-container video{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+/* If you use a class for media */
+.carousel-track-container .card-media{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+/* Label pinned to bottom */
+.carousel-track-container .label{
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 2 !important;
+}

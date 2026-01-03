@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Brewlio — Coffee that just makes sense</title>
 
-  <meta name="description" content="Brewlio matches you to a coffee style that fits how you actually drink it — grinder, brew method, milk, and taste. No jargon. No account. About a minute." />
+  <meta name="description" content="Find coffee that works with your gear, not against it. Equipment-aware matching for espresso, filter, and everything in between. Free, no signup, about a minute." />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
 </head>
@@ -15,7 +15,7 @@
   <header class="t-bar">
     <nav class="nav-left" aria-label="Primary">
       <a href="index.html#about">How it works</a>
-      <a href="index.html#shop">Styles</a>
+      <a href="index.html#styles">Styles</a>
       <a href="index.html#why">Why local</a>
       <a href="index.html#partner">Roasters</a>
     </nav>
@@ -33,8 +33,6 @@
 
   <!-- Hero -->
   <section class="hero" aria-label="Hero">
-    <!-- Stage 0 performance: use video (add Assets/hero-coffee.mp4 + optionally hero-coffee.webm).
-         Fallback image still works if video file isn't present yet. -->
     <video class="hero-img" autoplay loop muted playsinline preload="metadata" poster="Assets/hero-fallback.jpg">
       <source src="Assets/hero-coffee.webm" type="video/webm">
       <source src="Assets/hero-coffee.mp4" type="video/mp4">
@@ -64,8 +62,8 @@
     <h2>How it works</h2>
 
     <p class="section-lede">
-      Coffee shouldn’t feel like a gamble.
-      <br>There’s no “best” coffee — only coffee that fits your setup and taste.
+      Coffee shouldn't feel like a gamble.
+      <br>There's no "best" coffee — only coffee that fits your setup and taste.
     </p>
 
     <div class="tiles">
@@ -84,13 +82,13 @@
       <a href="quiz.html" class="tile">
         <div class="emoji" aria-hidden="true">🎯</div>
         <h3>Your coffee style</h3>
-        <p>Clear guidance designed for real-world cups you’ll actually finish.</p>
+        <p>Clear guidance designed for real-world cups you'll actually finish.</p>
       </a>
     </div>
 
     <div class="center-cta">
-      <a href="quiz.html" class="btn-primary">Find my match →</a>
-      <p class="micro-note">Brewlio is anti-hype by design: clarity over buzzwords.</p>
+      <a href="quiz.html" class="btn-primary">Show me what fits →</a>
+      <p class="micro-note">Clarity over buzzwords. Function over theater.</p>
     </div>
   </section>
 
@@ -98,14 +96,14 @@
   <section class="right-coffee" aria-label="Why it matters">
     <div class="right-coffee-grid">
       <div class="right-coffee-text">
-        <h2>Fewer bad bags. More “this just works.”</h2>
+        <h2>Fewer bad bags. More "this just works."</h2>
         <p>
           One great bag feels effortless.<br>
-          No half-finished bags. No “maybe I’ll learn to like it.”
+          No half-finished bags. No "maybe I'll learn to like it."
           Just coffee that makes sense for you.
         </p>
         <br>
-        <a href="quiz.html" class="btn-primary">Show me what fits →</a>
+        <a href="quiz.html" class="btn-primary">Get my profile →</a>
       </div>
 
       <div class="right-coffee-gif">
@@ -115,10 +113,10 @@
   </section>
 
   <!-- Styles carousel -->
-  <section class="featured" id="shop" aria-label="Coffee styles we match for">
+  <section class="featured" id="styles" aria-label="Coffee styles we match for">
     <h2>Styles we match for</h2>
     <p class="section-lede">
-      You won’t get a “best coffee” list here. You’ll get a style that fits your setup — and what to look for when you buy.
+      You won't get a "best coffee" list here. You'll get a style that fits your setup — and what to look for when you buy.
     </p>
 
     <div class="carousel" role="region" aria-label="Style carousel">
@@ -136,56 +134,62 @@
     </div>
 
     <div class="center-cta">
-      <a href="quiz.html" class="btn-primary">Find my match →</a>
-      <p class="micro-note">Pilot mode: we're refining profiles and onboarding roaster partnerships.</p>
+      <a href="quiz.html" class="btn-primary">See what works for me →</a>
+      <p class="micro-note">Style examples — not specific products.</p>
     </div>
   </section>
+<!-- Split module -->
+<section class="split-module" aria-label="Brewlio matching">
+  <div class="split-inner split-reverse">
 
-  <!-- Pilot proof -->
-  <section class="how-it-works" aria-label="Pilot proof">
-    <h2>Built for real-world coffee</h2>
-    <p class="section-lede">
-      This is a currently a pilot — but the promise is simple: fewer regrettable bags, more coffee you actually finish.
-    </p>
-
-    <div class="tiles">
-      <div class="tile" role="group" aria-label="Proof tile 1">
-        <div class="emoji" aria-hidden="true">🧠</div>
-        <h3>Setup-aware matching</h3>
-        <p>We don't pretend gear doesn't matter. We match for what you can actually extract.</p>
-      </div>
-
-      <div class="tile" role="group" aria-label="Proof tile 2">
-        <div class="emoji" aria-hidden="true">🧪</div>
-        <h3>Refined weekly</h3>
-        <p>We improve profiles based on real answers and outcomes — not roaster marketing copy.</p>
-      </div>
-
-      <div class="tile" role="group" aria-label="Proof tile 3">
-        <div class="emoji" aria-hidden="true">🧭</div>
-        <h3>Curated, not a directory</h3>
-        <p>We’ll feature roasters when they consistently fit specific profiles — not pay-to-play.</p>
-      </div>
+    <div class="split-media">
+      <img 
+        src="Assets/v60.jpg"
+        alt="Pour-over coffee being brewed outdoors"
+        loading="lazy"
+      />
     </div>
 
-    <div class="center-cta">
-      <a href="quiz.html" class="btn-primary">Get my profile →</a>
+    <div class="split-copy">
+      <h2>Built for real-world coffee</h2>
+      <p class="section-lede">
+        Brewlio matches you to beans that suit your grinder, brew method, and taste — without the jargon.
+      </p>
+
+      <div class="split-points">
+        <div class="split-point">
+          <strong>Setup-aware</strong>
+          <span>Grind range + method matters.</span>
+        </div>
+        <div class="split-point">
+          <strong>Clear tastes</strong>
+          <span>Flavours you actually recognise.</span>
+        </div>
+        <div class="split-point">
+          <strong>Fit-first</strong>
+          <span>No pay-to-play recommendations.</span>
+        </div>
+      </div>
+
+      <a class="btn-primary" href="quiz.html">Match me →</a>
     </div>
-  </section>
+  </div>
+</section>
+
+
 
   <!-- Why local -->
   <section class="why-local" id="why" aria-label="Why local matters">
     <h2>Why local roasters hit different</h2>
-    <p>Your coffee was roasted recently — not months ago. It ships faster, tastes better in real-world setups, and it’s easier to trust.</p>
-    <p class="micro-note">We’re Australia-first because freshness and consistency matter. Anything else is a compromise.</p>
+    <p>Your coffee was roasted recently — not months ago. It ships faster, tastes better in real-world setups, and it's easier to trust.</p>
+    <p class="micro-note">We're Australia-first because freshness and consistency matter. Anything else is a compromise.</p>
   </section>
-
   <!-- Roasters -->
   <section class="partner" id="partner" aria-label="Roasters">
     <h2>Are you a roaster?</h2>
     <p>
       Brewlio matches people to coffee profiles — and we want roasters who genuinely fit those profiles.
-      If your coffees are consistent and you care about repeat drinkers, let’s talk.
+      If your coffees are consistent and you care about repeat drinkers, let's talk.
     </p>
     <a href="mailto:hello@brewlio.com" class="btn-secondary">Email us</a>
     <p class="micro-note">Curated by design. Not pay-to-play. Not a directory.</p>
@@ -193,42 +197,46 @@
 
   <!-- Footer -->
   <footer>
-    <p>Brewlio — coffee that just makes sense.<br>
-    <small>Built to remove regret from buying coffee.</small></p>
+    <p>Brewlio — coffee that just makes sense.</p>
+    <small>Built to remove regret from buying coffee.</small>
+    
+    <nav style="margin-top:20px;">
+      <a href="mailto:hello@brewlio.com" style="color:#888; margin:0 10px; text-decoration:none;">Contact</a>
+      <a href="privacy.html" style="color:#888; margin:0 10px; text-decoration:none;">Privacy</a>
+    </nav>
+    
+    <small style="margin-top:10px; display:block;">Melbourne, Australia</small>
   </footer>
 
   <script>
     // Greeting (time-of-day only)
     (() => {
       const el = document.getElementById('greeting');
-
       const h = new Date().getHours();
-      const time = new Date().toLocaleTimeString([], { hour: 'numeric' });
-
       const group = (h >= 18 || h < 5) ? 'night' : (h < 12 ? 'morning' : 'day');
 
       const messages = {
         night: [
-          `After ${time} and still sipping coffee? Bold move.`,
-          `Evening coffee? Respect. Let’s make it a good one.`,
-          `Late coffee energy. Let’s find a style you’ll actually finish.`
+          `Evening coffee? Bold move.`,
+          `Late coffee energy. Let's find what fits.`,
+          `After hours? Let's make it count.`
         ],
         morning: [
-          `Morning. Let’s make your first cup count.`,
-          `Good morning. Flat white o’clock.`,
-          `Sun’s up. Time for a better bag.`
+          `Morning. Let's make your first cup count.`,
+          `Good morning. Time for better coffee.`,
+          `Sun's up. Let's find a better bag.`
         ],
         day: [
           `Ready for better coffee?`,
           `Your next bag can be way better.`,
-          `Quick match → better coffee. No jargon.`
+          `Let's find what actually fits your setup.`
         ]
       };
 
       const tips = {
-        night: `Tip: Great decaf exists — and it’s getting better.`,
-        morning: `Tip: Medium roasts are the safest “this just works” starting point.`,
-        day: `Tip: Grinder consistency beats “fancier beans” more often than people think.`
+        night: `Tip: Good decaf + capable grinder > mediocre regular coffee.`,
+        morning: `Tip: Medium roasts are the safest "this just works" starting point.`,
+        day: `Tip: Grinder consistency beats "fancier beans" more often than people think.`
       };
 
       const msg = messages[group][Math.floor(Math.random() * messages[group].length)];

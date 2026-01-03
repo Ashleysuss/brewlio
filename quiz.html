@@ -48,96 +48,106 @@
       <form id="coffeeQuiz" novalidate>
 
         <!-- Q1: Brew method -->
-        <fieldset class="question active" data-q="brew">
-          <legend>How do you mostly brew your coffee?</legend>
-          <div class="question-gif">
-            <picture>
-              <source srcset="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWp4cXN4MHcyNXFobXJycW14dmhsYWJmaHp1NHN1c2N0NTdkcHp5OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mQCc4gIeZf746w1hSZ/giphy.gif" type="image/gif">
-              <img src="Assets/espresso_fallback.jpg" alt="Espresso shot pulling" loading="lazy" />
-            </picture>
-          </div>
+<fieldset class="question active" data-q="brew">
+  <legend>How do you mostly brew your coffee?</legend>
+  <div class="question-gif">
+    <video 
+      autoplay 
+      loop 
+      muted 
+      playsinline 
+      poster="Assets/heroimage.jpg"
+      preload="metadata">
+      <source src="Assets/Question1.mp4" type="video/mp4">
+      <img src="Assets/heroimage.jpg" alt="Coffee beans pouring">
+    </video>
+  </div>
 
-          <div class="options" role="radiogroup" aria-label="Brew method">
-            <div class="option">
-              <input type="radio" id="brew-espresso" name="brew" value="espresso" required>
-              <label for="brew-espresso">Espresso machine <span class="muted">— Breville, Gaggia, similar</span></label>
-            </div>
+  <div class="options" role="radiogroup" aria-label="Brew method">
+    <div class="option">
+      <input type="radio" id="brew-espresso" name="brew" value="espresso" required>
+      <label for="brew-espresso">Espresso machine <span class="muted">— Breville, Gaggia, similar</span></label>
+    </div>
+    <div class="option">
+      <input type="radio" id="brew-manual" name="brew" value="manual">
+      <label for="brew-manual">Manual filter <span class="muted">— V60, AeroPress, pour-over</span></label>
+    </div>
+    <div class="option">
+      <input type="radio" id="brew-batch" name="brew" value="batch">
+      <label for="brew-batch">Batch filter <span class="muted">— Moccamaster-style brewers</span></label>
+    </div>
+    <div class="option">
+      <input type="radio" id="brew-body" name="brew" value="body">
+      <label for="brew-body">Immersion / stovetop <span class="muted">— French press, moka pot</span></label>
+    </div>
+    <div class="option">
+      <input type="radio" id="brew-other" name="brew" value="other">
+      <label for="brew-other">Other or instant <span class="muted">— no judgement here</span></label>
+    </div>
+  </div>
 
-            <div class="option">
-              <input type="radio" id="brew-manual" name="brew" value="manual">
-              <label for="brew-manual">Manual filter <span class="muted">— V60, AeroPress, pour-over</span></label>
-            </div>
+  <p class="micro-note micro-note--spaced">Pick the one you do most often.</p>
+</fieldset>
 
-            <div class="option">
-              <input type="radio" id="brew-batch" name="brew" value="batch">
-              <label for="brew-batch">Batch filter <span class="muted">— Moccamaster-style brewers</span></label>
-            </div>
+<!-- Q2: Grinder -->
+<fieldset class="question" data-q="grinder">
+  <legend>What are you grinding with?</legend>
+  <div class="question-gif">
+    <video 
+      autoplay 
+      loop 
+      muted 
+      playsinline 
+      poster="Assets/roast_fallback.jpg"
+      preload="metadata">
+      <source src="Assets/Question2.mp4" type="video/mp4">
+      <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
+    </video>
+  </div>
 
-            <div class="option">
-              <input type="radio" id="brew-body" name="brew" value="body">
-              <label for="brew-body">Immersion / stovetop <span class="muted">— French press, moka pot</span></label>
-            </div>
+  <div class="options" role="radiogroup" aria-label="Grinder tier">
+    <div class="option">
+      <input type="radio" id="gr-pre" name="grinder" value="pre-ground" required>
+      <label for="gr-pre">Pre-ground coffee <span class="muted">— or I don’t grind at all</span></label>
+    </div>
+    <div class="option">
+      <input type="radio" id="gr-blade" name="grinder" value="blade">
+      <label for="gr-blade">Blade grinder <span class="muted">— inconsistent, but common</span></label>
+    </div>
+    <div class="option">
+      <input type="radio" id="gr-entry" name="grinder" value="burr-entry">
+      <label for="gr-entry">Entry-level burr <span class="muted">— Smart Grinder Pro, Encore</span></label>
+    </div>
+    <div class="option">
+      <input type="radio" id="gr-good" name="grinder" value="burr-good">
+      <label for="gr-good">Good burr grinder <span class="muted">— DF64, Niche, similar</span></label>
+    </div>
+    <div class="option">
+      <input type="radio" id="gr-pro" name="grinder" value="pro">
+      <label for="gr-pro">High-end or commercial <span class="muted">— 078s, EK43</span></label>
+    </div>
+  </div>
 
-            <div class="option">
-              <input type="radio" id="brew-other" name="brew" value="other">
-              <label for="brew-other">Other or instant <span class="muted">— no judgement here</span></label>
-            </div>
-          </div>
-
-          <p class="micro-note micro-note--spaced">Pick the one you do most often.</p>
-        </fieldset>
-
-        <!-- Q2: Grinder -->
-        <fieldset class="question" data-q="grinder">
-          <legend>What are you grinding with?</legend>
-          <div class="question-gif">
-            <picture>
-              <source srcset="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWdlZGh5M3dyMXBqbjlqY2dhcWhjcWNpNnR6ZTk3MjAwNmpnZ2d2eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YlN4W49tpnRduYwY0L/giphy.gif" type="image/gif">
-              <img src="Assets/roast_fallback.jpg" alt="Grinding coffee" loading="lazy" />
-            </picture>
-          </div>
-
-          <div class="options" role="radiogroup" aria-label="Grinder tier">
-            <div class="option">
-              <input type="radio" id="gr-pre" name="grinder" value="pre-ground" required>
-              <label for="gr-pre">Pre-ground coffee <span class="muted">— or I don’t grind at all</span></label>
-            </div>
-
-            <div class="option">
-              <input type="radio" id="gr-blade" name="grinder" value="blade">
-              <label for="gr-blade">Blade grinder <span class="muted">— inconsistent, but common</span></label>
-            </div>
-
-            <div class="option">
-              <input type="radio" id="gr-entry" name="grinder" value="burr-entry">
-              <label for="gr-entry">Entry-level burr <span class="muted">— Smart Grinder Pro, Encore</span></label>
-            </div>
-
-            <div class="option">
-              <input type="radio" id="gr-good" name="grinder" value="burr-good">
-              <label for="gr-good">Good burr grinder <span class="muted">— DF64, Niche, similar</span></label>
-            </div>
-
-            <div class="option">
-              <input type="radio" id="gr-pro" name="grinder" value="pro">
-              <label for="gr-pro">High-end or commercial <span class="muted">— 078s, EK43</span></label>
-            </div>
-          </div>
-
-          <p class="micro-note micro-note--spaced" id="grinderHint">
-            Hand grinders count — placement depends on brew style.
-          </p>
-        </fieldset>
+  <p class="micro-note micro-note--spaced" id="grinderHint">
+    Hand grinders count — placement depends on brew style.
+  </p>
+</fieldset>
 
         <!-- Q3: Espresso machine (conditional) -->
         <fieldset class="question" data-q="machine" data-conditional="espresso">
           <legend>If you make espresso, which machine tier is closest?</legend>
           <div class="question-gif">
-            <picture>
-              <source srcset="Assets/Question3.gif" type="image/gif">
-              <img src="Assets/espresso_fallback.jpg" alt="Espresso machine" loading="lazy" />
-            </picture>
-          </div>
+            <video 
+      autoplay 
+      loop 
+      muted 
+      playsinline 
+      poster="Assets/roast_fallback.jpg"
+      preload="metadata">
+      <source src="Assets/Question3.mp4" type="video/mp4">
+      <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
+    </video>
+  </div>
 
           <div class="options" role="radiogroup" aria-label="Espresso machine tier">
             <div class="option">
@@ -199,10 +209,16 @@
         <fieldset class="question" data-q="flavour">
           <legend>What flavours do you enjoy most?</legend>
           <div class="question-gif">
-            <picture>
-              <source srcset="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdjh6cjVrNGQ3dzJvZ3B6bWs4NnEwNG4zZTZoa210Ymd6bXZvNmtsbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/4barzGdH1TB4aakAMv/giphy.gif" type="image/gif">
-              <img src="Assets/fruity_fallback.jpg" alt="Coffee pour" loading="lazy" />
-            </picture>
+           <video 
+      autoplay 
+      loop 
+      muted 
+      playsinline 
+      poster="Assets/roast_fallback.jpg"
+      preload="metadata">
+      <source src="Assets/Question5.mp4" type="video/mp4">
+      <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
+    </video>
           </div>
 
           <div class="options" role="radiogroup" aria-label="Flavour preference">
@@ -235,12 +251,17 @@
 
         <!-- Q6: Roast -->
         <fieldset class="question" data-q="roast">
-          <legend>How dark do you like your coffee?</legend>
-          <div class="question-gif">
-            <picture>
-              <source srcset="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzRyYXk2NHJreHRxdDRraThzeGg3bnY4bmczbXBuNnIxdjdkNjh6dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lg6LhRzBjPO6xIaHen/giphy.gif" type="image/gif">
-              <img src="Assets/roast_fallback.jpg" alt="Coffee beans roasting" loading="lazy" />
-            </picture>
+         <div class="question-gif">
+           <video 
+      autoplay 
+      loop 
+      muted 
+      playsinline 
+      poster="Assets/roast_fallback.jpg"
+      preload="metadata">
+      <source src="Assets/Question6.mp4" type="video/mp4">
+      <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
+    </video>
           </div>
 
           <div class="options" role="radiogroup" aria-label="Roast preference">
@@ -275,10 +296,16 @@
         <fieldset class="question" data-q="skill">
           <legend>How deep are you into coffee?</legend>
           <div class="question-gif">
-            <picture>
-              <source srcset="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" type="image/gif">
-              <img src="Assets/latteart_fallback.jpg" alt="Coffee workflow" loading="lazy" />
-            </picture>
+           <video 
+      autoplay 
+      loop 
+      muted 
+      playsinline 
+      poster="Assets/roast_fallback.jpg"
+      preload="metadata">
+      <source src="Assets/Question7.mp4" type="video/mp4">
+      <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
+    </video>
           </div>
 
           <div class="options" role="radiogroup" aria-label="Skill level">
@@ -313,10 +340,16 @@
         <fieldset class="question" data-q="pain">
           <legend>What ruins a coffee for you?</legend>
           <div class="question-gif">
-            <picture>
-              <source srcset="https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif" type="image/gif">
-              <img src="Assets/latteart_fallback.jpg" alt="Coffee frustration" loading="lazy" />
-            </picture>
+              <video 
+      autoplay 
+      loop 
+      muted 
+      playsinline 
+      poster="Assets/roast_fallback.jpg"
+      preload="metadata">
+      <source src="Assets/Question8.mp4" type="video/mp4">
+      <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
+    </video>
           </div>
 
           <div class="options" role="radiogroup" aria-label="Biggest coffee frustration">
