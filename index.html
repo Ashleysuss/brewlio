@@ -93,8 +93,11 @@
         preload="metadata"
         poster="Assets/heroimage.jpg"
         aria-hidden="true">
-        <source src="Assets/hero-coffee.webm" type="video/webm">
-        <source src="Assets/hero-coffee.mp4" type="video/mp4">
+        <!-- FIX: removed missing hero video sources to stop 404 console errors -->
+        <!-- If/when you upload these files, add them back:
+             <source src="Assets/hero-coffee.webm" type="video/webm">
+             <source src="Assets/hero-coffee.mp4" type="video/mp4">
+        -->
         <!-- Fallback if video unsupported -->
         <img src="Assets/heroimage.jpg" alt="" loading="lazy" />
       </video>
@@ -311,6 +314,7 @@
     (function handleReducedMotion() {
       const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!reduce) return;
+
       document.querySelectorAll('video').forEach(v => {
         try {
           v.pause();
@@ -318,6 +322,12 @@
           v.preload = 'none';
         } catch (e) {}
       });
+
+      // FIX: if reduced motion is on, hide hero video element so image poster/fallback doesn't behave oddly
+      const heroVideo = document.querySelector('.hero .hero-img');
+      if (heroVideo && heroVideo.tagName && heroVideo.tagName.toLowerCase() === 'video') {
+        try { heroVideo.style.display = 'none'; } catch (e) {}
+      }
     })();
 
     // Greeting (time-of-day only)
@@ -367,10 +377,12 @@
     }
 
     function maxIndex() {
+      if (!track || !track.children) return 0;
       return Math.max(0, track.children.length - visibleCards());
     }
 
     function updateControls() {
+      if (!prev || !next) return;
       const atStart = index <= 0;
       const atEnd = index >= maxIndex();
 
