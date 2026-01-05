@@ -1298,3 +1298,59 @@ input::placeholder {
   bottom: 0 !important;
   z-index: 2 !important;
 }
+
+
+/* =========================
+   Share icons (results page)
+   ========================= */
+.share-icons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.share-icons .share-label{
+  margin-right: 6px;
+}
+.icon-btn{
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.12);
+  background: var(--option-bg);
+  color: var(--text);
+  text-decoration: none;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+}
+@media (prefers-color-scheme: dark){
+  .icon-btn{
+    border-color: rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+  }
+}
+.icon-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0,0,0,.10);
+}
+.icon-btn svg{
+  width: 20px;
+  height: 20px;
+  display: block;
+  fill: currentColor;
+}
+/* === Share icons hard-fix === */
+.share-icons .icon-btn{
+  width: 44px !important;
+  height: 44px !important;
+  display: grid !important;
+  place-items: center !important;
+}
+.share-icons .icon-btn svg{
+  width: 20px !important;
+  height: 20px !important;
+  display: block !important;
+}

@@ -94,11 +94,6 @@
         poster="Assets/heroimage.jpg"
         aria-hidden="true">
         <!-- FIX: removed missing hero video sources to stop 404 console errors -->
-        <!-- If/when you upload these files, add them back:
-             <source src="Assets/hero-coffee.webm" type="video/webm">
-             <source src="Assets/hero-coffee.mp4" type="video/mp4">
-        -->
-        <!-- Fallback if video unsupported -->
         <img src="Assets/heroimage.jpg" alt="" loading="lazy" />
       </video>
 
@@ -106,12 +101,12 @@
         <h1 id="hero-title">Coffee, matched to how you actually drink it.</h1>
 
         <p class="lede">
-          We learn your setup, habits, and taste — then guide you to a coffee style that fits.
+          We learn your setup, habits, and taste — then give you a clear coffee style that fits.
           <br><span class="lede-sub">Free. No account. Retake anytime.</span>
         </p>
 
         <div class="hero-cta">
-          <a href="quiz.html" class="btn-primary">Find my match →</a>
+          <a href="quiz.html" class="btn-primary" id="startQuizLink">Find my match →</a>
         </div>
 
         <p class="micro-proof">
@@ -153,7 +148,7 @@
         <a href="quiz.html" class="tile" role="listitem">
           <div class="emoji" aria-hidden="true">🎯</div>
           <h3>Your coffee style</h3>
-          <p>Clear guidance designed for real-world cups you'll actually finish.</p>
+          <p>A practical style profile designed for real-world cups you’ll actually finish.</p>
         </a>
       </div>
 
@@ -192,7 +187,7 @@
     <section class="featured" id="styles" aria-labelledby="styles-title">
       <h2 id="styles-title">Styles we match for</h2>
       <p class="section-lede">
-        You won't get a "best coffee" list here. You'll get a style that fits your setup — and what to look for when you buy.
+         You won’t get a “best coffee” list here. You’ll get a style that fits your setup — and clearer signals for choosing beans yourself.
       </p>
 
       <div class="carousel" aria-label="Coffee styles carousel">
@@ -288,8 +283,8 @@
     <section class="partner" id="partner" aria-labelledby="partner-title">
       <h2 id="partner-title">Are you a roaster?</h2>
       <p>
-        Brewlio matches people to coffee profiles — and we want roasters who genuinely fit those profiles.
-        If your coffees are consistent and you care about repeat drinkers, let's talk.
+        Brewlio defines coffee profiles based on real setups and habits.
+        We’re speaking with roasters who genuinely fit those profiles — thoughtfully and without pay-to-play.
       </p>
       <a href="mailto:hello@brewlio.com" class="btn-secondary">Email us</a>
       <p class="micro-note">Curated by design. Not pay-to-play. Not a directory.</p>
@@ -323,7 +318,6 @@
         } catch (e) {}
       });
 
-      // FIX: if reduced motion is on, hide hero video element so image poster/fallback doesn't behave oddly
       const heroVideo = document.querySelector('.hero .hero-img');
       if (heroVideo && heroVideo.tagName && heroVideo.tagName.toLowerCase() === 'video') {
         try { heroVideo.style.display = 'none'; } catch (e) {}
@@ -364,6 +358,50 @@
       const tip = tips[group];
 
       el.innerHTML = `<strong>${msg}</strong><span class="tip">${tip}</span>`;
+    })();
+
+    // =========================================================
+    // Carry UTM params to quiz links (robust + merge)
+    // =========================================================
+    (function carryUTMsToQuizLinks() {
+      const current = new URL(window.location.href);
+
+      // Only do anything if the current URL has utm params
+      const hasUtm = Array.from(current.searchParams.keys()).some(k => /^utm_/i.test(k));
+      if (!hasUtm) return;
+
+      function mergeUtmParams(intoUrl) {
+        // Merge ONLY utm_* from current into intoUrl if not already present there
+        current.searchParams.forEach((val, key) => {
+          if (!/^utm_/i.test(key)) return;
+          if (!intoUrl.searchParams.get(key)) intoUrl.searchParams.set(key, val);
+        });
+      }
+
+      document.querySelectorAll('a[href]').forEach(a => {
+        const raw = a.getAttribute('href');
+        if (!raw) return;
+
+        // Skip anchors/mailto/tel
+        if (raw.startsWith('#')) return;
+        if (/^(mailto:|tel:)/i.test(raw)) return;
+
+        let target;
+        try {
+          target = new URL(raw, window.location.origin);
+        } catch (e) {
+          return;
+        }
+
+        // Only apply to quiz.html
+        if (!/\/?quiz\.html$/i.test(target.pathname)) return;
+
+        mergeUtmParams(target);
+
+        // Preserve relative format (avoid forcing full origin)
+        const newHref = target.pathname + (target.search || "") + (target.hash || "");
+        a.setAttribute('href', newHref);
+      });
     })();
 
     // Carousel (bounds + aria + disabled buttons + keyboard)

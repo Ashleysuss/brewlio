@@ -3,38 +3,185 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Brewlio — Find your coffee style</title>
+
   <meta name="description" content="Brewlio matches you to a coffee style that fits how you actually drink it — setup, milk, and taste included. No jargon. No account. About a minute." />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#c41e00" />
-
-  <link rel="canonical" href="https://brewlio.com/quiz.html" />
+  <link rel="canonical" href="https://brewlio.com.au/quiz.html" />
 
   <!-- Open Graph -->
   <meta property="og:site_name" content="Brewlio" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_AU" />
   <meta property="og:title" content="Brewlio — Find your coffee style" />
-  <meta property="og:description" content="Answer a few quick questions. Get a coffee style that fits your setup, milk, and taste." />
-  <meta property="og:url" content="https://brewlio.com/quiz.html" />
-  <meta property="og:image" content="https://brewlio.com/Assets/heroimage.jpg" />
+  <meta property="og:description" content="Coffee matched to how you actually drink it. Setup, milk, taste included. Free, no signup, about a minute." />
+  <meta property="og:url" content="https://brewlio.com.au/quiz.html" />
+  <meta property="og:image" content="https://brewlio.com.au/Assets/heroimage.jpg" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Brewlio — Find your coffee style" />
-  <meta name="twitter:description" content="Answer a few quick questions. Get a coffee style that fits your setup, milk, and taste." />
-  <meta name="twitter:image" content="https://brewlio.com/Assets/heroimage.jpg" />
+  <meta name="twitter:description" content="Coffee matched to how you actually drink it. Setup, milk, taste included. Free, no signup, about a minute." />
+  <meta name="twitter:image" content="https://brewlio.com.au/Assets/heroimage.jpg" />
 
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- =========================================================
+       ✅ SINGLE SOURCE OF TRUTH — Attribution capture (runs EARLY)
+       - Stores even if no UTMs (captures referrer + landing_path)
+       - Preserves first-touch landing_path/referrer
+       - Adds UTMs when present later
+     ========================================================= -->
+  <script>
+  (function captureBrewlioAttributionEarly(){
+    const KEY = "brewlio_attr_v1";
+
+    function getUtmParams(){
+      const p = new URLSearchParams(window.location.search);
+      const out = {};
+      ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(k => {
+        const v = p.get(k);
+        if (v && String(v).trim().length) out[k] = String(v).trim();
+      });
+      return out;
+    }
+
+    function safeHost(url){
+      try { return new URL(url).host; } catch(e){ return null; }
+    }
+
+    function load(){
+      const raw = sessionStorage.getItem(KEY) || localStorage.getItem(KEY);
+      if (!raw) return null;
+      try { return JSON.parse(raw); } catch(e){ return null; }
+    }
+
+    function save(obj){
+      const s = JSON.stringify(obj);
+      sessionStorage.setItem(KEY, s);
+      localStorage.setItem(KEY, s);
+    }
+
+    const now = new Date().toISOString();
+    const existing = load();
+    const utms = getUtmParams();
+    const hasUtms = Object.keys(utms).length > 0;
+
+    const candidate = {
+      ...utms,
+      referrer: document.referrer || null,
+      referrer_host: document.referrer ? safeHost(document.referrer) : null,
+      landing_path: window.location.pathname || null,
+      first_seen_at: now,
+      last_seen_at: now
+    };
+
+    // First touch: store immediately (even with zero UTMs)
+    if (!existing) {
+      save(candidate);
+      return;
+    }
+
+    // Merge without overwriting first-touch
+    const merged = { ...existing };
+    merged.last_seen_at = now;
+
+    if (hasUtms) {
+      ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(k => {
+        if (!merged[k] && utms[k]) merged[k] = utms[k];
+      });
+    }
+
+    if (!merged.referrer && candidate.referrer) merged.referrer = candidate.referrer;
+    if (!merged.referrer_host && candidate.referrer_host) merged.referrer_host = candidate.referrer_host;
+    if (!merged.landing_path && candidate.landing_path) merged.landing_path = candidate.landing_path;
+    if (!merged.first_seen_at) merged.first_seen_at = candidate.first_seen_at;
+
+    save(merged);
+  })();
+  </script>
+
+  <!-- ✅ PATCH (dark mode bullets): ensures .note-list markers are visible even if global resets exist -->
+  <style>
+    .note-list{
+      list-style: disc;
+      list-style-position: outside;
+      padding-left: 1.25rem;
+      margin: 0.75rem 0 0;
+    }
+    .note-list li{ margin: 0.35rem 0; }
+    .note-list li::marker{ color: var(--text, currentColor); }
+
+    /* Minimal toast (no CSS file changes required) */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      z-index: 9999;
+      min-width: min(520px, calc(100vw - 28px));
+      background: rgba(20,14,10,0.96);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 14px;
+      padding: 12px 14px;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+    .toast.is-on{
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(-4px);
+    }
+    .toast .t-emoji{ line-height: 1.2; margin-top: 1px; }
+    .toast .t-body{ flex: 1; }
+    .toast .t-title{ font-weight: 700; margin: 0 0 2px; font-size: 0.95rem; }
+    .toast .t-msg{ margin: 0; opacity: 0.92; font-size: 0.92rem; }
+    .toast .t-close{
+      background: transparent;
+      border: 0;
+      color: rgba(255,255,255,0.85);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 2px 6px;
+      margin-left: 4px;
+    }
+
+    /* ✅ HARD PATCH: Share icons sizing (prevents giant SVGs even if CSS cached) */
+    .share-icons{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:14px;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+    .share-icons .icon-btn{
+      width:44px;
+      height:44px;
+      display:grid;
+      place-items:center;
+      border-radius:999px;
+      background: transparent;
+    }
+    .share-icons .icon-btn svg{
+      width:20px;
+      height:20px;
+      display:block;
+    }
+  </style>
 </head>
 <body>
-
-  <!-- Skip link -->
-  <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="t-bar">
     <nav class="nav-left" aria-label="Quiz navigation">
@@ -51,449 +198,375 @@
     <span class="tip">About a minute. Pick what sounds like you. No jargon. No account.</span>
   </div>
 
-  <main id="main">
-    <section class="quiz-section" aria-label="Coffee style quiz">
-      <div class="quiz-container">
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+    <div class="t-emoji" aria-hidden="true">☕</div>
+    <div class="t-body">
+      <p class="t-title" id="toastTitle">Notice</p>
+      <p class="t-msg" id="toastMsg">…</p>
+    </div>
+    <button class="t-close" id="toastClose" aria-label="Dismiss">×</button>
+  </div>
 
-        <div class="quiz-header">
-          <h1>Find your coffee style</h1>
-          <p class="quiz-lede">
-            There’s no “best” coffee — only coffee that fits your setup and taste.
-            <span class="quiz-lede-sub">Free. No account. Retake anytime.</span>
-          </p>
+  <section class="quiz-section">
+    <div class="quiz-container">
 
-          <div class="quiz-meta" aria-label="Progress">
-            <span id="stepText" class="step-text">Question 1 of 8</span>
-            <span id="stepHint" class="step-hint">Pick one to continue</span>
-          </div>
+      <div class="quiz-header">
+        <h1>Find your coffee style</h1>
+        <p class="quiz-lede">
+          There’s no “best” coffee — only coffee that fits your setup and taste.
+          <span class="quiz-lede-sub">Free. No account. Retake anytime.</span>
+        </p>
+
+        <div class="quiz-meta" aria-label="Progress">
+          <span id="stepText" class="step-text">Question 1 of 8</span>
+          <span id="stepHint" class="step-hint">Pick one to continue</span>
         </div>
-
-        <noscript>
-          <div class="why-box" style="margin-top:18px;">
-            <p class="why-title">JavaScript required</p>
-            <p>This quiz needs JavaScript to show questions and generate your match.</p>
-          </div>
-        </noscript>
-
-        <form id="coffeeQuiz" novalidate aria-describedby="stepHint">
-
-          <!-- Q1: Brew method -->
-          <fieldset class="question active" data-q="brew">
-            <legend>How do you mostly brew your coffee?</legend>
-
-            <div class="question-gif">
-              <video
-                class="q-video"
-                autoplay
-                loop
-                muted
-                playsinline
-                webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
-                preload="metadata"
-                aria-hidden="true">
-                <source src="Assets/040126_Question1.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
-              </video>
-            </div>
-
-            <div class="options" role="radiogroup" aria-label="Brew method">
-              <div class="option">
-                <input type="radio" id="brew-espresso" name="brew" value="espresso" required>
-                <label for="brew-espresso">Espresso machine <span class="muted">— Breville, Gaggia, similar</span></label>
-              </div>
-              <div class="option">
-                <input type="radio" id="brew-manual" name="brew" value="manual">
-                <label for="brew-manual">Manual filter <span class="muted">— V60, AeroPress, pour-over</span></label>
-              </div>
-              <div class="option">
-                <input type="radio" id="brew-batch" name="brew" value="batch">
-                <label for="brew-batch">Batch filter <span class="muted">— Moccamaster-style brewers</span></label>
-              </div>
-              <div class="option">
-                <input type="radio" id="brew-body" name="brew" value="body">
-                <label for="brew-body">Immersion / stovetop <span class="muted">— French press, moka pot</span></label>
-              </div>
-              <div class="option">
-                <input type="radio" id="brew-other" name="brew" value="other">
-                <label for="brew-other">Other or instant <span class="muted">— no judgement here</span></label>
-              </div>
-            </div>
-
-            <p class="micro-note micro-note--spaced" id="brewNote">Pick the one you do most often.</p>
-          </fieldset>
-
-          <!-- Q2: Grinder -->
-          <fieldset class="question" data-q="grinder">
-            <legend>What are you grinding with?</legend>
-
-            <div class="question-gif">
-              <video
-                class="q-video"
-                autoplay
-                loop
-                muted
-                playsinline
-                webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
-                preload="metadata"
-                aria-hidden="true">
-                <source src="Assets/040126_Question2.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
-              </video>
-            </div>
-
-            <div class="options" role="radiogroup" aria-label="Grinder tier">
-              <div class="option">
-                <input type="radio" id="gr-pre" name="grinder" value="pre-ground" required>
-                <label for="gr-pre">Pre-ground coffee <span class="muted">— or I don’t grind at all</span></label>
-              </div>
-              <div class="option">
-                <input type="radio" id="gr-blade" name="grinder" value="blade">
-                <label for="gr-blade">Blade grinder <span class="muted">— inconsistent, but common</span></label>
-              </div>
-              <div class="option">
-                <input type="radio" id="gr-entry" name="grinder" value="burr-entry">
-                <label for="gr-entry">Entry-level burr <span class="muted">— Smart Grinder Pro, Encore</span></label>
-              </div>
-              <div class="option">
-                <input type="radio" id="gr-good" name="grinder" value="burr-good">
-                <label for="gr-good">Good burr grinder <span class="muted">— DF64, Niche, similar</span></label>
-              </div>
-              <div class="option">
-                <input type="radio" id="gr-pro" name="grinder" value="pro">
-                <label for="gr-pro">High-end or commercial <span class="muted">— 078s, EK43</span></label>
-              </div>
-            </div>
-
-            <p class="micro-note micro-note--spaced" id="grinderHint">
-              Hand grinders count — placement depends on brew style.
-            </p>
-          </fieldset>
-
-          <!-- Q3: Espresso machine (conditional) -->
-          <fieldset class="question" data-q="machine" data-conditional="espresso">
-            <legend>If you make espresso, which machine tier is closest?</legend>
-
-            <div class="question-gif">
-              <video
-                class="q-video"
-                autoplay
-                loop
-                muted
-                playsinline
-                webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
-                preload="metadata"
-                aria-hidden="true">
-                <source src="Assets/030126_Question3.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
-              </video>
-            </div>
-
-            <div class="options" role="radiogroup" aria-label="Espresso machine tier">
-              <div class="option">
-                <input type="radio" id="mach-entry" name="machine" value="entry">
-                <label for="mach-entry">Entry-level <span class="muted">— Bambino, basic single boiler</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="mach-capable" name="machine" value="capable">
-                <label for="mach-capable">Capable <span class="muted">— Gaggia, Silvia</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="mach-advanced" name="machine" value="advanced">
-                <label for="mach-advanced">Advanced <span class="muted">— dual boiler or HX</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="mach-elite" name="machine" value="elite">
-                <label for="mach-elite">Prosumer / high-end <span class="muted">— Linea Mini, E61</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="mach-notsure" name="machine" value="not-sure">
-                <label for="mach-notsure">Not sure <span class="muted">— totally fine</span></label>
-              </div>
-            </div>
-          </fieldset>
-
-          <!-- Q4: Milk -->
-          <fieldset class="question" data-q="milk">
-            <legend>How do you take your coffee?</legend>
-
-            <div class="question-gif">
-              <picture>
-                <source srcset="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExejF3a2ticTA2N2ZvOTBrd2ZqZTNxd2NrbnFheHE0M3NkeTVwbmk0YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/h55EUEsTG9224/giphy.gif" type="image/gif">
-                <img src="Assets/milk_fallback.jpg" alt="Pouring milk into coffee" loading="lazy" decoding="async" />
-              </picture>
-            </div>
-
-            <div class="options" role="radiogroup" aria-label="Milk preference">
-              <div class="option">
-                <input type="radio" id="milk-black" name="milk" value="black" required>
-                <label for="milk-black">Always black <span class="muted">— no milk</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="milk-sometimes" name="milk" value="sometimes">
-                <label for="milk-sometimes">Sometimes with milk <span class="muted">— depends on the mood</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="milk-always" name="milk" value="always">
-                <label for="milk-always">Always with milk <span class="muted">— flat white energy</span></label>
-              </div>
-            </div>
-          </fieldset>
-
-          <!-- Q5: Flavour -->
-          <fieldset class="question" data-q="flavour">
-            <legend>What flavours do you enjoy most?</legend>
-
-            <div class="question-gif">
-              <video
-                class="q-video"
-                autoplay
-                loop
-                muted
-                playsinline
-                webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
-                preload="metadata"
-                aria-hidden="true">
-                <source src="Assets/Question5.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
-              </video>
-            </div>
-
-            <div class="options" role="radiogroup" aria-label="Flavour preference">
-              <div class="option">
-                <input type="radio" id="flavour-fruity" name="flavour" value="fruity" required>
-                <label for="flavour-fruity">Juicy fruit <span class="muted">— berries, citrus, bright cups</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="flavour-clean" name="flavour" value="clean">
-                <label for="flavour-clean">Clean & tea-like <span class="muted">— light, delicate, crisp</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="flavour-choc" name="flavour" value="chocolate">
-                <label for="flavour-choc">Chocolatey & nutty <span class="muted">— caramel, cocoa, comfort</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="flavour-balanced" name="flavour" value="balanced">
-                <label for="flavour-balanced">Balanced <span class="muted">— nothing too loud</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="flavour-bold" name="flavour" value="bold">
-                <label for="flavour-bold">Rich & heavy <span class="muted">— big body, low acidity</span></label>
-              </div>
-            </div>
-          </fieldset>
-
-          <!-- Q6: Roast -->
-          <fieldset class="question" data-q="roast">
-            <legend>What roast do you usually enjoy?</legend>
-
-            <div class="question-gif">
-              <video
-                class="q-video"
-                autoplay
-                loop
-                muted
-                playsinline
-                webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
-                preload="metadata"
-                aria-hidden="true">
-                <source src="Assets/040126_Question6.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
-              </video>
-            </div>
-
-            <div class="options" role="radiogroup" aria-label="Roast preference">
-              <div class="option">
-                <input type="radio" id="roast-light" name="roast" value="light" required>
-                <label for="roast-light">Light roast <span class="muted">— more origin character</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="roast-medium" name="roast" value="medium">
-                <label for="roast-medium">Medium roast <span class="muted">— sweet and balanced</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="roast-mediumdark" name="roast" value="medium-dark">
-                <label for="roast-mediumdark">Medium-dark roast <span class="muted">— syrupy, comforting</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="roast-dark" name="roast" value="dark">
-                <label for="roast-dark">Dark roast <span class="muted">— bold, roasty flavours</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="roast-any" name="roast" value="any">
-                <label for="roast-any">Not sure <span class="muted">— happy to be guided</span></label>
-              </div>
-            </div>
-          </fieldset>
-
-          <!-- Q7: Skill -->
-          <fieldset class="question" data-q="skill">
-            <legend>How deep are you into coffee?</legend>
-
-            <div class="question-gif">
-              <video
-                class="q-video"
-                autoplay
-                loop
-                muted
-                playsinline
-                webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
-                preload="metadata"
-                aria-hidden="true">
-                <source src="Assets/040126_Question7.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
-              </video>
-            </div>
-
-            <div class="options" role="radiogroup" aria-label="Skill level">
-              <div class="option">
-                <input type="radio" id="sk-beginner" name="skill" value="beginner" required>
-                <label for="sk-beginner">Beginner <span class="muted">— I just want it to taste good</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="sk-basic" name="skill" value="basic">
-                <label for="sk-basic">Comfortable <span class="muted">— I follow recipes</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="sk-inter" name="skill" value="intermediate">
-                <label for="sk-inter">Intermediate <span class="muted">— I tweak and adjust</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="sk-advanced" name="skill" value="advanced">
-                <label for="sk-advanced">Advanced <span class="muted">— ratios and grind size matter</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="sk-nerd" name="skill" value="nerd">
-                <label for="sk-nerd">Very deep <span class="muted">— this is a real hobby</span></label>
-              </div>
-            </div>
-          </fieldset>
-
-          <!-- Q8: Pain -->
-          <fieldset class="question" data-q="pain">
-            <legend>What ruins a coffee for you?</legend>
-
-            <div class="question-gif">
-              <video
-                class="q-video"
-                autoplay
-                loop
-                muted
-                playsinline
-                webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
-                preload="metadata"
-                aria-hidden="true">
-                <source src="Assets/Question8.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
-              </video>
-            </div>
-
-            <div class="options" role="radiogroup" aria-label="Biggest coffee frustration">
-              <div class="option">
-                <input type="radio" id="pn-sour" name="pain" value="sour" required>
-                <label for="pn-sour">Sour or sharp <span class="muted">— too acidic</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="pn-bitter" name="pain" value="bitter">
-                <label for="pn-bitter">Bitter or harsh <span class="muted">— overdone</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="pn-weak" name="pain" value="weak">
-                <label for="pn-weak">Weak or watery <span class="muted">— no body</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="pn-muddy" name="pain" value="muddy">
-                <label for="pn-muddy">Muddy or gritty <span class="muted">— unpleasant texture</span></label>
-              </div>
-
-              <div class="option">
-                <input type="radio" id="pn-inconsistent" name="pain" value="inconsistent">
-                <label for="pn-inconsistent">Inconsistent <span class="muted">— never tastes the same</span></label>
-              </div>
-            </div>
-          </fieldset>
-
-          <div class="quiz-controls">
-            <button type="button" id="prevBtn" class="quiz-btn secondary" disabled>Previous</button>
-            <button type="button" id="nextBtn" class="quiz-btn primary">Next</button>
-            <button type="submit" id="submitBtn" class="quiz-btn primary hidden" disabled>Show my style →</button>
-          </div>
-
-          <div
-            class="progress-bar"
-            id="progressBar"
-            role="progressbar"
-            aria-label="Quiz completion"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            aria-valuenow="0">
-            <div class="progress"></div>
-          </div>
-
-          <p id="errorText" class="quiz-error" role="alert" aria-live="assertive"></p>
-        </form>
-
-        <div id="results" class="results" hidden tabindex="-1">
-          <h2>Your coffee style match</h2>
-          <p class="results-lede">Built for how you brew, what you enjoy, and what your setup can handle.</p>
-          <div id="recommendation"></div>
-
-          <div class="results-actions">
-            <a href="index.html" class="btn-primary">Back to home</a>
-            <button type="button" id="retakeBtn" class="btn-secondary">Retake quiz</button>
-          </div>
-        </div>
-
       </div>
-    </section>
-  </main>
+
+      <form id="coffeeQuiz" novalidate>
+
+        <!-- Q1: Brew method -->
+        <fieldset class="question active" data-q="brew">
+          <legend>How do you mostly brew your coffee?</legend>
+          <div class="question-gif">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
+              <source src="Assets/040126_Question1.mp4" type="video/mp4">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
+            </video>
+          </div>
+
+          <div class="options" role="radiogroup" aria-label="Brew method">
+            <div class="option">
+              <input type="radio" id="brew-espresso" name="brew" value="espresso" required>
+              <label for="brew-espresso">Espresso machine <span class="muted">— Breville, Gaggia, similar</span></label>
+            </div>
+            <div class="option">
+              <input type="radio" id="brew-manual" name="brew" value="manual">
+              <label for="brew-manual">Manual filter <span class="muted">— V60, AeroPress, pour-over</span></label>
+            </div>
+            <div class="option">
+              <input type="radio" id="brew-batch" name="brew" value="batch">
+              <label for="brew-batch">Batch filter <span class="muted">— Moccamaster-style brewers</span></label>
+            </div>
+            <div class="option">
+              <input type="radio" id="brew-body" name="brew" value="body">
+              <label for="brew-body">Immersion / stovetop <span class="muted">— French press, moka pot</span></label>
+            </div>
+            <div class="option">
+              <input type="radio" id="brew-other" name="brew" value="other">
+              <label for="brew-other">Other or instant <span class="muted">— no judgement here</span></label>
+            </div>
+          </div>
+
+          <p class="micro-note micro-note--spaced">Pick the one you do most often.</p>
+        </fieldset>
+
+        <!-- Q2: Grinder -->
+        <fieldset class="question" data-q="grinder">
+          <legend>What are you grinding with?</legend>
+          <div class="question-gif">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
+              <source src="Assets/040126_Question2.mp4" type="video/mp4">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
+            </video>
+          </div>
+
+          <div class="options" role="radiogroup" aria-label="Grinder tier">
+            <div class="option">
+              <input type="radio" id="gr-pre" name="grinder" value="pre-ground" required>
+              <label for="gr-pre">Pre-ground coffee <span class="muted">— or I don’t grind at all</span></label>
+            </div>
+            <div class="option">
+              <input type="radio" id="gr-blade" name="grinder" value="blade">
+              <label for="gr-blade">Blade grinder <span class="muted">— inconsistent, but common</span></label>
+            </div>
+            <div class="option">
+              <input type="radio" id="gr-entry" name="grinder" value="burr-entry">
+              <label for="gr-entry">Entry-level burr <span class="muted">— Smart Grinder Pro, Encore</span></label>
+            </div>
+            <div class="option">
+              <input type="radio" id="gr-good" name="grinder" value="burr-good">
+              <label for="gr-good">Good burr grinder <span class="muted">— DF64, Niche, similar</span></label>
+            </div>
+            <div class="option">
+              <input type="radio" id="gr-pro" name="grinder" value="pro">
+              <label for="gr-pro">High-end or commercial <span class="muted">— 078s, EK43</span></label>
+            </div>
+          </div>
+
+          <p class="micro-note micro-note--spaced" id="grinderHint">
+            Hand grinders count — placement depends on brew style.
+          </p>
+        </fieldset>
+
+        <!-- Q3: Espresso machine (conditional) -->
+        <fieldset class="question" data-q="machine" data-conditional="espresso">
+          <legend>If you make espresso, which machine tier is closest?</legend>
+          <div class="question-gif">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
+              <source src="Assets/030126_Question3.mp4" type="video/mp4" data-srcs="Assets/030126_Question3.mp4,Assets/040126_Question3.mp4,Assets/Question3.mp4">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
+            </video>
+          </div>
+
+          <div class="options" role="radiogroup" aria-label="Espresso machine tier">
+            <div class="option">
+              <input type="radio" id="mach-entry" name="machine" value="entry">
+              <label for="mach-entry">Entry-level <span class="muted">— Bambino, basic single boiler</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="mach-capable" name="machine" value="capable">
+              <label for="mach-capable">Capable <span class="muted">— Gaggia, Silvia</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="mach-advanced" name="machine" value="advanced">
+              <label for="mach-advanced">Advanced <span class="muted">— dual boiler or HX</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="mach-elite" name="machine" value="elite">
+              <label for="mach-elite">Prosumer / high-end <span class="muted">— Linea Mini, E61</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="mach-notsure" name="machine" value="not-sure">
+              <label for="mach-notsure">Not sure <span class="muted">— totally fine</span></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q4: Milk -->
+        <fieldset class="question" data-q="milk">
+          <legend>How do you take your coffee?</legend>
+          <div class="question-gif">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/milk_fallback.jpg" preload="metadata" data-fallback-src="Assets/Question4.mp4">
+              <source src="Assets/050126_Question4.mp4" type="video/mp4" data-srcs="Assets/030126_Question4.mp4,Assets/040126_Question4.mp4,Assets/Question4.mp4">
+              <img src="Assets/milk_fallback.jpg" alt="Pouring milk into coffee" loading="lazy" />
+            </video>
+          </div>
+
+          <div class="options" role="radiogroup" aria-label="Milk preference">
+            <div class="option">
+              <input type="radio" id="milk-black" name="milk" value="black" required>
+              <label for="milk-black">Always black <span class="muted">— no milk</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="milk-sometimes" name="milk" value="sometimes">
+              <label for="milk-sometimes">Sometimes with milk <span class="muted">— depends on the mood</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="milk-always" name="milk" value="always">
+              <label for="milk-always">Always with milk <span class="muted">— flat white energy</span></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q5: Flavour -->
+        <fieldset class="question" data-q="flavour">
+          <legend>What flavours do you enjoy most?</legend>
+          <div class="question-gif">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
+              <source src="Assets/030126_Question5.mp4" type="video/mp4" data-srcs="Assets/030126_Question5.mp4,Assets/040126_Question5.mp4,Assets/Question5.mp4">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
+            </video>
+          </div>
+
+          <div class="options" role="radiogroup" aria-label="Flavour preference">
+            <div class="option">
+              <input type="radio" id="flavour-fruity" name="flavour" value="fruity" required>
+              <label for="flavour-fruity">Juicy fruit <span class="muted">— berries, citrus, bright cups</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="flavour-clean" name="flavour" value="clean">
+              <label for="flavour-clean">Clean & tea-like <span class="muted">— light, delicate, crisp</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="flavour-choc" name="flavour" value="chocolate">
+              <label for="flavour-choc">Chocolatey & nutty <span class="muted">— caramel, cocoa, comfort</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="flavour-balanced" name="flavour" value="balanced">
+              <label for="flavour-balanced">Balanced <span class="muted">— nothing too loud</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="flavour-bold" name="flavour" value="bold">
+              <label for="flavour-bold">Rich & heavy <span class="muted">— big body, low acidity</span></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q6: Roast -->
+        <fieldset class="question" data-q="roast">
+          <div class="question-gif">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
+              <source src="Assets/040126_Question6.mp4" type="video/mp4">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
+            </video>
+          </div>
+
+          <div class="options" role="radiogroup" aria-label="Roast preference">
+            <div class="option">
+              <input type="radio" id="roast-light" name="roast" value="light" required>
+              <label for="roast-light">Light roast <span class="muted">— more origin character</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="roast-medium" name="roast" value="medium">
+              <label for="roast-medium">Medium roast <span class="muted">— sweet and balanced</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="roast-mediumdark" name="roast" value="medium-dark">
+              <label for="roast-mediumdark">Medium-dark roast <span class="muted">— syrupy, comforting</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="roast-dark" name="roast" value="dark">
+              <label for="roast-dark">Dark roast <span class="muted">— bold, roasty flavours</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="roast-any" name="roast" value="any">
+              <label for="roast-any">Not sure <span class="muted">— happy to be guided</span></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q7: Skill -->
+        <fieldset class="question" data-q="skill">
+          <legend>How deep are you into coffee?</legend>
+          <div class="question-gif">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
+              <source src="Assets/040126_Question7.mp4" type="video/mp4">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
+            </video>
+          </div>
+
+          <div class="options" role="radiogroup" aria-label="Skill level">
+            <div class="option">
+              <input type="radio" id="sk-beginner" name="skill" value="beginner" required>
+              <label for="sk-beginner">Beginner <span class="muted">— I just want it to taste good</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="sk-basic" name="skill" value="basic">
+              <label for="sk-basic">Comfortable <span class="muted">— I follow recipes</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="sk-inter" name="skill" value="intermediate">
+              <label for="sk-inter">Intermediate <span class="muted">— I tweak and adjust</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="sk-advanced" name="skill" value="advanced">
+              <label for="sk-advanced">Advanced <span class="muted">— ratios and grind size matter</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="sk-nerd" name="skill" value="nerd">
+              <label for="sk-nerd">Very deep <span class="muted">— this is a real hobby</span></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Q8: Pain -->
+        <fieldset class="question" data-q="pain">
+          <legend>What ruins a coffee for you?</legend>
+          <div class="question-gif">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
+              <source src="Assets/030126_Question8.mp4" type="video/mp4" data-srcs="Assets/030126_Question8.mp4,Assets/040126_Question8.mp4,Assets/Question8.mp4">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
+            </video>
+          </div>
+
+          <div class="options" role="radiogroup" aria-label="Biggest coffee frustration">
+            <div class="option">
+              <input type="radio" id="pn-sour" name="pain" value="sour" required>
+              <label for="pn-sour">Sour or sharp <span class="muted">— too acidic</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="pn-bitter" name="pain" value="bitter">
+              <label for="pn-bitter">Bitter or harsh <span class="muted">— overdone</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="pn-weak" name="pain" value="weak">
+              <label for="pn-weak">Weak or watery <span class="muted">— no body</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="pn-muddy" name="pain" value="muddy">
+              <label for="pn-muddy">Muddy or gritty <span class="muted">— unpleasant texture</span></label>
+            </div>
+
+            <div class="option">
+              <input type="radio" id="pn-inconsistent" name="pain" value="inconsistent">
+              <label for="pn-inconsistent">Inconsistent <span class="muted">— never tastes the same</span></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="quiz-controls">
+          <button type="button" id="prevBtn" class="quiz-btn secondary" disabled>Previous</button>
+          <button type="button" id="nextBtn" class="quiz-btn primary">Next</button>
+          <button type="submit" id="submitBtn" class="quiz-btn primary hidden" disabled>Show my style →</button>
+        </div>
+
+        <div class="progress-bar" aria-hidden="true">
+          <div class="progress"></div>
+        </div>
+
+        <p id="errorText" class="quiz-error" role="status" aria-live="polite"></p>
+      </form>
+
+      <div id="results" class="results" hidden>
+        <h2>Your coffee style match</h2>
+        <p class="results-lede">Built for how you brew, what you enjoy, and what your setup can handle.</p>
+        <div id="recommendation"></div>
+
+        <div class="results-actions">
+          <a href="index.html" class="btn-primary">Back to home</a>
+          <a href="#" id="retakeBtn" class="text-link" role="button">Start over</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
   <script>
-    // Respect reduced motion: pause all autoplaying videos
-    (function handleReducedMotion() {
-      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!reduce) return;
-      document.querySelectorAll('video').forEach(v => {
-        try {
-          v.pause();
-          v.removeAttribute('autoplay');
-          v.preload = 'none';
-        } catch (e) {}
-      });
-    })();
-
     // Greeting
     (() => {
       const el = document.getElementById('greeting');
       el.innerHTML = `<strong>Let’s find what actually fits.</strong><span class="tip">About a minute. Pick what sounds like you. No jargon. No account.</span>`;
     })();
+
+    // Toast helpers
+    const toastEl = document.getElementById('toast');
+    const toastTitleEl = document.getElementById('toastTitle');
+    const toastMsgEl = document.getElementById('toastMsg');
+    const toastClose = document.getElementById('toastClose');
+    let toastTimer = null;
+
+    function showToast(title, msg) {
+      if (!toastEl) return;
+      if (toastTimer) window.clearTimeout(toastTimer);
+      if (toastTitleEl) toastTitleEl.textContent = title || "Notice";
+      if (toastMsgEl) toastMsgEl.textContent = msg || "";
+      toastEl.classList.add('is-on');
+      toastTimer = window.setTimeout(() => toastEl.classList.remove('is-on'), 3200);
+    }
+    toastClose?.addEventListener('click', () => toastEl.classList.remove('is-on'));
 
     // Supabase
     const SUPABASE_URL = "https://opledkjivawysybvbqxe.supabase.co";
@@ -537,13 +610,43 @@
       sessionStorage.setItem(startKey, String(quizStartMs));
     }
 
+    // =========================================================
+    // ✅ Attribution access (read fresh anytime)
+    // =========================================================
+    const ATTR_KEY = "brewlio_attr_v1";
+
+    function safeReferrerHost(ref) {
+      try { return ref ? new URL(ref).host : null; } catch (e) { return null; }
+    }
+
+    function readAttributionFresh() {
+      let a = null;
+      try {
+        a = JSON.parse(sessionStorage.getItem(ATTR_KEY) || localStorage.getItem(ATTR_KEY));
+      } catch (e) {
+        a = null;
+      }
+      if (!a || typeof a !== 'object') a = {};
+      const ref = a.referrer || document.referrer || null;
+
+      return {
+        utm_source: a.utm_source || null,
+        utm_medium: a.utm_medium || null,
+        utm_campaign: a.utm_campaign || null,
+        utm_content: a.utm_content || null,
+        utm_term: a.utm_term || null,
+        referrer: ref,
+        referrer_host: a.referrer_host || safeReferrerHost(ref),
+        landing_path: a.landing_path || window.location.pathname || null
+      };
+    }
+
     const form = document.getElementById('coffeeQuiz');
     const allQuestions = Array.from(document.querySelectorAll('.question'));
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const submitBtn = document.getElementById('submitBtn');
     const progress = document.querySelector('.progress');
-    const progressBar = document.getElementById('progressBar');
     const results = document.getElementById('results');
     const recommendation = document.getElementById('recommendation');
     const stepText = document.getElementById('stepText');
@@ -552,6 +655,36 @@
     const retakeBtn = document.getElementById('retakeBtn');
     const grinderHint = document.getElementById('grinderHint');
 
+    // Video fallback: if a video source 404s, try the declared fallback src(s)
+    (function wireVideoFallbacks() {
+      const vids = Array.from(document.querySelectorAll('video.q-video'));
+      vids.forEach(v => {
+        const srcEl = v.querySelector('source');
+        if (!srcEl) return;
+
+        const listAttr = srcEl.getAttribute('data-srcs') || v.getAttribute('data-srcs') || "";
+        const fallAttr = srcEl.getAttribute('data-fallback-src') || v.getAttribute('data-fallback-src') || "";
+
+        const candidates = listAttr
+          ? listAttr.split(',').map(x => x.trim()).filter(Boolean)
+          : (fallAttr ? [srcEl.src, fallAttr] : [srcEl.src]);
+
+        const uniq = [];
+        candidates.forEach(c => { if (c && !uniq.includes(c)) uniq.push(c); });
+
+        let i = 0;
+        const tryNext = () => {
+          i += 1;
+          if (i >= uniq.length) return;
+          srcEl.src = uniq[i];
+          try { v.load(); v.play().catch(()=>{}); } catch(e) {}
+        };
+
+        v.addEventListener('error', tryNext, { passive: true });
+        srcEl.addEventListener?.('error', tryNext, { passive: true });
+      });
+    })();
+
     function getAnswer(name) {
       return form.querySelector(`input[name="${name}"]:checked`)?.value || null;
     }
@@ -559,7 +692,7 @@
     /**
      * Event-stream logger.
      * - ALWAYS sets derived.event_type (so SQL filters work)
-     * - Allows overrides so COMPLETE can carry final match + full answers
+     * - Adds attribution columns + derived.attribution
      */
     async function logFunnelEvent(eventType, data = {}, overrides = {}) {
       if (!sb) return;
@@ -570,12 +703,13 @@
         const machine = brew === 'espresso' ? (getAnswer('machine') || null) : null;
 
         const duration = overrides.duration_ms ?? Math.max(0, nowMs() - quizStartMs);
+        const attr = readAttributionFresh();
 
         const payload = {
           submission_id: runId,
           session_id: sessionId,
           page: location.pathname,
-          quiz_version: "v2.5-seo-a11y",
+          quiz_version: "v2.4-stage0",
           duration_ms: duration,
 
           brew,
@@ -598,7 +732,21 @@
               : null
           ),
 
-          derived: { event_type: eventType, ...data }
+          // Attribution columns (fresh)
+          utm_source: attr.utm_source,
+          utm_medium: attr.utm_medium,
+          utm_campaign: attr.utm_campaign,
+          utm_content: attr.utm_content,
+          utm_term: attr.utm_term,
+          referrer: attr.referrer,
+          referrer_host: attr.referrer_host,
+          landing_path: attr.landing_path,
+
+          derived: {
+            event_type: eventType,
+            ...data,
+            attribution: attr
+          }
         };
 
         const { error } = await sb.from("quiz_events").insert(payload);
@@ -712,6 +860,7 @@
       stepHint.textContent = answered ? 'Nice — continue' : 'Pick one to continue';
     }
 
+    // Mobile video reliability: pause all, play active
     function pauseAllQuestionVideos() {
       document.querySelectorAll('video.q-video').forEach(v => {
         try { v.pause(); } catch (e) {}
@@ -719,21 +868,12 @@
     }
 
     function playActiveQuestionVideo(activeEl) {
-      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce) return;
-
       const v = activeEl?.querySelector('video.q-video');
       if (!v) return;
       try {
         const p = v.play();
         if (p && typeof p.catch === 'function') p.catch(() => {});
       } catch (e) {}
-    }
-
-    function setProgressAria(percent) {
-      if (!progressBar) return;
-      const safe = Math.max(0, Math.min(100, Math.round(percent)));
-      progressBar.setAttribute('aria-valuenow', String(safe));
     }
 
     function showQuestion(idx) {
@@ -744,10 +884,7 @@
       playActiveQuestionVideo(activeQuestions[idx]);
 
       errorText.textContent = '';
-      const pct = ((idx + 1) / total()) * 100;
-      progress.style.width = `${pct}%`;
-      setProgressAria(pct);
-
+      progress.style.width = `${((idx + 1) / total()) * 100}%`;
       setButtons();
 
       logFunnelEvent('view_question', { question_index: idx, total_questions: total() });
@@ -791,33 +928,51 @@
 
     // Recommendation helpers
     function pickOrigins({ roast, flavour, brew, milk }) {
-      const pools = {
-        light: ["Ethiopia", "Kenya", "Costa Rica", "Rwanda", "Tanzania"],
-        mediumSweet: ["Brazil", "Colombia", "Guatemala", "El Salvador", "Costa Rica"],
-        mediumClean: ["Colombia", "Costa Rica", "Kenya", "Rwanda", "Guatemala"],
-        mediumDark: ["Brazil", "Colombia", "Guatemala", "Honduras", "Indonesia (Sumatra)"],
-        dark: ["Brazil", "Indonesia (Sumatra)", "India", "Vietnam"]
-      };
+      const isMilk = (milk === 'always');
+      const isEspresso = (brew === 'espresso');
 
-      let selectedPool = pools.mediumSweet;
+      let examples = "clean, sweet coffees";
+      let why = "they tend to be easy to extract and forgiving on most setups";
 
-      if (roast === 'light') selectedPool = pools.light;
-      else if (roast === 'medium-dark') selectedPool = pools.mediumDark;
-      else if (roast === 'dark') selectedPool = pools.dark;
-      else if (roast === 'medium') {
-        if (flavour === 'chocolate' || flavour === 'bold') selectedPool = pools.mediumSweet;
-        else selectedPool = pools.mediumClean;
+      if (roast === 'light') {
+        if (flavour === 'clean' || flavour === 'fruity') {
+          examples = "washed, high-altitude coffees (e.g., Rwanda / Kenya / Ethiopia)";
+          why = "washed processing + altitude often gives clarity, florals, and brightness without tasting ‘roasty’";
+        } else {
+          examples = "sweet light roasts with a gentle profile (e.g., Costa Rica / Guatemala, often washed or honey)";
+          why = "honey/washed lots can stay bright while keeping sweetness and avoiding ‘sour-for-fun’";
+        }
       }
 
-      if (brew === 'espresso' && milk === 'always' && roast !== 'dark') {
-        selectedPool = pools.mediumSweet;
+      if (roast === 'medium') {
+        if (isEspresso && isMilk) {
+          examples = "medium roasts built for milk (e.g., Brazil / Colombia, often pulped-natural or natural)";
+          why = "these processes tend to lean caramel/choc and hold up when diluted with milk";
+        } else if (flavour === 'clean' || flavour === 'fruity') {
+          examples = "washed or honey coffees for clean sweetness (e.g., Colombia / Costa Rica / Rwanda)";
+          why = "washed/honey lots can give clarity and sweetness without sharp acidity";
+        } else {
+          examples = "sweet, chocolate-leaning coffees (e.g., Brazil / Colombia / Guatemala)";
+          why = "these origins commonly produce nutty/caramel notes that feel ‘comforting’ and consistent";
+        }
       }
 
-      const shuffled = [...selectedPool].sort(() => 0.5 - Math.random());
-      const origin1 = shuffled[0];
-      const origin2 = shuffled[1] || shuffled[0];
+      if (roast === 'medium-dark') {
+        if (isMilk || isEspresso) {
+          examples = "syrupy, milk-friendly coffees (e.g., Brazil / Colombia, often natural/pulped-natural)";
+          why = "bigger body + caramel/choc notes tend to be forgiving and taste ‘full’ in milk";
+        } else {
+          examples = "heavier-bodied coffees with low bite (e.g., Honduras / Guatemala, often washed)";
+          why = "you keep sweetness and body without tipping into harsh roast";
+        }
+      }
 
-      return `${origin1} or ${origin2}`;
+      if (roast === 'dark') {
+        examples = "low-acid, roasty comfort profiles (e.g., Brazil / Sumatra / India)";
+        why = "darker roasting reduces acidity and prioritises body and roast flavour";
+      }
+
+      return `${examples} — because ${why}.`;
     }
 
     function pushUnique(arr, msg) { if (!arr.includes(msg)) arr.push(msg); }
@@ -895,7 +1050,6 @@
           }
         }
 
-        // Respect preference + expertise
         if (requestedRoast) {
           if (hasWeakGrinder && roast === 'light') {
             overrideRoast('medium-dark', "Light roasts need consistent grind. With entry-level grinding, they often taste sour. Medium-dark is more reliable.");
@@ -934,14 +1088,12 @@
           }
         }
 
-        // Gentle nudges (only if no strong preference)
         if (!requestedRoast || requestedRoast === 'medium') {
           if (a.milk === 'always' && (a.flavour === 'bold' || a.flavour === 'chocolate') && (brew === 'espresso' || brew === 'body') && !hasAdvancedSkill) {
             roast = 'medium-dark';
           }
         }
 
-        // "Any roast" → intelligent default
         if (roastPrefAny) {
           roast = 'medium';
           if (hasGoodGrinder && hasAdvancedSkill && (a.flavour === 'fruity' || a.flavour === 'clean')) {
@@ -961,17 +1113,10 @@
         const pick = recs[roast] || recs.medium;
 
         const origins = pickOrigins({ roast, flavour: a.flavour, brew, milk: a.milk });
+        const originsShort = origins.split(" — because")[0].replace(/\.$/, "");
+        const originsWhy = origins.includes(" — because") ? origins.split(" — because")[1].trim().replace(/\.$/, "") : "";
+
         const displayStyle = resultStyleLine(roast, a.flavour, brew, a.milk);
-
-        const brewText = ({
-          espresso: 'espresso',
-          manual: 'manual filter',
-          batch: 'batch filter',
-          body: 'immersion / stovetop',
-          other: 'other'
-        }[brew] || brew);
-
-        const milkText = (a.milk === 'black') ? 'black' : (a.milk === 'always' ? 'with milk' : 'either');
 
         const durationMs = Math.max(0, nowMs() - quizStartMs);
 
@@ -990,89 +1135,76 @@
           <div class="result-card">
             <p class="rec-title">Your coffee style:</p>
             <h3>${pick.title}</h3>
-            <p class="result-line">You’ll likely enjoy <strong>${displayStyle}</strong> — think <strong>${origins}</strong>.</p>
+
+            <div class="result-summary" role="note">
+              <p class="result-primary">You’ll likely enjoy <strong>${displayStyle}</strong>.</p>
+              <p class="result-secondary"><span class="muted">Look for:</span> <strong>${originsShort}</strong>.</p>
+              ${originsWhy ? `<p class="result-tertiary muted">Why: ${originsWhy}.</p>` : ``}
+            </div>
 
             ${profileHTML}
 
-            <div class="why-box">
-              <p class="why-title">Why this fits you</p>
-              <p>${pick.why}</p>
-              <p class="why-meta">
-                Built for <strong>${brewText}</strong>, drinking it <strong>${milkText}</strong>,
-                with a <strong>${grinder.replace(/-/g, ' ')}</strong> grinder.
-              </p>
-              <p class="why-meta">This prioritises consistency over perfection — on purpose.</p>
-            </div>
+            ${strongNotes.length ? `<p class="result-tip"><strong>Tip:</strong> ${strongNotes[0]}</p>` : ``}
         `;
 
-        if (strongNotes.length > 0) {
-          html += `
-            <div class="why-box why-box--note">
-              <p class="why-title">A note from experience</p>
-              <ul class="note-list">
-                ${strongNotes.map(n => `<li>${n}</li>`).join('')}
-              </ul>
-            </div>
-          `;
-        }
-
         html += `
-          <div class="why-box cta-panel cta-panel--results">
-            <p class="why-title cta-title">Get matched coffees — only when they actually fit</p>
+          <div class="cta-panel cta-panel--results" role="region" aria-label="Pilot waitlist for roaster matches">
+            <p class="cta-title">Want roaster matches when they go live?</p>
             <p class="cta-copy">
-              We’ll email you 1–3 coffees from real roasters that genuinely match this exact profile
-              — your setup, taste, and deal-breakers included.
+              <strong>Pilot mode:</strong> we’re building roaster partnerships. Leave your email and we’ll only message you when
+              we can send <strong>real, specific matches</strong> for this profile.
             </p>
 
-            <ul class="note-list" style="margin: 16px 0 20px;">
-              <li>No random recommendations — only coffees that work for <em>your</em> grinder and brew</li>
-              <li>Save time and money — skip the regret bags</li>
-              <li>Your full profile summary (so you can shop smarter anywhere)</li>
-            </ul>
-
-            <form id="emailForm" class="email-form">
-              <label class="sr-only" for="userEmail">Your email address</label>
+            <form id="emailForm" class="email-form" novalidate>
+              <label class="sr-only" for="userEmail">Email address</label>
               <input
                 type="email"
                 id="userEmail"
-                name="email"
                 placeholder="your@email.com"
-                required
                 autocomplete="email"
                 inputmode="email"
+                required
                 class="email-input"
               />
-
-              <label class="sr-only" for="buySource">Where do you usually buy coffee?</label>
-              <select id="buySource" class="email-input" name="buySource">
-                <option value="" selected>Where do you usually buy coffee? (optional)</option>
-                <option value="supermarket">Supermarket</option>
-                <option value="cafe">Cafe / barista</option>
-                <option value="local_roaster">Local roaster</option>
-                <option value="online">Online</option>
-                <option value="subscription">Subscription</option>
-              </select>
-
               <button type="submit" class="quiz-btn primary email-submit">
-                Send me matches
+                Notify me when matches are live
               </button>
             </form>
 
-            <p class="email-footnote">
-              No spam. No daily emails. Unsubscribe anytime with one click.
-            </p>
+            <div class="share-icons" aria-label="Share your coffee profile">
+              <span class="micro-note share-label">Share:</span>
+
+              <a class="icon-btn" id="shareX" target="_blank" rel="noopener noreferrer" aria-label="Share on X">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M18.9 2H22l-6.8 7.8L23 22h-6.7l-5.2-6.8L5.2 22H2l7.3-8.4L1 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.7L7.1 3.9H5.3L17.7 20Z"/>
+                </svg>
+              </a>
+
+              <a class="icon-btn" id="shareFB" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M13.5 22v-8h2.7l.4-3H13.5V9.1c0-.9.3-1.6 1.7-1.6h1.3V4.8c-.6-.1-1.7-.2-3-.2-3 0-5 1.8-5 5V11H6v3h2.5v8h5Z"/>
+                </svg>
+              </a>
+
+              <a class="icon-btn" id="shareLI" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M6.5 9H3.8v12h2.7V9Zm.2-3.7C6.7 4.6 6.1 4 5.2 4S3.6 4.6 3.6 5.3c0 .7.6 1.3 1.6 1.3.9 0 1.5-.6 1.5-1.3ZM20.5 21h-2.7v-6.1c0-1.5-.6-2.5-2-2.5-1.1 0-1.7.7-2 1.4-.1.2-.1.6-.1.9V21H11V9h2.6v1.6c.3-.8 1.3-1.9 3.2-1.9 2.3 0 4 1.5 4 4.8V21Z"/>
+                </svg>
+              </a>
+
+              <span class="micro-note" id="shareStatus" aria-live="polite"></span>
+            </div>
+
+            <p class="email-footnote">No spam. No daily emails. Unsubscribe anytime with one click.</p>
           </div>
         `;
 
-        html += `<p class="results-next small">Pilot mode: you’re getting style guidance today. Partner picks will be added to this profile as we onboard roasters.</p></div>`;
+        html += `<p class="results-next small">Pilot mode: we’ll only email when roaster matches are live (no fluff). For now, this page is your profile.</p></div>`;
 
         recommendation.innerHTML = html;
 
         results.hidden = false;
         form.hidden = true;
-
-        // Move focus to results for screen readers + keyboard users
-        results.focus({ preventScroll: true });
         results.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
         await logFunnelEvent(
@@ -1098,61 +1230,142 @@
           }
         );
 
-        // Email form handler
+        // =========================================================
+        // Email form handler (robust dup handling)
+        // - Reads attribution fresh at submit time
+        // =========================================================
         const emailForm = document.getElementById('emailForm');
         if (emailForm && sb) {
           emailForm.addEventListener('submit', async (ev) => {
             ev.preventDefault();
+
             const emailInput = document.getElementById('userEmail');
-            const buySource = document.getElementById('buySource')?.value || null;
-            const email = emailInput?.value.trim();
+            const email = (emailInput?.value || "").trim().toLowerCase();
             emailInput?.classList.remove('input-error');
 
-            logFunnelEvent('email_submit', { buy_source: buySource });
+            logFunnelEvent('email_submit', {});
 
             if (!email || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-              emailInput.classList.add('input-error');
-              logFunnelEvent('email_fail', { reason: 'invalid_email', buy_source: buySource });
+              emailInput?.classList.add('input-error');
+              logFunnelEvent('email_fail', { reason: 'invalid_email' });
+              showToast("Check that email", "That doesn’t look like a valid address.");
               return;
             }
 
             const btn = emailForm.querySelector('button[type="submit"]');
-            const origText = btn.textContent;
-            btn.disabled = true;
-            btn.textContent = 'Saving…';
+            const origText = btn?.textContent || "Notify me when matches are live";
+            if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
 
             try {
+              const attr = readAttributionFresh();
+
               const { error } = await sb.from('email_signups').insert({
                 email: email,
                 session_id: sessionId,
                 submission_id: submissionId,
-                source: 'quiz_result'
-              });
-              if (error) throw error;
+                source: 'quiz_result',
 
-              logFunnelEvent('email_success', { buy_source: buySource });
-              emailForm.innerHTML = `<p class="email-success">You’re in — we’ll email when something genuinely fits this profile.</p>`;
+                // Attribution columns (fresh)
+                utm_source: attr.utm_source,
+                utm_medium: attr.utm_medium,
+                utm_campaign: attr.utm_campaign,
+                utm_content: attr.utm_content,
+                utm_term: attr.utm_term,
+                referrer: attr.referrer,
+                referrer_host: attr.referrer_host,
+                landing_path: attr.landing_path
+              });
+
+              if (error) {
+                const msg = String(error.message || "");
+                const details = String(error.details || "");
+                const hint = String(error.hint || "");
+                const code = String(error.code || "");
+                const status = Number(error.status || 0);
+
+                const isDuplicate =
+                  code === "23505" ||
+                  status === 409 ||
+                  /duplicate key|unique constraint|already exists/i.test(msg + " " + details + " " + hint);
+
+                if (isDuplicate) {
+                  logFunnelEvent('email_exists', { reason: 'duplicate', code, status });
+                  showToast("Already on the list ✅", "That email has already been saved.");
+                  return;
+                }
+
+                logFunnelEvent('email_fail', { reason: 'insert_error', code, status });
+                throw error;
+              }
+
+              logFunnelEvent('email_success', {});
+              showToast("Saved ✅", "We’ll email only when real roaster matches are live.");
+              emailForm.innerHTML = `<p class="email-success">Saved. We’ll only email when roaster matches are live (and genuinely fit this profile).</p>`;
               return;
+
             } catch (err) {
               console.warn('Email signup failed:', err);
-              logFunnelEvent('email_fail', { reason: 'insert_failed', buy_source: buySource });
-              btn.textContent = 'Try again';
+              logFunnelEvent('email_fail', { reason: 'insert_failed' });
+              showToast("Couldn’t save", "Please try again in a moment.");
             } finally {
-              if (!btn || !btn.isConnected) return;
-              btn.disabled = false;
-              if (origText) btn.textContent = origText;
+              if (btn && btn.isConnected) {
+                btn.disabled = false;
+                btn.textContent = origText;
+              }
             }
           });
+
+          // Share (direct social links) + UTMs for attribution
+          const shareStatus = document.getElementById('shareStatus');
+          const shareX = document.getElementById('shareX');
+          const shareFB = document.getElementById('shareFB');
+          const shareLI = document.getElementById('shareLI');
+
+          const shareText = `My Brewlio coffee style: ${pick.title} — ${displayStyle}.`;
+
+          const shareUrl = new URL(`${location.origin}/quiz.html`);
+          shareUrl.searchParams.set("utm_source", "share");
+          shareUrl.searchParams.set("utm_medium", "social");
+          shareUrl.searchParams.set("utm_campaign", "profile_share");
+          shareUrl.searchParams.set("utm_content", String(pick.title || "unknown").replace(/\s+/g, "_").toLowerCase());
+          const urlStr = shareUrl.toString();
+
+          function setShareStatus(msg) {
+            if (!shareStatus) return;
+            shareStatus.textContent = msg;
+            window.setTimeout(() => { if (shareStatus) shareStatus.textContent = ''; }, 2500);
+          }
+
+          function setShareLinks() {
+            if (shareX) shareX.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(urlStr)}`;
+            if (shareFB) shareFB.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(urlStr)}&quote=${encodeURIComponent(shareText)}`;
+            if (shareLI) shareLI.href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(urlStr)}`;
+
+            [shareX, shareFB, shareLI].forEach((el, i) => {
+              if (!el) return;
+              const platform = i === 0 ? 'x' : (i === 1 ? 'facebook' : 'linkedin');
+              el.addEventListener('click', () => {
+                setShareStatus('Opening share…');
+                logFunnelEvent('share_click', { platform, share_url: urlStr });
+              }, { once: false });
+            });
+          }
+
+          setShareLinks();
         }
 
       } catch (err) {
         console.warn("Submit failed:", err);
+        showToast("Something went wrong", "Try again, and if it keeps happening, refresh the page.");
       } finally {
         submitBtn.textContent = originalSubmitText;
+        submitBtn.disabled = false;
+        isSubmitting = false;
       }
     });
 
-    retakeBtn.addEventListener('click', () => {
+    retakeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       isSubmitting = false;
 
       runId = crypto.randomUUID?.() || (Date.now().toString(36) + Math.random().toString(36).slice(2));
@@ -1178,5 +1391,6 @@
     showQuestion(0);
     logFunnelEvent('start', { question_index: 0, total_questions: total() });
   </script>
+
 </body>
 </html>
