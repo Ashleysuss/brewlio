@@ -30,81 +30,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- =========================================================
-       ✅ SINGLE SOURCE OF TRUTH — Attribution capture (runs EARLY)
-       - Stores even if no UTMs (captures referrer + landing_path)
-       - Preserves first-touch landing_path/referrer
-       - Adds UTMs when present later
-     ========================================================= -->
-  <script>
-  (function captureBrewlioAttributionEarly(){
-    const KEY = "brewlio_attr_v1";
-
-    function getUtmParams(){
-      const p = new URLSearchParams(window.location.search);
-      const out = {};
-      ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(k => {
-        const v = p.get(k);
-        if (v && String(v).trim().length) out[k] = String(v).trim();
-      });
-      return out;
-    }
-
-    function safeHost(url){
-      try { return new URL(url).host; } catch(e){ return null; }
-    }
-
-    function load(){
-      const raw = sessionStorage.getItem(KEY) || localStorage.getItem(KEY);
-      if (!raw) return null;
-      try { return JSON.parse(raw); } catch(e){ return null; }
-    }
-
-    function save(obj){
-      const s = JSON.stringify(obj);
-      sessionStorage.setItem(KEY, s);
-      localStorage.setItem(KEY, s);
-    }
-
-    const now = new Date().toISOString();
-    const existing = load();
-    const utms = getUtmParams();
-    const hasUtms = Object.keys(utms).length > 0;
-
-    const candidate = {
-      ...utms,
-      referrer: document.referrer || null,
-      referrer_host: document.referrer ? safeHost(document.referrer) : null,
-      landing_path: window.location.pathname || null,
-      first_seen_at: now,
-      last_seen_at: now
-    };
-
-    // First touch: store immediately (even with zero UTMs)
-    if (!existing) {
-      save(candidate);
-      return;
-    }
-
-    // Merge without overwriting first-touch
-    const merged = { ...existing };
-    merged.last_seen_at = now;
-
-    if (hasUtms) {
-      ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(k => {
-        if (!merged[k] && utms[k]) merged[k] = utms[k];
-      });
-    }
-
-    if (!merged.referrer && candidate.referrer) merged.referrer = candidate.referrer;
-    if (!merged.referrer_host && candidate.referrer_host) merged.referrer_host = candidate.referrer_host;
-    if (!merged.landing_path && candidate.landing_path) merged.landing_path = candidate.landing_path;
-    if (!merged.first_seen_at) merged.first_seen_at = candidate.first_seen_at;
-
-    save(merged);
-  })();
-  </script>
-
   <!-- ✅ PATCH (dark mode bullets): ensures .note-list markers are visible even if global resets exist -->
   <style>
     .note-list{
@@ -155,29 +80,6 @@
       cursor: pointer;
       padding: 2px 6px;
       margin-left: 4px;
-    }
-
-    /* ✅ HARD PATCH: Share icons sizing (prevents giant SVGs even if CSS cached) */
-    .share-icons{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap:14px;
-      margin-top:12px;
-      flex-wrap:wrap;
-    }
-    .share-icons .icon-btn{
-      width:44px;
-      height:44px;
-      display:grid;
-      place-items:center;
-      border-radius:999px;
-      background: transparent;
-    }
-    .share-icons .icon-btn svg{
-      width:20px;
-      height:20px;
-      display:block;
     }
   </style>
 </head>
@@ -230,9 +132,9 @@
         <fieldset class="question active" data-q="brew">
           <legend>How do you mostly brew your coffee?</legend>
           <div class="question-gif">
-            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/040126_Question1.jpg"preload="metadata">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
               <source src="Assets/040126_Question1.mp4" type="video/mp4">
-              <img src="Assets/040126_Question1.jpg" alt="Coffee brewing">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
             </video>
           </div>
 
@@ -266,9 +168,9 @@
         <fieldset class="question" data-q="grinder">
           <legend>What are you grinding with?</legend>
           <div class="question-gif">
-            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/040126_Question2.jpg" preload="metadata">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
               <source src="Assets/040126_Question2.mp4" type="video/mp4">
-              <img src="Assets/040126_Question2.jpg" alt="Coffee beans pouring">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
             </video>
           </div>
 
@@ -306,7 +208,7 @@
           <div class="question-gif">
             <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
               <source src="Assets/030126_Question3.mp4" type="video/mp4" data-srcs="Assets/030126_Question3.mp4,Assets/040126_Question3.mp4,Assets/Question3.mp4">
-              <img src="Assets/roast_fallback.jpg" alt="Coffee brewing">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
             </video>
           </div>
 
@@ -342,9 +244,9 @@
         <fieldset class="question" data-q="milk">
           <legend>How do you take your coffee?</legend>
           <div class="question-gif">
-            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/050126_Question4.jpg" preload="metadata">
-              <source src="Assets/050126_Question4.mp4" type="video/mp4" data-srcs="Assets/050126_Question4.mp4,Assets/050126_Question4.mp4,Assets/050126_Question4.mp4">
-              <img src="050126_Question4.jpg" alt="Milk pouring">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/milk_fallback.jpg" preload="metadata" data-fallback-src="Assets/Question4.mp4">
+              <source src="Assets/050126_Question4.mp4" type="video/mp4" data-srcs="Assets/030126_Question4.mp4,Assets/040126_Question4.mp4,Assets/Question4.mp4">
+              <img src="Assets/milk_fallback.jpg" alt="Pouring milk into coffee" loading="lazy" />
             </video>
           </div>
 
@@ -370,9 +272,9 @@
         <fieldset class="question" data-q="flavour">
           <legend>What flavours do you enjoy most?</legend>
           <div class="question-gif">
-            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/Question5.jpg" preload="metadata">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
               <source src="Assets/030126_Question5.mp4" type="video/mp4" data-srcs="Assets/030126_Question5.mp4,Assets/040126_Question5.mp4,Assets/Question5.mp4">
-              <img src="Assets/Question5.jpg" alt="Coffee flavour">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
             </video>
           </div>
 
@@ -407,9 +309,9 @@
         <!-- Q6: Roast -->
         <fieldset class="question" data-q="roast">
           <div class="question-gif">
-            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/040126_Question6.jpg" preload="metadata">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
               <source src="Assets/040126_Question6.mp4" type="video/mp4">
-              <img src="Assets/040126_Question6.jpg" alt="Coffee bean roasts">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
             </video>
           </div>
 
@@ -445,9 +347,9 @@
         <fieldset class="question" data-q="skill">
           <legend>How deep are you into coffee?</legend>
           <div class="question-gif">
-            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/040126_Question7.jpg" preload="metadata">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
               <source src="Assets/040126_Question7.mp4" type="video/mp4">
-              <img src="Assets/040126_Question7.jpg" alt="Coffee weighing">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
             </video>
           </div>
 
@@ -483,9 +385,9 @@
         <fieldset class="question" data-q="pain">
           <legend>What ruins a coffee for you?</legend>
           <div class="question-gif">
-            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/Question8.jpg" preload="metadata">
+            <video class="q-video" autoplay loop muted playsinline webkit-playsinline poster="Assets/roast_fallback.jpg" preload="metadata">
               <source src="Assets/030126_Question8.mp4" type="video/mp4" data-srcs="Assets/030126_Question8.mp4,Assets/040126_Question8.mp4,Assets/Question8.mp4">
-              <img src="Assets/Question8.jpg" alt="Coffee spilling ">
+              <img src="Assets/roast_fallback.jpg" alt="Coffee beans pouring">
             </video>
           </div>
 
@@ -611,35 +513,65 @@
     }
 
     // =========================================================
-    // ✅ Attribution access (read fresh anytime)
+    // UTM + attribution capture (persist across the quiz)
     // =========================================================
     const ATTR_KEY = "brewlio_attr_v1";
 
-    function safeReferrerHost(ref) {
+    function safeUrl() {
+      try { return new URL(window.location.href); } catch (e) { return null; }
+    }
+
+    function getReferrerHost(ref) {
       try { return ref ? new URL(ref).host : null; } catch (e) { return null; }
     }
 
-    function readAttributionFresh() {
-      let a = null;
-      try {
-        a = JSON.parse(sessionStorage.getItem(ATTR_KEY) || localStorage.getItem(ATTR_KEY));
-      } catch (e) {
-        a = null;
-      }
-      if (!a || typeof a !== 'object') a = {};
-      const ref = a.referrer || document.referrer || null;
+    function readAttributionFromUrl() {
+      const u = safeUrl();
+      if (!u) return null;
 
-      return {
-        utm_source: a.utm_source || null,
-        utm_medium: a.utm_medium || null,
-        utm_campaign: a.utm_campaign || null,
-        utm_content: a.utm_content || null,
-        utm_term: a.utm_term || null,
-        referrer: ref,
-        referrer_host: a.referrer_host || safeReferrerHost(ref),
-        landing_path: a.landing_path || window.location.pathname || null
+      const p = u.searchParams;
+      const utm = {
+        utm_source: p.get("utm_source"),
+        utm_medium: p.get("utm_medium"),
+        utm_campaign: p.get("utm_campaign"),
+        utm_content: p.get("utm_content"),
+        utm_term: p.get("utm_term")
       };
+
+      const hasAny = Object.values(utm).some(v => v && String(v).trim().length);
+      if (!hasAny) return null;
+
+      return utm;
     }
+
+    function loadAttribution() {
+      const raw = sessionStorage.getItem(ATTR_KEY) || localStorage.getItem(ATTR_KEY);
+      if (!raw) return null;
+      try { return JSON.parse(raw); } catch (e) { return null; }
+    }
+
+    function saveAttribution(attr) {
+      const s = JSON.stringify(attr);
+      sessionStorage.setItem(ATTR_KEY, s);
+      localStorage.setItem(ATTR_KEY, s);
+    }
+
+    function initAttribution() {
+      const existing = loadAttribution();
+      const fromUrl = readAttributionFromUrl();
+
+      const base = existing || {
+        referrer: document.referrer || null,
+        referrer_host: getReferrerHost(document.referrer || ""),
+        landing_path: window.location.pathname
+      };
+
+      const merged = { ...base, ...(fromUrl || {}) };
+      saveAttribution(merged);
+      return merged;
+    }
+
+    const attribution = initAttribution();
 
     const form = document.getElementById('coffeeQuiz');
     const allQuestions = Array.from(document.querySelectorAll('.question'));
@@ -703,7 +635,6 @@
         const machine = brew === 'espresso' ? (getAnswer('machine') || null) : null;
 
         const duration = overrides.duration_ms ?? Math.max(0, nowMs() - quizStartMs);
-        const attr = readAttributionFresh();
 
         const payload = {
           submission_id: runId,
@@ -732,20 +663,20 @@
               : null
           ),
 
-          // Attribution columns (fresh)
-          utm_source: attr.utm_source,
-          utm_medium: attr.utm_medium,
-          utm_campaign: attr.utm_campaign,
-          utm_content: attr.utm_content,
-          utm_term: attr.utm_term,
-          referrer: attr.referrer,
-          referrer_host: attr.referrer_host,
-          landing_path: attr.landing_path,
+          // Attribution columns
+          utm_source: attribution?.utm_source || null,
+          utm_medium: attribution?.utm_medium || null,
+          utm_campaign: attribution?.utm_campaign || null,
+          utm_content: attribution?.utm_content || null,
+          utm_term: attribution?.utm_term || null,
+          referrer: attribution?.referrer || null,
+          referrer_host: attribution?.referrer_host || null,
+          landing_path: attribution?.landing_path || null,
 
           derived: {
             event_type: eventType,
             ...data,
-            attribution: attr
+            attribution: attribution || null
           }
         };
 
@@ -1232,7 +1163,9 @@
 
         // =========================================================
         // Email form handler (robust dup handling)
-        // - Reads attribution fresh at submit time
+        // - Insert first
+        // - If UNIQUE violation / conflict => "Already on the list ✅"
+        // - Avoids SELECT dependency (common RLS failure)
         // =========================================================
         const emailForm = document.getElementById('emailForm');
         if (emailForm && sb) {
@@ -1257,23 +1190,21 @@
             if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
 
             try {
-              const attr = readAttributionFresh();
-
               const { error } = await sb.from('email_signups').insert({
                 email: email,
                 session_id: sessionId,
                 submission_id: submissionId,
                 source: 'quiz_result',
 
-                // Attribution columns (fresh)
-                utm_source: attr.utm_source,
-                utm_medium: attr.utm_medium,
-                utm_campaign: attr.utm_campaign,
-                utm_content: attr.utm_content,
-                utm_term: attr.utm_term,
-                referrer: attr.referrer,
-                referrer_host: attr.referrer_host,
-                landing_path: attr.landing_path
+                // Attribution columns
+                utm_source: attribution?.utm_source || null,
+                utm_medium: attribution?.utm_medium || null,
+                utm_campaign: attribution?.utm_campaign || null,
+                utm_content: attribution?.utm_content || null,
+                utm_term: attribution?.utm_term || null,
+                referrer: attribution?.referrer || null,
+                referrer_host: attribution?.referrer_host || null,
+                landing_path: attribution?.landing_path || null
               });
 
               if (error) {
@@ -1284,8 +1215,8 @@
                 const status = Number(error.status || 0);
 
                 const isDuplicate =
-                  code === "23505" ||
-                  status === 409 ||
+                  code === "23505" ||                      // Postgres unique violation
+                  status === 409 ||                        // PostgREST conflict
                   /duplicate key|unique constraint|already exists/i.test(msg + " " + details + " " + hint);
 
                 if (isDuplicate) {
@@ -1294,6 +1225,7 @@
                   return;
                 }
 
+                // Common RLS failure example: 42501
                 logFunnelEvent('email_fail', { reason: 'insert_error', code, status });
                 throw error;
               }
@@ -1323,7 +1255,7 @@
 
           const shareText = `My Brewlio coffee style: ${pick.title} — ${displayStyle}.`;
 
-          const shareUrl = new URL(`${location.origin}/quiz.html`);
+          const shareUrl = new URL(`${location.origin}${location.pathname.replace(/\/[^/]*$/, '')}/quiz.html`);
           shareUrl.searchParams.set("utm_source", "share");
           shareUrl.searchParams.set("utm_medium", "social");
           shareUrl.searchParams.set("utm_campaign", "profile_share");
@@ -1391,6 +1323,5 @@
     showQuestion(0);
     logFunnelEvent('start', { question_index: 0, total_questions: total() });
   </script>
-
 </body>
 </html>
