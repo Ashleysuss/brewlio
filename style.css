@@ -1,11 +1,6 @@
 /* =========================
    Brewlio – Full CSS (REPLACE ALL)
-   Final polish for:
-   - SEO/a11y: skip link, sr-only, focus styles, input focus on labels
-   - Reduced motion support (CSS side)
-   - Keeps quiz media “hard lock” so quiz GIF/video sizing never breaks
-   - Home page videos: carousel + right-coffee support <video> like <img>
-   - Removes duplicate/conflicting split-media blocks (keeps one clean set)
+   Updated with social sharing styles for quiz results
    ========================= */
 
 /* ---------- Theme tokens ---------- */
@@ -21,12 +16,12 @@
   --why-bg: #0c0805;
   --partner-bg: #0f0b08;
 
-  --card-bg: #ffffff;          /* general cards */
-  --quiz-card-bg: #ffffff;     /* quiz container bg */
-  --tile-bg: #ffffff;          /* LIGHT MODE tiles */
+  --card-bg: #ffffff;
+  --quiz-card-bg: #ffffff;
+  --tile-bg: #ffffff;
 
-  --surface-2: #f9f3ed;        /* inset panels */
-  --surface-3: #ffffff;        /* tiles/inputs in light */
+  --surface-2: #f9f3ed;
+  --surface-3: #ffffff;
 
   --option-bg: #f9f3ed;
   --quiz-meta-bg: #f9f3ed;
@@ -55,7 +50,6 @@
     --why-bg: #0f0b08;
     --partner-bg: #120d09;
 
-    /* Surfaces */
     --card-bg: #241c15;
     --quiz-card-bg: #1b1510;
     --tile-bg: #241c15;
@@ -66,7 +60,6 @@
     --quiz-meta-bg: var(--surface-2);
     --progress-bg: rgba(255,255,255,0.12);
 
-    /* Lines + shadows */
     --border: rgba(255,255,255,0.08);
     --border-strong: rgba(255,255,255,0.14);
 
@@ -162,7 +155,6 @@ label:focus-visible {
   border-radius: 12px;
 }
 
-/* Ensure keyboard focus is visible on option labels */
 .option input:focus-visible + label {
   outline: 3px solid var(--focus-ring);
   outline-offset: 3px;
@@ -203,7 +195,6 @@ label:focus-visible {
 
 .nav-left a:hover { text-decoration: underline; }
 
-/* Quiz "Back home" link */
 .nav-back{
   padding: 10px 12px;
   border-radius: 12px;
@@ -213,7 +204,9 @@ label:focus-visible {
 }
 .nav-back:hover{
   background: rgba(255,255,255,0.22);
-}/* ---------- Logo (image-based, auto-switches light/dark) ---------- */
+}
+
+/* ---------- Logo ---------- */
 .logo-link {
   text-decoration: none;
   color: inherit;
@@ -236,7 +229,7 @@ label:focus-visible {
 .logo-dark {
   display: block;
   width: auto;
-  height: 58px;
+  height: 50px;
   max-width: 100%;
 }
 
@@ -249,7 +242,6 @@ label:focus-visible {
   .logo-light {
     display: block;
   }
-
   .logo-dark {
     display: none;
   }
@@ -260,7 +252,6 @@ label:focus-visible {
   .logo-light {
     display: none;
   }
-
   .logo-dark {
     display: block;
   }
@@ -270,11 +261,19 @@ label:focus-visible {
 @media (max-width: 640px) {
   .logo-light,
   .logo-dark {
-    height: 48px;
+    height: 42px;
   }
 }
 
-/* Header layout compatibility */
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .logo-light,
+  .logo-dark {
+    height: 46px;
+  }
+}
+
+/* Header layout */
 @media (min-width: 640px) {
   .t-bar {
     flex-wrap: nowrap;
@@ -294,7 +293,6 @@ label:focus-visible {
     justify-content: flex-end;
   }
 }
-/* ---------- Logo End ---------- */
 
 /* ---------- Greeting ---------- */
 .greeting {
@@ -481,7 +479,6 @@ label:focus-visible {
   display: block;
 }
 
-/* Tile contrast (explicit) */
 @media (prefers-color-scheme: light) {
   .tile, .tile h3, .tile p { color: #1c110a; }
 }
@@ -523,7 +520,6 @@ label:focus-visible {
 .right-coffee-text p { font-size: 1.35rem; opacity: 0.95; line-height: 1.7; }
 .right-coffee-gif { text-align: center; }
 
-/* ✅ Works for <img> OR <video> */
 .coffee-gif {
   width: 100%;
   max-width: 700px;
@@ -563,7 +559,6 @@ label:focus-visible {
   border: 1px solid var(--border);
 }
 
-/* ✅ IMPORTANT: image OR video fill the card */
 .card img,
 .card video,
 .card .card-media {
@@ -763,7 +758,6 @@ footer small {
   padding: 0 10px;
 }
 
-/* Quiz media container (base) */
 .question-gif {
   margin: 0 auto 2.1rem;
   width: 100%;
@@ -785,7 +779,6 @@ footer small {
   display: block;
 }
 
-/* Options */
 .options { display: flex; flex-direction: column; gap: 1rem; }
 .option { display: block; position: relative; }
 .option input {
@@ -838,7 +831,6 @@ footer small {
   }
 }
 
-/* Controls */
 .quiz-controls {
   display: flex;
   justify-content: center;
@@ -944,11 +936,19 @@ footer small {
 }
 
 .result-line { font-size: 1.12rem; opacity: 0.95; }
+.origin-detail {
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 4px;
+  font-style: italic;
+}
+@media (prefers-color-scheme: dark) {
+  .origin-detail { color: #999; }
+}
 
 .why-title { font-weight: 900; margin-bottom: 6px; }
 .why-meta { margin-top: 10px; opacity: 0.9; }
 
-/* Note list (moved here from inline patch) */
 .note-list{
   list-style: disc;
   list-style-position: outside;
@@ -959,7 +959,6 @@ footer small {
 .note-list li{ margin: 0.35rem 0; }
 .note-list li::marker{ color: var(--text); }
 
-/* Results helpers */
 .why-box--note{
   background: color-mix(in srgb, var(--highlight) 10%, transparent);
   border-color: color-mix(in srgb, var(--highlight) 25%, var(--border));
@@ -1042,7 +1041,72 @@ footer small {
   flex-wrap: wrap;
 }
 
-/* ---------- Inputs ---------- */
+/* Social sharing styles */
+.social-share {
+  margin: 24px 0;
+  padding: 20px;
+  background: rgba(196, 30, 0, 0.05);
+  border: 1px solid rgba(196, 30, 0, 0.1);
+  border-radius: 8px;
+}
+
+.social-share-title {
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-size: 0.95em;
+}
+
+.social-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.social-btn {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.2s;
+  text-decoration: none;
+  color: #333;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.social-btn:hover {
+  background: #f5f5f5;
+  border-color: #999;
+}
+
+.social-btn.copied {
+  background: #4CAF50;
+  color: white;
+  border-color: #4CAF50;
+}
+
+@media (prefers-color-scheme: dark) {
+  .social-share {
+    background: rgba(230, 59, 28, 0.08);
+    border-color: rgba(230, 59, 28, 0.15);
+  }
+  
+  .social-btn {
+    background: var(--surface-3);
+    border-color: var(--border);
+    color: var(--text);
+  }
+  
+  .social-btn:hover {
+    background: var(--surface-2);
+    border-color: var(--border-strong);
+  }
+}
+
+/* Inputs */
 input[type="email"], input[type="text"], select {
   width: 100%;
   max-width: 420px;
@@ -1059,7 +1123,6 @@ input::placeholder {
   opacity: 0.75;
 }
 
-/* ---------- CTA blended panel utility ---------- */
 .cta-panel {
   background: color-mix(in oklab, var(--highlight) 10%, var(--quiz-meta-bg));
   border: 1px solid color-mix(in oklab, var(--highlight) 22%, var(--border));
@@ -1080,7 +1143,7 @@ input::placeholder {
   }
 }
 
-/* ---------- Mobile adjustments ---------- */
+/* Mobile adjustments */
 @media (max-width: 640px) {
   .quiz-container { padding: 40px 20px; border-radius: 20px; }
   .question legend { font-size: 1.55rem; }
@@ -1090,22 +1153,16 @@ input::placeholder {
   .option label:hover { transform: none; }
   .results-actions { width: 100%; }
   .results-actions a, .results-actions button { width: 100%; }
-}
-
-/* Consistent panel spacing on small screens */
-@media (max-width: 640px) {
+  
   .quiz-container { padding: 24px; }
   .tile, .why-box, .cta-panel { padding: 20px; }
   .question-gif { margin-bottom: 20px; }
 }
 
-/* Muted inline helper text (quiz option examples) */
 .muted{ opacity:0.85; font-weight:700; color: var(--muted); }
 @media (prefers-color-scheme: dark){ .muted{ color: var(--muted); opacity:0.88; } }
 
-/* =========================
-   Split module (image/video left, text right)
-   ========================= */
+/* Split module */
 .split-module{
   padding: 110px 20px;
   background:
@@ -1221,10 +1278,7 @@ input::placeholder {
   }
 }
 
-/* =========================
-   QUIZ GIF/VIDEO — HARD LOCK (wins cascade)
-   Keeps quiz GIFs/videos consistent no matter what other modules do
-   ========================= */
+/* Quiz media hard lock */
 .quiz-section .question-gif{
   margin: 0 auto 2.1rem;
   width: 100%;
@@ -1254,10 +1308,7 @@ input::placeholder {
   border-radius: 0 !important;
 }
 
-/* =========================
-   HOME CAROUSEL — NUCLEAR FIX
-   Forces horizontal sliding layout regardless of exact HTML structure.
-   ========================= */
+/* Carousel fixes */
 .carousel-track-container{
   overflow: hidden !important;
 }
@@ -1336,60 +1387,4 @@ input::placeholder {
   right: 0 !important;
   bottom: 0 !important;
   z-index: 2 !important;
-}
-
-
-/* =========================
-   Share icons (results page)
-   ========================= */
-.share-icons{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-.share-icons .share-label{
-  margin-right: 6px;
-}
-.icon-btn{
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-  border: 1px solid rgba(0,0,0,.12);
-  background: var(--option-bg);
-  color: var(--text);
-  text-decoration: none;
-  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
-}
-@media (prefers-color-scheme: dark){
-  .icon-btn{
-    border-color: rgba(255,255,255,.14);
-    background: rgba(255,255,255,.06);
-  }
-}
-.icon-btn:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(0,0,0,.10);
-}
-.icon-btn svg{
-  width: 20px;
-  height: 20px;
-  display: block;
-  fill: currentColor;
-}
-/* === Share icons hard-fix === */
-.share-icons .icon-btn{
-  width: 44px !important;
-  height: 44px !important;
-  display: grid !important;
-  place-items: center !important;
-}
-.share-icons .icon-btn svg{
-  width: 20px !important;
-  height: 20px !important;
-  display: block !important;
 }
