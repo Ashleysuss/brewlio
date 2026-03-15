@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 260" height="260" width="800">
+  
+  <rect fill="#9B2D30" height="260" width="800"></rect>
+  
+  
+  <text letter-spacing="-3px" text-anchor="middle" fill="#FFFFFF" font-weight="900" font-size="108" font-family="Helvetica, Arial Black, sans-serif" y="115" x="400">BREWLIO</text>
+  
+  
+  <text letter-spacing="1.5px" text-anchor="middle" fill="#FFFFFF" font-size="27" font-family="Helvetica, Arial, sans-serif" y="175" x="400">coffee that just makes sense</text>
+</svg>

@@ -214,10 +214,51 @@ label:focus-visible {
 .nav-back:hover{
   background: rgba(255,255,255,0.22);
 }
+/* ---------- Logo (auto-switches light/dark) ---------- */
+.logo-link {
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  display: block;
+}
 
-/* Logo link */
-.logo-link { text-decoration: none; color: inherit; }
-.logo-link:hover { opacity: 0.88; transition: opacity 0.2s; }
+.logo-light,
+.logo-dark {
+  height: 58px;
+  width: auto;
+  display: block;
+  transition: opacity 0.2s;
+}
+
+.logo-dark {
+  display: none;
+}
+
+/* Light mode = R&W_Logo */
+@media (prefers-color-scheme: light) {
+  .logo-light { display: block; }
+  .logo-dark  { display: none; }
+}
+
+/* Dark mode = darkmode_Logo */
+@media (prefers-color-scheme: dark) {
+  .logo-light { display: none; }
+  .logo-dark  { display: block; }
+}
+
+/* Hover effect on the whole logo */
+.logo-link:hover {
+  opacity: 0.88;
+  transition: opacity 0.2s;
+}
+
+/* Mobile header tightening (already in your CSS – just keeping it compatible) */
+@media (max-width: 640px) {
+  .logo-light,
+  .logo-dark {
+    height: 48px;
+  }
+}
 
 /* Wordmark */
 .logo {
@@ -241,12 +282,6 @@ label:focus-visible {
   margin-left: 4px;
 }
 
-.logo-sub {
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
-  opacity: 0.9;
-  text-transform: lowercase;
-}
 
 .t-bar .logo-main,
 .t-bar .logo-sub { color: #fff; }
