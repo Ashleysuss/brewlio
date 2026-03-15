@@ -213,46 +213,60 @@ label:focus-visible {
 }
 .nav-back:hover{
   background: rgba(255,255,255,0.22);
-}
-/* ---------- Logo (auto-switches light/dark) ---------- */
+}/* ---------- Logo (image-based, auto-switches light/dark) ---------- */
 .logo-link {
   text-decoration: none;
   color: inherit;
-  position: relative;
   display: block;
+  position: relative;
+  line-height: 0;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.logo-link:hover {
+  opacity: 0.88;
+}
+
+.logo {
+  order: 1;
 }
 
 .logo-light,
 .logo-dark {
-  height: 58px;
-  width: auto;
   display: block;
-  transition: opacity 0.2s;
+  width: auto;
+  height: 58px;
+  max-width: 100%;
 }
 
 .logo-dark {
   display: none;
 }
 
-/* Light mode = R&W_Logo */
+/* Light mode */
 @media (prefers-color-scheme: light) {
-  .logo-light { display: block; }
-  .logo-dark  { display: none; }
+  .logo-light {
+    display: block;
+  }
+
+  .logo-dark {
+    display: none;
+  }
 }
 
-/* Dark mode = darkmode_Logo */
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
-  .logo-light { display: none; }
-  .logo-dark  { display: block; }
+  .logo-light {
+    display: none;
+  }
+
+  .logo-dark {
+    display: block;
+  }
 }
 
-/* Hover effect on the whole logo */
-.logo-link:hover {
-  opacity: 0.88;
-  transition: opacity 0.2s;
-}
-
-/* Mobile header tightening (already in your CSS – just keeping it compatible) */
+/* Mobile */
 @media (max-width: 640px) {
   .logo-light,
   .logo-dark {
@@ -260,37 +274,27 @@ label:focus-visible {
   }
 }
 
-/* Wordmark */
-.logo {
-  order: 1;
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
-  gap: 6px;
-}
-
-.logo-main {
-  font-weight: 950;
-  font-size: 1.05rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.logo-main::after {
-  content: "•";
-  color: var(--highlight);
-  margin-left: 4px;
-}
-
-
-.t-bar .logo-main,
-.t-bar .logo-sub { color: #fff; }
-
+/* Header layout compatibility */
 @media (min-width: 640px) {
-  .t-bar { flex-wrap: nowrap; }
-  .nav-left { width: auto; order: 1; margin-top: 0; justify-content: flex-start; }
-  .logo { order: 2; align-items: flex-end; }
+  .t-bar {
+    flex-wrap: nowrap;
+  }
+
+  .nav-left {
+    width: auto;
+    order: 1;
+    margin-top: 0;
+    justify-content: flex-start;
+  }
+
+  .logo {
+    order: 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
 }
+/* ---------- Logo End ---------- */
 
 /* ---------- Greeting ---------- */
 .greeting {

@@ -9,14 +9,14 @@
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#c41e00" />
 
-<!-- Privacy-friendly analytics by Plausible -->
-<script async src="https://plausible.io/js/pa-sYqUjMWqd6veCxOqVKPQ8.js"></script>
-<script>
-  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-  plausible.init()
-</script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-sYqUjMWqd6veCxOqVKPQ8.js"></script>
+  <script>
+    window.plausible = window.plausible || function () {
+      (window.plausible.q = window.plausible.q || []).push(arguments);
+    };
+  </script>
 
-  <!-- Canonical (adjust if your canonical domain differs) -->
   <link rel="canonical" href="https://brewlio.com.au/" />
 
   <!-- Open Graph -->
@@ -40,31 +40,32 @@
   <!-- Structured data -->
   <script type="application/ld+json">
   {
-    "@context":"https://schema.org",
-    "@type":"Organization",
-    "name":"Brewlio",
-    "url":"https://brewlio.com.au/",
-    "logo":"https://brewlio.com.au/Assets/heroimage.jpg",
-    "contactPoint":[{
-      "@type":"ContactPoint",
-      "contactType":"customer support",
-      "email":"hello@brewlio.com.au"
-    }]
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Brewlio",
+    "url": "https://brewlio.com.au/",
+    "logo": "https://brewlio.com.au/Assets/heroimage.jpg",
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "email": "hello@brewlio.com.au"
+      }
+    ]
   }
   </script>
 
   <script type="application/ld+json">
   {
-    "@context":"https://schema.org",
-    "@type":"WebSite",
-    "name":"Brewlio",
-    "url":"https://brewlio.com.au/"
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Brewlio",
+    "url": "https://brewlio.com.au/"
   }
   </script>
 </head>
 <body>
 
-  <!-- Skip link -->
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Top bar -->
@@ -76,10 +77,10 @@
       <a href="#partner">Roasters</a>
     </nav>
 
-   <a href="index.html" class="logo logo-link" aria-label="Brewlio home">
-  <img src="R&W_Logo.svg" alt="Brewlio" class="logo-light">
-  <img src="darkmode_Logo.svg" alt="Brewlio" class="logo-dark">
-</a>
+    <a href="index.html" class="logo-link logo" aria-label="Brewlio home">
+      <img src="Assets/brewlio-logo-light.svg" alt="Brewlio" class="logo-light" />
+      <img src="Assets/brewlio-logo-dark.svg" alt="Brewlio" class="logo-dark" />
+    </a>
   </header>
 
   <!-- Greeting -->
@@ -89,35 +90,37 @@
   </div>
 
   <main id="main">
-   <!-- Hero -->
-<section class="hero" aria-labelledby="hero-title">
-  <img class="hero-img" src="Assets/heroimage.jpg" alt="" loading="lazy" decoding="async" />
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <img class="hero-img" src="Assets/heroimage.jpg" alt="" loading="lazy" decoding="async" />
 
-  <div class="hero-content">
-    <h1 id="hero-title">Make better coffee</h1>
+      <div class="hero-content">
+        <h1 id="hero-title">Make better coffee</h1>
 
-    <p class="lede">
-      Tell us how you brew and what you like<br>
-      <span class="lede-sub"> We'll suggest a coffee that fits.</span>
-    </p>
+        <p class="lede">
+          Tell us how you brew and what you like.<br>
+          <span class="lede-sub">We'll suggest a coffee that fits.</span>
+        </p>
 
-    <div class="hero-cta">
-      <a href="quiz.html" class="btn-primary" id="startQuizLink">Match My Setup</a>
-    </div>
+        <div class="hero-cta">
+          <a href="quiz.html" class="btn-primary" id="startQuizLink">Match My Setup</a>
+        </div>
 
-    <p class="micro-proof">
-  <span>About a minute</span>
-  <span>No signup</span>
-  <span>Fewer regret-bags</span>
-</p>
+        <p class="micro-proof">
+          <span>About a minute</span>
+          <span>•</span>
+          <span>No signup</span>
+          <span>•</span>
+          <span>Fewer regret-bags</span>
+        </p>
 
-    <noscript>
-      <p class="micro-note" style="margin-top:14px;">
-        JavaScript is off — the quiz needs JavaScript to run.
-      </p>
-    </noscript>
-  </div>
-</section>
+        <noscript>
+          <p class="micro-note" style="margin-top:14px;">
+            JavaScript is off — the quiz needs JavaScript to run.
+          </p>
+        </noscript>
+      </div>
+    </section>
 
     <!-- How it works -->
     <section class="how-it-works" id="about" aria-labelledby="how-title">
@@ -144,12 +147,12 @@
         <a href="quiz.html" class="tile" role="listitem">
           <div class="emoji" aria-hidden="true">🎯</div>
           <h3>Your coffee style</h3>
-          <p>A practical style profile designed for real-world cups you’ll actually finish.</p>
+          <p>A practical style profile designed for real-world cups you'll actually finish.</p>
         </a>
       </div>
 
       <div class="center-cta">
-        <a href="quiz.html" class="btn-primary">Show me what fits </a>
+        <a href="quiz.html" class="btn-primary">Show me what fits</a>
         <p class="micro-note">Clarity over buzzwords. Function over theater.</p>
       </div>
     </section>
@@ -165,7 +168,7 @@
             Just coffee that makes sense for you.
           </p>
           <br>
-          <a href="quiz.html" class="btn-primary">Get my profile </a>
+          <a href="quiz.html" class="btn-primary">Get my profile</a>
         </div>
 
         <div class="right-coffee-gif">
@@ -174,7 +177,8 @@
             alt="Close-up of coffee beans"
             class="coffee-gif"
             loading="lazy"
-            decoding="async" />
+            decoding="async"
+          />
         </div>
       </div>
     </section>
@@ -183,7 +187,7 @@
     <section class="featured" id="styles" aria-labelledby="styles-title">
       <h2 id="styles-title">Styles we match for</h2>
       <p class="section-lede">
-         You won’t get a “best coffee” list here. You’ll get a style that fits your setup — and clearer signals for choosing beans yourself.
+        You won't get a "best coffee" list here. You'll get a style that fits your setup — and clearer signals for choosing beans yourself.
       </p>
 
       <div class="carousel" aria-label="Coffee styles carousel">
@@ -198,25 +202,25 @@
               <div class="label">Milk-friendly espresso</div>
             </div>
 
-            <div class="card" role="listitem" aria-label="Bright & clean">
+            <div class="card" role="listitem" aria-label="Bright and clean">
               <video class="card-media" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
                 <source src="Assets/comingsoon.mp4" type="video/mp4">
               </video>
-              <div class="label">Bright & clean</div>
+              <div class="label">Bright &amp; clean</div>
             </div>
 
-            <div class="card" role="listitem" aria-label="Sweet & balanced">
+            <div class="card" role="listitem" aria-label="Sweet and balanced">
               <video class="card-media" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
                 <source src="Assets/comingsoon.mp4" type="video/mp4">
               </video>
-              <div class="label">Sweet & balanced</div>
+              <div class="label">Sweet &amp; balanced</div>
             </div>
 
-            <div class="card" role="listitem" aria-label="Rich & heavy">
+            <div class="card" role="listitem" aria-label="Rich and heavy">
               <video class="card-media" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
                 <source src="Assets/comingsoon.mp4" type="video/mp4">
               </video>
-              <div class="label">Rich & heavy</div>
+              <div class="label">Rich &amp; heavy</div>
             </div>
           </div>
         </div>
@@ -225,7 +229,7 @@
       </div>
 
       <div class="center-cta">
-        <a href="quiz.html" class="btn-primary">See what works for me </a>
+        <a href="quiz.html" class="btn-primary">See what works for me</a>
         <p class="micro-note">Style examples — not specific products.</p>
       </div>
     </section>
@@ -263,7 +267,7 @@
             </div>
           </div>
 
-          <a class="btn-primary" href="quiz.html">Match me </a>
+          <a class="btn-primary" href="quiz.html">Match me</a>
         </div>
       </div>
     </section>
@@ -280,7 +284,7 @@
       <h2 id="partner-title">Are you a roaster?</h2>
       <p>
         Brewlio defines coffee profiles based on real setups and habits.
-        We’re speaking with roasters who genuinely fit those profiles — thoughtfully and without pay-to-play.
+        We're speaking with roasters who genuinely fit those profiles — thoughtfully and without pay-to-play.
       </p>
       <a href="mailto:hello@brewlio.com.au" class="btn-secondary">Email us</a>
       <p class="micro-note">Curated by design. Not pay-to-play. Not a directory.</p>
@@ -291,6 +295,22 @@
   <footer>
     <p>Brewlio — coffee that just makes sense.</p>
     <small>Built to remove regret from buying coffee.</small>
+
+    <div class="social-links" aria-label="Social links" style="margin-top: 18px;">
+      <a href="https://www.instagram.com/brewlio_coffee/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm5 3a5 5 0 110 10 5 5 0 010-10zm6.5-.25a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zM12 9a3 3 0 100 6 3 3 0 000-6z"/>
+        </svg>
+        <span style="margin-left:8px;">@brewlio_coffee</span>
+      </a>
+
+      <a href="https://x.com/brewlio_coffee" target="_blank" rel="noopener noreferrer" aria-label="X" style="margin-left:16px;">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M18.9 2H22l-7.4 8.5L23 22h-6.8l-5.3-7L4.5 22H2l8-9.1L2 2h6.9l4.8 6.4L18.9 2zM17.4 20h1.9L7.1 4H5.2z"/>
+        </svg>
+        <span style="margin-left:8px;">@brewlio_coffee</span>
+      </a>
+    </div>
 
     <nav aria-label="Footer" style="margin-top:20px;">
       <a href="mailto:hello@brewlio.com.au" style="color:#888; margin:0 10px; text-decoration:none;">Contact</a>
@@ -328,26 +348,26 @@
 
       const messages = {
         night: [
-          `Evening coffee? Bold move.`,
-          `Late coffee energy. Let's find what fits.`,
-          `After hours? Let's make it count.`
+          "Evening coffee? Bold move.",
+          "Late coffee energy. Let's find what fits.",
+          "After hours? Let's make it count."
         ],
         morning: [
-          `Morning. Let's make your first cup count.`,
-          `Good morning. Time for better coffee.`,
-          `Sun's up. Let's find a better bag.`
+          "Morning. Let's make your first cup count.",
+          "Good morning. Time for better coffee.",
+          "Sun's up. Let's find a better bag."
         ],
         day: [
-          `Ready for better coffee?`,
-          `Your next bag can be way better.`,
-          `Let's find what actually fits your setup.`
+          "Ready for better coffee?",
+          "Your next bag can be way better.",
+          "Let's find what actually fits your setup."
         ]
       };
 
       const tips = {
-        night: `Tip: Good decaf + capable grinder > mediocre regular coffee.`,
-        morning: `Tip: Medium roasts are the safest "this just works" starting point.`,
-        day: `Tip: Grinder consistency beats "fancier beans" more often than people think.`
+        night: "Tip: Good decaf + capable grinder > mediocre regular coffee.",
+        morning: "Tip: Medium roasts are the safest \"this just works\" starting point.",
+        day: "Tip: Grinder consistency beats \"fancier beans\" more often than people think."
       };
 
       const msg = messages[group][Math.floor(Math.random() * messages[group].length)];
@@ -356,18 +376,13 @@
       el.innerHTML = `<strong>${msg}</strong><span class="tip">${tip}</span>`;
     })();
 
-    // =========================================================
-    // Carry UTM params to quiz links (robust + merge)
-    // =========================================================
+    // Carry UTM params to quiz links
     (function carryUTMsToQuizLinks() {
       const current = new URL(window.location.href);
-
-      // Only do anything if the current URL has utm params
       const hasUtm = Array.from(current.searchParams.keys()).some(k => /^utm_/i.test(k));
       if (!hasUtm) return;
 
       function mergeUtmParams(intoUrl) {
-        // Merge ONLY utm_* from current into intoUrl if not already present there
         current.searchParams.forEach((val, key) => {
           if (!/^utm_/i.test(key)) return;
           if (!intoUrl.searchParams.get(key)) intoUrl.searchParams.set(key, val);
@@ -377,8 +392,6 @@
       document.querySelectorAll('a[href]').forEach(a => {
         const raw = a.getAttribute('href');
         if (!raw) return;
-
-        // Skip anchors/mailto/tel
         if (raw.startsWith('#')) return;
         if (/^(mailto:|tel:)/i.test(raw)) return;
 
@@ -389,18 +402,15 @@
           return;
         }
 
-        // Only apply to quiz.html
         if (!/\/?quiz\.html$/i.test(target.pathname)) return;
 
         mergeUtmParams(target);
-
-        // Preserve relative format (avoid forcing full origin)
-        const newHref = target.pathname + (target.search || "") + (target.hash || "");
+        const newHref = target.pathname + (target.search || '') + (target.hash || '');
         a.setAttribute('href', newHref);
       });
     })();
 
-    // Carousel (bounds + aria + disabled buttons + keyboard)
+    // Carousel
     const track = document.querySelector('.carousel-track');
     const prev = document.querySelector('.carousel-btn.prev');
     const next = document.querySelector('.carousel-btn.next');
@@ -435,21 +445,30 @@
       updateControls();
     }
 
-    prev?.addEventListener('click', () => { index = Math.max(0, index - 1); slide(); });
-    next?.addEventListener('click', () => { index = Math.min(maxIndex(), index + 1); slide(); });
+    prev?.addEventListener('click', () => {
+      index = Math.max(0, index - 1);
+      slide();
+    });
 
-    // Swipe support
+    next?.addEventListener('click', () => {
+      index = Math.min(maxIndex(), index + 1);
+      slide();
+    });
+
     if (track?.parentElement) {
       let startX = 0;
       const container = track.parentElement;
-      container.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+
+      container.addEventListener('touchstart', e => {
+        startX = e.touches[0].clientX;
+      }, { passive: true });
+
       container.addEventListener('touchend', e => {
         const diff = startX - e.changedTouches[0].clientX;
         if (Math.abs(diff) > 50) (diff > 0 ? next : prev)?.click();
       });
     }
 
-    // Keyboard support (Left/Right)
     document.addEventListener('keydown', (e) => {
       const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
       if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
