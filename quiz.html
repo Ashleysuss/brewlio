@@ -29,8 +29,10 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://opledkjivawysybvbqxe.supabase.co" />
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     .social-share {
       margin: 24px 0;
@@ -165,11 +167,11 @@
                 muted
                 playsinline
                 webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
+                poster="Assets/040126_Question1.jpg"
                 preload="metadata"
                 aria-hidden="true">
                 <source src="Assets/040126_Question1.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
+                <img src="Assets/040126_Question1.jpg" alt="" loading="lazy">
               </video>
             </div>
 
@@ -211,11 +213,11 @@
                 muted
                 playsinline
                 webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
+                poster="Assets/040126_Question2.jpg"
                 preload="metadata"
                 aria-hidden="true">
                 <source src="Assets/040126_Question2.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
+                <img src="Assets/040126_Question2.jpg" alt="" loading="lazy">
               </video>
             </div>
 
@@ -259,11 +261,11 @@
                 muted
                 playsinline
                 webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
+                poster="Assets/23_12_25beans.jpg"
                 preload="metadata"
                 aria-hidden="true">
                 <source src="Assets/030126_Question3.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
+                <img src="Assets/23_12_25beans.jpg" alt="" loading="lazy">
               </video>
             </div>
 
@@ -300,10 +302,19 @@
             <legend>How do you take your coffee?</legend>
 
             <div class="question-gif">
-              <picture>
-                <source srcset="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExejF3a2ticTA2N2ZvOTBrd2ZqZTNxd2NrbnFheHE0M3NkeTVwbmk0YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/h55EUEsTG9224/giphy.gif" type="image/gif">
-                <img src="Assets/milk_fallback.jpg" alt="Pouring milk into coffee" loading="lazy" decoding="async" />
-              </picture>
+              <video
+                class="q-video"
+                autoplay
+                loop
+                muted
+                playsinline
+                webkit-playsinline
+                poster="Assets/050126_Question4.jpg"
+                preload="metadata"
+                aria-hidden="true">
+                <source src="Assets/050126_Question4.mp4" type="video/mp4">
+                <img src="Assets/050126_Question4.jpg" alt="" loading="lazy">
+              </video>
             </div>
 
             <div class="options" role="radiogroup" aria-label="Milk preference">
@@ -336,11 +347,11 @@
                 muted
                 playsinline
                 webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
+                poster="Assets/040126_Question5.jpg"
                 preload="metadata"
                 aria-hidden="true">
                 <source src="Assets/040126_Question5.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
+                <img src="Assets/040126_Question5.jpg" alt="" loading="lazy">
               </video>
             </div>
 
@@ -384,11 +395,11 @@
                 muted
                 playsinline
                 webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
+                poster="Assets/040126_Question6.jpg"
                 preload="metadata"
                 aria-hidden="true">
                 <source src="Assets/040126_Question6.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
+                <img src="Assets/040126_Question6.jpg" alt="" loading="lazy">
               </video>
             </div>
 
@@ -432,11 +443,11 @@
                 muted
                 playsinline
                 webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
+                poster="Assets/040126_Question7.jpg"
                 preload="metadata"
                 aria-hidden="true">
                 <source src="Assets/040126_Question7.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
+                <img src="Assets/040126_Question7.jpg" alt="" loading="lazy">
               </video>
             </div>
 
@@ -480,11 +491,11 @@
                 muted
                 playsinline
                 webkit-playsinline
-                poster="Assets/roast_fallback.jpg"
+                poster="Assets/040126_Question8.jpg"
                 preload="metadata"
                 aria-hidden="true">
                 <source src="Assets/040126_Question8.mp4" type="video/mp4">
-                <img src="Assets/roast_fallback.jpg" alt="" loading="lazy">
+                <img src="Assets/040126_Question8.jpg" alt="" loading="lazy">
               </video>
             </div>
 
@@ -551,6 +562,6 @@
     </section>
   </main>
 
-  <script src="quiz.js"></script>
+  <script defer src="quiz.js"></script>
 </body>
 </html>

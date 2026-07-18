@@ -9,6 +9,9 @@
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#c41e00" />
 
+  <link rel="preconnect" href="https://plausible.io" />
+  <link rel="preload" as="image" href="Assets/heroimage.jpg" fetchpriority="high" />
+
   <!-- Privacy-friendly analytics by Plausible -->
   <script async src="https://plausible.io/js/pa-sYqUjMWqd6veCxOqVKPQ8.js"></script>
   <script>
@@ -92,7 +95,7 @@
   <main id="main">
     <!-- Hero -->
     <section class="hero" aria-labelledby="hero-title">
-      <img class="hero-img" src="Assets/heroimage.jpg" alt="" loading="lazy" decoding="async" />
+      <img class="hero-img" src="Assets/heroimage.jpg" alt="" fetchpriority="high" decoding="async" />
 
       <div class="hero-content">
         <h1 id="hero-title">Make better coffee</h1>

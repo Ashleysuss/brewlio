@@ -1387,6 +1387,8 @@ input::placeholder {
   right: 0 !important;
   bottom: 0 !important;
   z-index: 2 !important;
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {
