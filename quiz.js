@@ -129,12 +129,118 @@ async function logFunnelEvent(eventType, data, overrides) {
   }
 }
 
+<<<<<<< Updated upstream
 function setGrinderHint(brew) {
   if (!grinderHint) return;
   grinderHint.textContent = (brew === 'espresso')
     ? "Hand grinders count — great for filter; espresso is a workout."
     : "Hand grinders count — coarser brews are their happy place.";
 }
+=======
+/* ---------- Question data (values match the live scoring exactly) ---------- */
+
+const QUESTIONS = [
+  {
+    id: 'brew',
+    legend: 'How do you mostly brew your coffee?',
+    help: 'Pick the one you do most often.',
+    options: [
+      { value: 'espresso', title: 'Espresso machine', sub: 'Breville, Gaggia and similar' },
+      { value: 'manual', title: 'Manual filter', sub: 'V60, AeroPress, pour-over' },
+      { value: 'batch', title: 'Batch filter', sub: 'Moccamaster-style brewers' },
+      { value: 'body', title: 'Immersion or stovetop', sub: 'French press, moka pot' },
+      { value: 'other', title: 'Other or instant', sub: 'No judgement here' }
+    ]
+  },
+  {
+    id: 'grinder',
+    legend: 'What are you grinding with?',
+    help: (a) => a.brew === 'espresso'
+      ? 'Hand grinders count — great for filter; espresso is a workout.'
+      : 'Hand grinders count — coarser brews are their happy place.',
+    options: [
+      { value: 'pre-ground', title: 'Pre-ground', sub: 'Or no grinder at all' },
+      { value: 'blade', title: 'Blade grinder', sub: 'Inconsistent, but common' },
+      { value: 'burr-entry', title: 'Entry-level burr', sub: 'Smart Grinder Pro, Encore' },
+      { value: 'burr-good', title: 'Good burr grinder', sub: 'DF64, Niche and similar' },
+      { value: 'pro', title: 'High-end or commercial', sub: '078s, EK43' }
+    ]
+  },
+  {
+    id: 'machine',
+    conditional: 'espresso',
+    legend: 'If you make espresso, which machine tier is closest?',
+    help: '',
+    skipValue: 'not-sure',
+    options: [
+      { value: 'entry', title: 'Entry-level', sub: 'Bambino, basic single boiler' },
+      { value: 'capable', title: 'Capable', sub: 'Gaggia, Silvia' },
+      { value: 'advanced', title: 'Advanced', sub: 'Dual boiler or HX' },
+      { value: 'elite', title: 'Prosumer or high-end', sub: 'Linea Mini, E61' },
+      { value: 'not-sure', title: 'Not sure', sub: 'Totally fine' }
+    ]
+  },
+  {
+    id: 'milk',
+    legend: 'How do you take your coffee?',
+    help: '',
+    options: [
+      { value: 'black', title: 'Always black', sub: 'No milk' },
+      { value: 'sometimes', title: 'Sometimes with milk', sub: 'Depends on the mood' },
+      { value: 'always', title: 'Always with milk', sub: 'Flat white energy' }
+    ]
+  },
+  {
+    id: 'flavour',
+    legend: 'What flavours do you enjoy most?',
+    help: '',
+    options: [
+      { value: 'fruity', title: 'Juicy fruit', sub: 'Berries, citrus, bright cups' },
+      { value: 'clean', title: 'Clean & tea-like', sub: 'Light, delicate, crisp' },
+      { value: 'chocolate', title: 'Chocolatey & nutty', sub: 'Caramel, cocoa, comfort' },
+      { value: 'balanced', title: 'Balanced', sub: 'Nothing too loud' },
+      { value: 'bold', title: 'Rich & heavy', sub: 'Big body, low acidity' }
+    ]
+  },
+  {
+    id: 'roast',
+    legend: 'What roast do you usually enjoy?',
+    help: '',
+    skipValue: 'any',
+    options: [
+      { value: 'light', title: 'Light roast', sub: 'More origin character' },
+      { value: 'medium', title: 'Medium roast', sub: 'Sweet and balanced' },
+      { value: 'medium-dark', title: 'Medium-dark roast', sub: 'Syrupy, comforting' },
+      { value: 'dark', title: 'Dark roast', sub: 'Bold, roasty flavours' },
+      { value: 'any', title: 'Not sure', sub: 'Happy to be guided' }
+    ]
+  },
+  {
+    id: 'skill',
+    legend: 'How deep are you into coffee?',
+    help: '',
+    options: [
+      { value: 'beginner', title: 'Beginner', sub: 'I just want it to taste good' },
+      { value: 'basic', title: 'Comfortable', sub: 'I follow recipes' },
+      { value: 'intermediate', title: 'Intermediate', sub: 'I tweak and adjust' },
+      { value: 'advanced', title: 'Advanced', sub: 'Ratios and grind size matter' },
+      { value: 'nerd', title: 'Very deep', sub: 'This is a real hobby' }
+    ]
+  },
+  {
+    id: 'pain',
+    legend: 'What ruins a coffee for you?',
+    help: '',
+    options: [
+      { value: 'sour', title: 'Sour or sharp', sub: 'Too acidic' },
+      { value: 'bitter', title: 'Bitter or harsh', sub: 'Overdone' },
+      { value: 'weak', title: 'Weak or watery', sub: 'No body' },
+      { value: 'muddy', title: 'Muddy or gritty', sub: 'Unpleasant texture' },
+      { value: 'inconsistent', title: 'Inconsistent', sub: 'Never tastes the same' }
+    ]
+  }
+];
+>>>>>>> Stashed changes
 
 function labelForGrinder(v) {
   const map = {
@@ -228,6 +334,7 @@ function total() {
   return activeQuestions.length;
 }
 
+<<<<<<< Updated upstream
 function isAnswered(idx) {
   return !!activeQuestions[idx]?.querySelector('input[type="radio"]:checked');
 }
@@ -246,6 +353,38 @@ function setButtons() {
 
   stepText.textContent = 'Question ' + (currentIndex + 1) + ' of ' + total();
   stepHint.textContent = answered ? 'Nice — continue' : 'Pick one to continue';
+=======
+function renderChips() {
+  const chips = [];
+  for (let i = 0; i < currentIndex; i++) {
+    const q = activeQuestions[i];
+    const value = answers[q.id];
+    if (!value) continue;
+    let label = value;
+    if (q.id === 'brew') label = labelForBrew(value);
+    else if (q.id === 'grinder') label = labelForGrinder(value);
+    else if (q.id === 'machine') label = labelForMachine(value);
+    else if (q.id === 'milk') label = labelForMilk(value);
+    else if (q.id === 'flavour') label = labelForFlavour(value);
+    else if (q.id === 'roast') label = labelForRoastPref(value);
+    else if (q.id === 'skill') label = labelForSkill(value);
+    else if (q.id === 'pain') label = labelForPain(value);
+    chips.push(`<p class="chip mono"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>${label.toUpperCase()}</p>`);
+  }
+  quizChips.innerHTML = chips.join('');
+}
+
+function renderOptions(q) {
+  quizOptions.setAttribute('role', 'radiogroup');
+  quizOptions.innerHTML = q.options.map((opt, i) => {
+    const checked = answers[q.id] === opt.value;
+    return `<label class="option">
+      <input type="radio" name="${q.id}" value="${opt.value}"${checked ? ' checked' : ''}>
+      <span class="option__text"><span class="option__title">${opt.title}</span><span class="option__sub">${opt.sub}</span></span>
+      <span class="option__box" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+    </label>`;
+  }).join('');
+>>>>>>> Stashed changes
 }
 
 function pauseAllQuestionVideos() {
@@ -484,9 +623,77 @@ function resultStyleLine(roast, flavour, brew, milk) {
   }
 
   if (roast === 'medium-dark') {
+<<<<<<< Updated upstream
     if (isFilter) return "syrupy sweetness and body without harsh roast bitterness";
     if (isMilk) return "rich, milk-friendly profiles with chocolate and caramel depth";
     return "fuller body with sweet, comforting flavours";
+=======
+    if (isFilter) return 'Syrupy sweetness and body without harsh roast bitterness.';
+    if (isMilk) return 'Rich, milk-friendly profiles with chocolate and caramel depth.';
+    return 'Fuller body with sweet, comforting flavours.';
+  }
+  if (flavour === 'fruity' || flavour === 'clean') return 'Bold roast flavours with low acidity, no fruit notes.';
+  return 'Heavy body, roasty comfort flavours, very low acidity.';
+}
+
+function grinderFitText(grinder, roastLabel) {
+  if (grinder === 'pre-ground' || grinder === 'blade') return `${roastLabel} roasts are the most forgiving choice for pre-ground or blade grinding.`;
+  if (grinder === 'burr-entry') return `${roastLabel} roasts are easy to dial in on an entry-level burr.`;
+  if (grinder === 'burr-good') return `Your grinder is capable enough to bring out what's good in a ${roastLabel.toLowerCase()}.`;
+  return 'A high-end grinder means you can push into more delicate roasts without a fight.';
+}
+
+function milkFitText(milk) {
+  if (milk === 'always') return 'This style holds its flavour well once milk is added.';
+  if (milk === 'sometimes') return "Works black or with milk, so it won't let you down either way.";
+  return 'Built to taste good on its own, no milk required.';
+}
+
+function tasteFitText(flavour) {
+  const map = {
+    fruity: 'You picked juicy fruit. This style leans right into it.',
+    clean: 'You picked clean and tea-like. This style keeps things light and clear.',
+    chocolate: 'You picked chocolatey and nutty. This style leans right into it.',
+    balanced: 'You picked balanced. This style keeps things easy-going, nothing too loud.',
+    bold: 'You picked rich and heavy. This style brings the body to match.'
+  };
+  return map[flavour] || map.balanced;
+}
+
+function styleDisplayName(styleLabel) {
+  const swapped = styleLabel.replace(/ \/ /g, ' & ');
+  return swapped.charAt(0).toUpperCase() + swapped.slice(1);
+}
+
+function slugify(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+function buildResult() {
+  const a = answers;
+  const brew = a.brew || 'other';
+  const grinder = a.grinder || 'pre-ground';
+  const machine = a.machine || 'not-sure';
+  const milk = a.milk;
+  const flavour = a.flavour;
+  const skill = a.skill || 'basic';
+  const pain = a.pain || 'inconsistent';
+
+  const roastPrefAny = (a.roast === 'any');
+  const requestedRoast = (!roastPrefAny && a.roast) ? a.roast : null;
+  let roast = requestedRoast || 'medium';
+
+  const strongNotes = [];
+  const hasWeakGrinder = ['pre-ground', 'blade', 'burr-entry'].includes(grinder);
+  const hasGoodGrinder = (grinder === 'burr-good' || grinder === 'pro');
+  const hasAdvancedSkill = (skill === 'advanced' || skill === 'nerd');
+
+  function overrideRoast(newRoast, note) {
+    if (roast !== newRoast) {
+      roast = newRoast;
+      pushUnique(strongNotes, note);
+    }
+>>>>>>> Stashed changes
   }
 
   if (flavour === 'fruity' || flavour === 'clean') return "bold roast flavours with low acidity, no fruit notes";
@@ -508,11 +715,102 @@ function createSocialShare(roast, brew, grinder, milk) {
     '</div>';
 }
 
+<<<<<<< Updated upstream
 window.shareOnTwitter = function(text, url) {
   const twitterUrl = 'https://twitter.com/intent/tweet?text=' + text + '&url=' + url;
   window.open(twitterUrl, '_blank', 'width=550,height=420');
   logFunnelEvent('share', {
     platform: 'twitter'
+=======
+const styleTitle = document.getElementById('styleTitle');
+const styleDesc = document.getElementById('styleDesc');
+const specSetup = document.getElementById('specSetup');
+const specMilk = document.getElementById('specMilk');
+const specTaste = document.getElementById('specTaste');
+const fitsList = document.getElementById('fitsList');
+const notesSection = document.getElementById('notesSection');
+const notesList = document.getElementById('notesList');
+const shareBtn = document.getElementById('shareBtn');
+const shareStatus = document.getElementById('shareStatus');
+const notifyForm = document.getElementById('notifyForm');
+const notifyStatus = document.getElementById('notifyStatus');
+const notifyStyleField = document.getElementById('notifyStyleField');
+const retakeLink = document.getElementById('retakeLink');
+
+const FITS_ICONS = [
+  '<svg class="fits__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" aria-hidden="true"><path d="M8 3h8l-1 5H9z"/><rect x="6" y="8" width="12" height="13"/><path d="M12 12v4"/></svg>',
+  '<svg class="fits__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" aria-hidden="true"><path d="M9 3h6v3l2 4v11H7V10l2-4z"/><path d="M7 13h10"/></svg>',
+  '<svg class="fits__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(35 12 12)"/><path d="M8.5 17.5c3.5-3 3.5-8 7-11"/></svg>'
+];
+
+const NOTE_ICON = '<svg class="fits__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5" stroke-linecap="round"/><path d="M12 16.5h.01" stroke-linecap="round" stroke-width="2.5"/></svg>';
+
+function finishQuiz() {
+  const result = buildResult();
+  lastResult = result;
+
+  const roastLabel = result.pick.title;
+  const styleSlug = slugify(result.styleLabel);
+
+  styleTitle.textContent = styleDisplayName(result.styleLabel);
+  styleDesc.textContent = result.displayStyle;
+
+  specSetup.textContent = `${labelForBrew(result.brew)} · ${labelForGrinder(result.grinder)}`;
+  specMilk.textContent = labelForMilkSpec(result.milk);
+  specTaste.textContent = labelForFlavour(result.flavour);
+
+  const fits = [
+    { title: 'Your grinder', text: grinderFitText(result.grinder, roastLabel) },
+    { title: 'Your milk', text: milkFitText(result.milk) },
+    { title: 'Your taste', text: tasteFitText(result.flavour) }
+  ];
+  fitsList.innerHTML = fits.map((f, i) => `<li class="fits__item">${FITS_ICONS[i]}<div><h3 class="fits__title">${f.title}</h3><p class="fits__text">${f.text}</p></div></li>`).join('');
+
+  if (result.strongNotes.length > 0) {
+    notesList.innerHTML = result.strongNotes.map(note => `<li class="fits__item">${NOTE_ICON}<div><p class="fits__text">${note}</p></div></li>`).join('');
+    notesSection.hidden = false;
+  } else {
+    notesList.innerHTML = '';
+    notesSection.hidden = true;
+  }
+
+  notifyStyleField.value = styleSlug;
+  notifyStatus.textContent = 'NO SPAM. UNSUBSCRIBE ANYTIME.';
+  shareStatus.textContent = '';
+
+  const shareUrl = `${location.origin}${location.pathname}?style=${styleSlug}`;
+  history.replaceState(null, '', `?style=${styleSlug}`);
+  shareBtn.dataset.shareUrl = shareUrl;
+  shareBtn.dataset.shareText = `I'm a "${styleDisplayName(result.styleLabel)}" coffee drinker — find your style at Brewlio.`;
+
+  quizHeader.hidden = true;
+  quizView.hidden = true;
+  resultHeader.hidden = false;
+  resultView.hidden = false;
+  styleTitle.setAttribute('tabindex', '-1');
+  styleTitle.focus({ preventScroll: false });
+
+  logFunnelEvent('complete', {
+    roast: result.roast,
+    styleLabel: result.styleLabel,
+    origins: `${result.originInfo.origin1.name}, ${result.originInfo.origin2.name}`,
+    brew: result.brew,
+    grinder: result.grinder,
+    machine: result.brew === 'espresso' ? result.machine : null,
+    skill: result.skill,
+    pain: result.pain,
+    notes: { strong: result.strongNotes }
+  }, {
+    duration_ms: Math.max(0, nowMs() - quizStartMs),
+    match_roast: result.roast,
+    match_style: result.styleLabel,
+    match_origins: `${result.originInfo.origin1.name}, ${result.originInfo.origin2.name}`,
+    answers: {
+      brew: result.brew, grinder: result.grinder, machine: result.machine,
+      milk: result.milk, flavour: result.flavour, roast_pref: answers.roast || null,
+      skill: result.skill, pain: result.pain
+    }
+>>>>>>> Stashed changes
   });
 };
 

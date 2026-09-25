@@ -146,6 +146,7 @@
           </div>
         </div>
 
+<<<<<<< Updated upstream
         <noscript>
           <div class="why-box" style="margin-top:18px;">
             <p class="why-title">JavaScript required</p>
@@ -546,6 +547,61 @@
 
           <p id="errorText" class="quiz-error" role="alert" aria-live="assertive"></p>
         </form>
+=======
+  <div id="resultView" class="result" hidden>
+    <div class="result__row">
+      <section class="style-card" aria-labelledby="style-title">
+        <div class="bar mono"><span>YOUR COFFEE STYLE</span></div>
+        <div class="style-card__body">
+          <h1 class="display display--style" id="styleTitle"></h1>
+          <p class="style-card__desc" id="styleDesc"></p>
+        </div>
+        <dl class="spec">
+          <div class="spec__row"><dt>SETUP</dt><dd id="specSetup"></dd></div>
+          <div class="spec__row"><dt>MILK</dt><dd id="specMilk"></dd></div>
+          <div class="spec__row"><dt>TASTE</dt><dd id="specTaste"></dd></div>
+        </dl>
+        <button type="button" class="btn btn--accent btn--block btn--center share" id="shareBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 12v9h14v-9"/></svg>
+          <span id="shareBtnLabel">Share my style</span>
+        </button>
+        <p class="mono muted share-status" id="shareStatus" role="status" aria-live="polite"></p>
+      </section>
+
+      <section aria-labelledby="fits-title">
+        <div class="section-head">
+          <h2 class="display display--md" id="fits-title">Why it fits you</h2>
+        </div>
+        <ul class="fits" id="fitsList"></ul>
+      </section>
+    </div>
+
+    <section id="notesSection" hidden aria-labelledby="notes-title">
+      <div class="section-head">
+        <h2 class="display display--md" id="notes-title">A note from experience</h2>
+      </div>
+      <ul class="fits" id="notesList"></ul>
+    </section>
+
+    <section class="notify" aria-labelledby="notify-title">
+      <div class="notify__copy">
+        <p class="mono notify__label">COMING SOON</p>
+        <h2 class="display display--sm" id="notify-title">Your roaster matches are nearly ready</h2>
+        <p class="notify__text">We're onboarding Australian roasters that fit this style. Get one email when your matches go live.</p>
+      </div>
+      <form class="notify__form" id="notifyForm">
+        <div class="notify__field">
+          <label class="mono" for="notify-email">EMAIL</label>
+          <input class="notify__input" id="notify-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+        </div>
+        <input type="hidden" name="style" id="notifyStyleField">
+        <button class="btn btn--accent btn--block btn--center" type="submit">Notify me</button>
+        <p class="mono notify__fine" id="notifyStatus" role="status" aria-live="polite">NO SPAM. UNSUBSCRIBE ANYTIME.</p>
+      </form>
+    </section>
+  </div>
+</main>
+>>>>>>> Stashed changes
 
         <div id="results" class="results" hidden tabindex="-1">
           <h2>Your coffee style match</h2>
