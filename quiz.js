@@ -374,7 +374,10 @@ function render(idx, opts) {
   playEnter();
 
   if (hasRenderedOnce && !opts.skipFocus) {
-    quizTitle.focus({ preventScroll: false });
+    // Start each question at the top (on phones the last tap may have been scrolled down),
+    // then move focus for screen readers without letting it scroll the page again.
+    window.scrollTo(0, 0);
+    quizTitle.focus({ preventScroll: true });
   }
   hasRenderedOnce = true;
 
