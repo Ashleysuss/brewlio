@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F1F0EA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
+<title>Your coffee style — Brewlio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/brewlio.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to your result</a>
+
+<!-- Static reference with sample content for one path:
+     espresso + entry-level burr + always milk + chocolatey & nutty → "Sweet & balanced".
+     The real result is filled from the existing matching logic and the answers given. -->
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="index.html">Brewlio</a>
+    <a class="mono quiz-top__exit" href="quiz.html">RETAKE QUIZ</a>
+  </div>
+</header>
+
+<main id="main" class="wrap result">
+  <div class="result__row">
+    <section class="style-card" aria-labelledby="style-title">
+      <div class="bar mono"><span>YOUR COFFEE STYLE</span><span>5 / 5 ✓</span></div>
+      <div class="style-card__body">
+        <h1 class="display display--style" id="style-title">Sweet &amp; balanced</h1>
+        <p class="style-card__desc">Caramel, cocoa and gentle fruit. Easy to dial in and great with milk.</p>
+      </div>
+      <dl class="spec">
+        <div class="spec__row"><dt>SETUP</dt><dd>Espresso · entry burr</dd></div>
+        <div class="spec__row"><dt>MILK</dt><dd>Always</dd></div>
+        <div class="spec__row"><dt>TASTE</dt><dd>Chocolatey &amp; nutty</dd></div>
+      </dl>
+      <button type="button" class="btn btn--accent btn--block btn--center share">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 12v9h14v-9"/></svg>Share my style
+      </button>
+    </section>
+
+    <section aria-labelledby="fits-title">
+      <div class="section-head">
+        <h2 class="display display--md" id="fits-title">Why it fits you</h2>
+        <span class="mono section-head__num" aria-hidden="true">[01]</span>
+      </div>
+      <ul class="fits">
+        <li class="fits__item">
+          <svg class="fits__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" aria-hidden="true"><path d="M8 3h8l-1 5H9z"/><rect x="6" y="8" width="12" height="13"/><path d="M12 12v4"/></svg>
+          <div><h3 class="fits__title">Your grinder</h3><p class="fits__text">Medium roasts are more forgiving on an entry-level burr, so they’re easier to dial in.</p></div>
+        </li>
+        <li class="fits__item">
+          <svg class="fits__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" aria-hidden="true"><path d="M9 3h6v3l2 4v11H7V10l2-4z"/><path d="M7 13h10"/></svg>
+          <div><h3 class="fits__title">Your milk</h3><p class="fits__text">Chocolate and caramel notes hold up well in a flat white.</p></div>
+        </li>
+        <li class="fits__item">
+          <svg class="fits__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(35 12 12)"/><path d="M8.5 17.5c3.5-3 3.5-8 7-11"/></svg>
+          <div><h3 class="fits__title">Your taste</h3><p class="fits__text">You picked chocolatey and nutty. This style leans right into it.</p></div>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="result__row">
+    <section aria-labelledby="bag-title">
+      <div class="section-head">
+        <h2 class="display display--md" id="bag-title">On the bag</h2>
+        <span class="mono section-head__num" aria-hidden="true">[02]</span>
+      </div>
+      <dl class="table">
+        <div class="table__row"><dt>ROAST</dt><dd>Medium</dd></div>
+        <div class="table__row"><dt>NOTES</dt><dd>Chocolate, caramel, stone fruit</dd></div>
+        <div class="table__row"><dt>ROAST DATE</dt><dd>Printed and recent</dd></div>
+      </dl>
+    </section>
+
+    <!-- Email capture. GitHub Pages is static, so this posts to a hosted form/email service.
+         Replace [EMAIL_FORM_ENDPOINT] once Ashley has chosen the tool. -->
+    <section class="notify" aria-labelledby="notify-title">
+      <p class="mono notify__label" aria-hidden="true">[03] COMING SOON</p>
+      <h2 class="display display--sm" id="notify-title">Your roaster matches are nearly ready</h2>
+      <p class="notify__text">We’re onboarding Australian roasters that fit this style. Get one email when your matches go live.</p>
+      <form class="notify__form" action="[EMAIL_FORM_ENDPOINT]" method="post">
+        <div class="notify__field">
+          <label class="mono" for="notify-email">EMAIL</label>
+          <input class="notify__input" id="notify-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+        </div>
+        <input type="hidden" name="style" value="sweet-and-balanced">
+        <button class="btn btn--accent btn--block btn--center" type="submit">Notify me</button>
+        <p class="mono notify__fine" role="status" aria-live="polite">ONE EMAIL WHEN THEY’RE LIVE. NO SPAM.</p>
+      </form>
+    </section>
+  </div>
+</main>
+</body>
+</html>

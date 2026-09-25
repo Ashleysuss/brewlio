@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F1F0EA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
+<title>Brewlio — Find your coffee style</title>
+<!-- Keep the live quiz page's existing meta tags here. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/brewlio.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to question</a>
+
+<!-- Static reference: shows question 2 of 5 on the espresso path, with an answer selected.
+     The real page renders one question at a time from the existing quiz data. -->
+<header class="quiz-top">
+  <div class="wrap quiz-top__inner">
+    <a class="icon-btn quiz-top__back" href="index.html" aria-label="Previous question">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+    <a class="brand quiz-top__brand" href="index.html">Brewlio</a>
+    <p class="mono quiz-top__count" aria-live="polite">Q.02 / 05</p>
+    <a class="mono quiz-top__exit" href="index.html">EXIT</a>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <ol class="progress" style="--steps: 5" aria-label="Question 2 of 5">
+    <li class="progress__seg is-done"></li>
+    <li class="progress__seg is-done"></li>
+    <li class="progress__seg"></li>
+    <li class="progress__seg"></li>
+    <li class="progress__seg"></li>
+  </ol>
+
+  <div class="quiz">
+    <div class="quiz__intro">
+      <a class="btn btn--outline btn--sm quiz__prev" href="index.html">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>PREVIOUS
+      </a>
+      <!-- One chip per earlier answer, so people can see their progress. -->
+      <p class="chip mono">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>A1 · ESPRESSO MACHINE
+      </p>
+      <h1 class="display display--quiz" id="q-title" tabindex="-1">What are you grinding with?</h1>
+      <p class="quiz__help">Hand grinders count. Pick the closest.</p>
+    </div>
+
+    <div class="quiz__answers">
+      <div class="options" role="radiogroup" aria-labelledby="q-title">
+        <label class="option">
+          <input type="radio" name="grinder" value="pre-ground">
+          <span class="option__key" aria-hidden="true">A</span>
+          <span class="option__text"><span class="option__title">Pre-ground</span><span class="option__sub">Or no grinder at all</span></span>
+          <span class="option__box" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        </label>
+        <label class="option">
+          <input type="radio" name="grinder" value="blade">
+          <span class="option__key" aria-hidden="true">B</span>
+          <span class="option__text"><span class="option__title">Blade grinder</span><span class="option__sub">The spinning-blade kind</span></span>
+          <span class="option__box" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        </label>
+        <label class="option">
+          <input type="radio" name="grinder" value="entry-burr" checked>
+          <span class="option__key" aria-hidden="true">C</span>
+          <span class="option__text"><span class="option__title">Entry-level burr</span><span class="option__sub">Smart Grinder Pro, Encore</span></span>
+          <span class="option__box" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        </label>
+        <label class="option">
+          <input type="radio" name="grinder" value="good-burr">
+          <span class="option__key" aria-hidden="true">D</span>
+          <span class="option__text"><span class="option__title">Good burr grinder</span><span class="option__sub">DF64, Niche and similar</span></span>
+          <span class="option__box" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        </label>
+        <label class="option">
+          <input type="radio" name="grinder" value="high-end">
+          <span class="option__key" aria-hidden="true">E</span>
+          <span class="option__text"><span class="option__title">High-end</span><span class="option__sub">EK43, 078s</span></span>
+          <span class="option__box" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        </label>
+      </div>
+
+      <div class="quiz__foot">
+        <p class="mono">TAP AN ANSWER TO CONTINUE</p>
+        <button type="button" class="link-btn">Not sure? Skip</button>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
+</html>
