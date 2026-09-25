@@ -55,7 +55,7 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
     </a>
     <a class="brand quiz-top__brand" href="index.html">Brewlio</a>
-    <p class="mono quiz-top__count" id="quizCount" aria-live="polite">Q.01 / 07</p>
+    <p class="mono quiz-top__count" id="quizCount" aria-live="polite">Q.01 / 05</p>
     <a class="mono quiz-top__exit" href="index.html">EXIT</a>
   </div>
 </header>
@@ -78,10 +78,14 @@
     <form id="coffeeQuiz" novalidate>
       <div class="quiz">
         <div class="quiz__intro">
-          <a class="btn btn--outline btn--sm quiz__prev" href="index.html" id="prevLink">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>PREVIOUS
-          </a>
+          <div class="quiz__head">
+            <a class="btn btn--outline btn--sm quiz__prev" href="index.html" id="prevLink">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>PREVIOUS
+            </a>
+            <p class="quiz__num" id="quizNum" aria-hidden="true">01</p>
+          </div>
           <div class="chips" id="quizChips"></div>
+          <p class="mono nudge" id="quizNudge" hidden></p>
           <h1 class="display display--quiz" id="quizTitle" tabindex="-1"></h1>
           <p class="quiz__help" id="quizHelp"></p>
         </div>
@@ -92,6 +96,16 @@
             <p class="mono">TAP AN ANSWER TO CONTINUE</p>
             <button type="button" class="link-btn" id="skipBtn">Not sure? Skip</button>
           </div>
+
+          <aside class="build" aria-label="Your style so far">
+            <div class="bar mono"><span>YOUR STYLE SO FAR</span><span id="buildStatus">0 / 5</span></div>
+            <dl class="build__spec">
+              <div class="build__row"><dt>SETUP</dt><dd id="buildSetup" class="is-empty">—</dd></div>
+              <div class="build__row"><dt>MILK</dt><dd id="buildMilk" class="is-empty">—</dd></div>
+              <div class="build__row"><dt>TASTE</dt><dd id="buildTaste" class="is-empty">—</dd></div>
+            </dl>
+            <p class="mono build__foot">NEXT: YOUR COFFEE STYLE + WHY IT FITS</p>
+          </aside>
         </div>
       </div>
     </form>
@@ -100,7 +114,7 @@
   <div id="resultView" class="result" hidden>
     <div class="result__row">
       <section class="style-card" aria-labelledby="style-title">
-        <div class="bar mono"><span>YOUR COFFEE STYLE</span></div>
+        <div class="bar mono"><span>YOUR COFFEE STYLE</span><span class="bar__flag" id="styleAdjusted" hidden>ADJUSTED FOR YOUR SETUP</span></div>
         <div class="style-card__body">
           <h1 class="display display--style" id="styleTitle"></h1>
           <p class="style-card__desc" id="styleDesc"></p>
@@ -125,14 +139,26 @@
       </section>
     </div>
 
-    <section id="notesSection" hidden aria-labelledby="notes-title">
-      <div class="section-head">
-        <h2 class="display display--md" id="notes-title">A note from experience</h2>
+    <section aria-labelledby="matches-title">
+      <div class="section-head matches-head">
+        <div class="matches-head__title">
+          <h2 class="display display--md" id="matches-title">Your matches</h2>
+          <p class="mono tag">ROASTERS COMING SOON</p>
+        </div>
+        <p class="matches-head__note">What we'd pour for your setup and taste. We're lining up Australian roasters for each one, and no one can pay to rank higher.</p>
       </div>
-      <ul class="fits" id="notesList"></ul>
+      <div class="matches" id="matchesList"></div>
     </section>
 
-    <section class="notify" aria-labelledby="notify-title">
+    <section id="conflictsSection" hidden aria-labelledby="conflicts-title">
+      <div class="section-head matches-head">
+        <h2 class="display display--md" id="conflicts-title">Trade-offs</h2>
+        <p class="matches-head__note">Where your taste and setup clash, and how to fix it.</p>
+      </div>
+      <ul class="conflicts" id="conflictsList"></ul>
+    </section>
+
+    <section class="notify" id="notify" aria-labelledby="notify-title">
       <div class="notify__copy">
         <p class="mono notify__label">COMING SOON</p>
         <h2 class="display display--sm" id="notify-title">Your roaster matches are nearly ready</h2>
