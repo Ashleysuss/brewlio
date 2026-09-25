@@ -436,6 +436,16 @@ h1, h2, h3, p, ol, ul, dl, dd { margin: 0; }
 .quiz__foot .mono { font-size: 10px; color: var(--muted); }
 .quiz__foot .link-btn { padding: 12px 0 12px 12px; }
 
+.quiz__foot .link-btn { white-space: nowrap; }
+
+/* Set by quiz.js when a phone (or a large-text setting) would push answers off screen. */
+.quiz.is-tight .quiz__help,
+.quiz.is-tight .nudge,
+.quiz.is-tight .quiz__foot .mono { display: none; }
+.quiz.is-tight .quiz__foot { justify-content: flex-end; }
+.quiz.is-tighter .option__sub { display: none; }
+.quiz.is-tighter .option { min-height: 44px; }
+
 /* Short phones (iPhone SE and similar): drop the help line to keep answers on screen. */
 @media (max-width: 959.98px) and (max-height: 620px) {
   .quiz__help { display: none; }
@@ -472,6 +482,8 @@ h1, h2, h3, p, ol, ul, dl, dd { margin: 0; }
 /* ---------- Result ---------- */
 .result { display: grid; gap: 36px; padding-block: 24px var(--section-gap); }
 .result__row { display: grid; gap: 36px; }
+/* Grid items default to min-width: auto, so one long word could widen the page. */
+.result > *, .result__row > * { min-width: 0; }
 @media (min-width: 960px) {
   .result { gap: 64px; padding-top: 64px; }
   .result__row { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: start; }

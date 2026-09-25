@@ -312,6 +312,47 @@ function renderBuild() {
   buildStatus.textContent = `${answered} / ${activeQuestions.length}`;
 }
 
+/* ---------- Fitting to the screen (phones, including large-text settings) ---------- */
+// Samsung Internet (and Android's font size setting) enlarge text without widening the
+// page, so fixed sizes can't guarantee a fit. These measure the real layout and adapt.
+
+// Shrink a display headline until its longest word fits on one line.
+function fitText(el, minSize) {
+  el.style.fontSize = '';
+  let size = parseFloat(getComputedStyle(el).fontSize);
+  while (el.scrollWidth > el.clientWidth + 1 && size > (minSize || 18)) {
+    size -= 2;
+    el.style.fontSize = `${size}px`;
+  }
+}
+
+// On phones, keep every answer and "Skip" on screen: step down until the foot fits.
+const TIGHT_STEPS = ['is-tight', 'is-tighter'];
+const quizFoot = document.querySelector('.quiz__foot');
+
+function fitQuizToScreen() {
+  if (quizView.hidden) return;
+  quizEl.classList.remove(...TIGHT_STEPS);
+  fitText(quizTitle, 22);
+  if (window.matchMedia('(min-width: 960px)').matches) return;
+  for (const step of TIGHT_STEPS) {
+    if (quizFoot.getBoundingClientRect().bottom + window.scrollY <= window.innerHeight) return;
+    quizEl.classList.add(step);
+    fitText(quizTitle, 22);
+  }
+}
+
+let fitTimer = null;
+window.addEventListener('resize', () => {
+  clearTimeout(fitTimer);
+  fitTimer = setTimeout(() => {
+    fitQuizToScreen();
+    if (!resultView.hidden) fitText(styleTitle, 32);
+  }, 150);
+});
+// Web fonts change text size once loaded, so measure again then.
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitQuizToScreen);
+
 function playEnter() {
   quizEl.classList.remove('is-entering');
   void quizEl.offsetWidth; // restart the enter animation
@@ -372,6 +413,7 @@ function render(idx, opts) {
   quizHelp.hidden = !helpText;
   renderOptions(q);
   playEnter();
+  fitQuizToScreen();
 
   if (hasRenderedOnce && !opts.skipFocus) {
     // Start each question at the top (on phones the last tap may have been scrolled down),
@@ -963,6 +1005,7 @@ function finishQuiz() {
   quizView.hidden = true;
   resultHeader.hidden = false;
   resultView.hidden = false;
+  fitText(styleTitle, 32);
   styleTitle.setAttribute('tabindex', '-1');
   styleTitle.focus({ preventScroll: false });
 
